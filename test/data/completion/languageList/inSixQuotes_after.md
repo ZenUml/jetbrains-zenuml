@@ -1,3 +1,1 @@
-```javascript
-<caret>
-```
+```javas<caret>```

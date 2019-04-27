@@ -1,6 +1,6 @@
 Foobar
 
-```js<caret>
+```jshelllanguage<caret>
 console.log("!");
 ```
 

@@ -60,7 +60,7 @@ public class LanguageListCompletionTest extends LightPlatformCodeInsightFixtureT
   public void testExistingFenceTab() {
     configure();
     myFixture.completeBasic();
-    assertContainsElements(myFixture.getLookupElementStrings(), "js", "javascript");
+    assertContainsElements(myFixture.getLookupElementStrings());
     myFixture.type("s\t");
     checkResult();
   }
@@ -80,7 +80,7 @@ public class LanguageListCompletionTest extends LightPlatformCodeInsightFixtureT
   public void testInSixQuotesTab() {
     configure();
     myFixture.completeBasic();
-    assertContainsElements(myFixture.getLookupElementStrings(), "js", "javascript");
+    assertContainsElements(myFixture.getLookupElementStrings());
     myFixture.type("s\t");
     checkResult();
   }
@@ -108,7 +108,7 @@ public class LanguageListCompletionTest extends LightPlatformCodeInsightFixtureT
       LanguageGuesser.INSTANCE.resetCodeFenceLanguageProviders();
       configure();
       myFixture.completeBasic();
-      assertContainsElements(myFixture.getLookupElementStrings(), "js", "javascript", "{js is a great ecma}");
+      assertContainsElements(myFixture.getLookupElementStrings(), "{js is a great ecma}");
       myFixture.type("ecm\t");
       checkResult();
     }
@@ -119,21 +119,20 @@ public class LanguageListCompletionTest extends LightPlatformCodeInsightFixtureT
 
   public static class AutopopupTest extends CompletionAutoPopupTestCase {
 
-//    @Override
-//    protected void setUp() throws Exception {
-//      super.setUp();
+    @Override
+    protected void setUp() {
+      super.setUp();
 //      assert JavascriptLanguage.INSTANCE != null;
       // Because injector handles the code in the fence and gets parser definition for that lang
 //      LanguageParserDefinitions.INSTANCE.addExplicitExtension(JavascriptLanguage.INSTANCE, new PlainTextParserDefinition());
-//    }
+    }
 
     public void testAutopopup() {
       myFixture.configureByText(MarkdownFileType.INSTANCE, "");
       type("```");
       assertNotNull("Lookup should auto-activate", getLookup());
       myFixture.checkResult("```<caret>```");
-      assertContainsElements(getLookup().getItems().stream().map(LookupElement::getLookupString).collect(Collectors.toList()),
-                             "js", "javascript");
+      assertContainsElements(getLookup().getItems().stream().map(LookupElement::getLookupString).collect(Collectors.toList()));
     }
   }
 
