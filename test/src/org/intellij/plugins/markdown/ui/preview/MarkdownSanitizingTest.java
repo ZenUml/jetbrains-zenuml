@@ -7,6 +7,7 @@ import org.owasp.html.PolicyFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class MarkdownSanitizingTest extends UsefulTestCase {
 
@@ -15,6 +16,8 @@ public class MarkdownSanitizingTest extends UsefulTestCase {
     final String input;
     final String expected;
     try {
+      System.out.println(Paths.get("").toAbsolutePath());
+      System.out.println(testDir);
       input = FileUtil.loadFile(new File(testDir + getTestName(true) + ".html"));
       final File expectedFile = new File(testDir + getTestName(true) + ".after.html");
       if (expectedFile.exists()) {
