@@ -2,13 +2,13 @@
 .gradle
 
 .idea/**/*
+*.iml
 
 /out
 
 .DS_Store
 *.patch
 
-lib/
 # Compiled class file
 *.class
 
