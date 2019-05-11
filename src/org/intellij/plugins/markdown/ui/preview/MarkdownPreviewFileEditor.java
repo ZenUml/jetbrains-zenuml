@@ -305,7 +305,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
       return;
     }
 
-    final String html = new ZenUmlHtmlGenerator().from("");
+      final String html = new ZenUmlHtmlGenerator().from(myDocument.getText());
 
     // EA-75860: The lines to the top may be processed slowly; Since we're in pooled thread, we can be disposed already.
     if (!myFile.isValid() || Disposer.isDisposed(this)) {
@@ -321,9 +321,8 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
           return;
         }
 
-        final String currentHtml = html;
-        if (!currentHtml.equals(myLastRenderedHtml)) {
-          myLastRenderedHtml = currentHtml;
+          if (!html.equals(myLastRenderedHtml)) {
+          myLastRenderedHtml = html;
           myPanel.setHtml(myLastRenderedHtml);
 
           if (preserveScrollOffset) {

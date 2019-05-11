@@ -44,7 +44,7 @@ Includes the following features:</p>
                              implementationClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownLinkDestinationImpl$Manipulator"/>
 
     <colorSettingsPage implementation="org.intellij.plugins.markdown.highlighting.MarkdownColorSettingsPage"/>
-    <syntaxHighlighter key="Markdown" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownSyntaxHighlighter"/>
+    <syntaxHighlighter key="Markdown" implementationClass="com.intellij.ide.highlighter.JavaFileHighlighter"/>
     <additionalTextAttributes scheme="Default" file="colorSchemes/MarkdownDefault.xml"/>
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/MarkdownDarcula.xml"/>
 

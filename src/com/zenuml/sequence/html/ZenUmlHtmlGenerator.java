@@ -1,5 +1,8 @@
 package com.zenuml.sequence.html;
 
+import com.google.common.escape.Escaper;
+import com.google.common.escape.Escapers;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +13,12 @@ public class ZenUmlHtmlGenerator {
         Class clazz = this.getClass();
         InputStream inputStream = clazz.getResourceAsStream("/html/zenuml/preview.html");
         try {
-            return readFromInputStream(inputStream);
+            String previewHtml = readFromInputStream(inputStream);
+            Escaper escaper = Escapers.builder()
+                    .addEscape('\n', "\\n")
+                    .addEscape('\r', "\\r").build();
+
+            return previewHtml.replace("$DSL_CODE", escaper.escape(dsl));
         } catch (IOException e) {
             return "Error";
         }
