@@ -19,6 +19,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.Alarm;
 import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.ui.UIUtil;
+import com.zenuml.sequence.html.ZenUmlHtmlGenerator;
 import org.intellij.markdown.html.HtmlGenerator;
 import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
 import org.intellij.plugins.markdown.settings.MarkdownCssSettings;
@@ -304,7 +305,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
       return;
     }
 
-    final String html = "ABCD";
+    final String html = new ZenUmlHtmlGenerator().from("");
 
     // EA-75860: The lines to the top may be processed slowly; Since we're in pooled thread, we can be disposed already.
     if (!myFile.isValid() || Disposer.isDisposed(this)) {
@@ -320,7 +321,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
           return;
         }
 
-        final String currentHtml = "<html><head></head>" + SANITIZER_VALUE.getValue().sanitize(html) + "</html>";
+        final String currentHtml = html;
         if (!currentHtml.equals(myLastRenderedHtml)) {
           myLastRenderedHtml = currentHtml;
           myPanel.setHtml(myLastRenderedHtml);

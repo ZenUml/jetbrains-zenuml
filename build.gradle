@@ -46,6 +46,7 @@ sourceSets {
     }
     resources {
       srcDirs 'test/data'
+      srcDirs 'resource'
     }
   }
 }

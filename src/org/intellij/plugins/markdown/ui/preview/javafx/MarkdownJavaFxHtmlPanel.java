@@ -124,10 +124,11 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
   @Override
   public void scrollToMarkdownSrcOffset(final int offset) {
     runInPlatformWhenAvailable(() -> {
-      getWebViewGuaranteed().getEngine().executeScript(
-        "if ('__IntelliJTools' in window) " +
-        "__IntelliJTools.scrollToOffset(" + offset + ", '" + HtmlGenerator.Companion.getSRC_ATTRIBUTE_NAME() + "');"
-      );
+//      getWebViewGuaranteed().getEngine().executeZenUmlScript(
+//        "if ('__IntelliJTools' in window) " +
+//        "__IntelliJTools.scrollToOffset(" + offset + ", '" + HtmlGenerator.Companion.getSRC_ATTRIBUTE_NAME() + "');"
+//      );
+      executeZenUmlScript();
       final Object result = getWebViewGuaranteed().getEngine().executeScript(
         "document.documentElement.scrollTop || (document.body && document.body.scrollTop)");
       if (result instanceof Number) {
@@ -142,6 +143,10 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
       getWebViewGuaranteed().getEngine().getLoadWorker().stateProperty().removeListener(myScrollPreservingListener);
       getWebViewGuaranteed().getEngine().getLoadWorker().stateProperty().removeListener(myBridgeSettingListener);
     });
+  }
+
+  public void executeZenUmlScript() {
+    getWebViewGuaranteed().getEngine().executeScript("var app = document.getElementById(\"app0\"); app.innerHTML='replaced'; ");
   }
 
   @NotNull
@@ -181,6 +186,13 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
       if (newValue == State.RUNNING) {
         final Object result =
           getWebViewGuaranteed().getEngine().executeScript("document.documentElement.scrollTop || document.body.scrollTop");
+        executeZenUmlScript();
+//          getWebViewGuaranteed().getEngine().executeZenUmlScript("var app = new Vue({\n" +
+//                  "  el: '#app',\n" +
+//                  "  data: {\n" +
+//                  "    message: 'Hello Vue!'\n" +
+//                  "  }\n" +
+//                  "})");
         if (result instanceof Number) {
           myScrollY = ((Number)result).intValue();
         }
@@ -189,6 +201,12 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
         getWebViewGuaranteed().getEngine()
           .executeScript("document.documentElement.scrollTop = ({} || document.body).scrollTop = " + myScrollY);
       }
+//      getWebViewGuaranteed().getEngine().executeZenUmlScript("var app = new Vue({\n" +
+//              "  el: '#app',\n" +
+//              "  data: {\n" +
+//              "    message: 'Hello Vue!'\n" +
+//              "  }\n" +
+//              "})");
     }
   }
 }
