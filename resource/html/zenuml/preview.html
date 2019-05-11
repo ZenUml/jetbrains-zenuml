@@ -8,7 +8,19 @@ Diagram is at below:
   <div id="app1">
     {{ message }}
   </div>
+  <div id="app2">to be replaced</div>
 </main>
 Diagram is at above
+
+<script>
+  // self executing function here
+  (function() {
+    // your page initialization code here
+    setTimeout(function () {
+      // the DOM will be available here
+      var app = document.getElementById("app2"); app.innerHTML='replaced with inlined JS';
+    }, 5000)
+  })();
+</script>
 </body>
 </html>

@@ -146,7 +146,13 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
   }
 
   public void executeZenUmlScript() {
-    getWebViewGuaranteed().getEngine().executeScript("var app = document.getElementById(\"app0\"); app.innerHTML='replaced'; ");
+//    getWebViewGuaranteed().getEngine().executeScript("  (function() {\n" +
+//            "    // your page initialization code here\n" +
+//            "    setTimeout(function () {\n" +
+//            "      // the DOM will be available here\n" +
+//            "      var app = document.getElementById(\"app2\"); app.innerHTML='replaced with inlined JS';\n" +
+//            "    }, 5000)\n" +
+//            "  })()");
   }
 
   @NotNull
