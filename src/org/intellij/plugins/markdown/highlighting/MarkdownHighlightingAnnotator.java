@@ -29,7 +29,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MarkdownHighlightingAnnotator implements Annotator {
 
-  private static final SyntaxHighlighter SYNTAX_HIGHLIGHTER = new MarkdownSyntaxHighlighter();
+  private static final SyntaxHighlighter SYNTAX_HIGHLIGHTER = new ZenUmlSyntaxHighlighter();
 
   @Override
   public void annotate(@NotNull PsiElement element, @NotNull AnnotationHolder holder) {

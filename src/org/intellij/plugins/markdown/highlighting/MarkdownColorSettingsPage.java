@@ -113,7 +113,7 @@ public class MarkdownColorSettingsPage implements ColorSettingsPage {
   @Override
   @NotNull
   public SyntaxHighlighter getHighlighter() {
-    return new MarkdownSyntaxHighlighter();
+    return new ZenUmlSyntaxHighlighter();
   }
 
   @Override
