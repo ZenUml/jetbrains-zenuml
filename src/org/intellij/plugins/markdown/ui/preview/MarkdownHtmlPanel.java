@@ -14,7 +14,7 @@ import javax.swing.*;
 import java.util.List;
 
 public interface MarkdownHtmlPanel extends Disposable {
-  List<String> SCRIPTS = ContainerUtil.immutableList("processLinks.js", "scrollToElement.js", "vue.js", "custom.js");
+  List<String> SCRIPTS = ContainerUtil.immutableList("processLinks.js", "scrollToElement.js");
 
   List<String> STYLES = ContainerUtil.immutableList("default.css", "darcula.css", PreviewStaticServer.INLINE_CSS_FILENAME);
 
@@ -26,8 +26,6 @@ public interface MarkdownHtmlPanel extends Disposable {
   void setCSS(@Nullable String inlineCss, @NotNull String... fileUris);
 
   void render();
-
-  void executeZenUmlScript();
 
   void scrollToMarkdownSrcOffset(int offset);
 

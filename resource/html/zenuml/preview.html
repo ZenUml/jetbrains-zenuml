@@ -1,15 +1,371 @@
 <html>
 <head>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="https://app.zenuml.com/lib/vue-sequence-ext.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style id="webmakerstyle">
+    /* Prefix your CSS rules with `#diagram` */
+  </style>
+  <style type="text/css">.lifeline[data-v-3a05119c] {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin: 0 20px
+  }
+
+  .lifeline .line[data-v-3a05119c] {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin-left: 50%;
+    border-left-width: 1px
+  }
+
+  .lifeline > .participant[data-v-3a05119c] {
+    z-index: 100
+  }
+
+  .life-line-layer[data-v-03874a59] {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    white-space: nowrap;
+    position: absolute;
+    height: 100%
+  }
+
+  .lifeline.starter[data-v-03874a59] {
+    -webkit-transform: translateX(6px);
+    transform: translateX(6px)
+  }
+
+  .lifeline.starter.hidden[data-v-03874a59] {
+    visibility: hidden;
+    margin-left: -40px
+  }
+
+  .starter[data-v-03874a59] .participant {
+    border-radius: 50%
+  }
+
+  .point[data-v-102217b1] {
+    position: absolute;
+    margin-top: -12px;
+    right: 10px
+  }
+
+  .fill svg.arrow polyline[data-v-102217b1] {
+    fill: gray
+  }
+
+  .async > .message > .point > svg.arrow > polyline[data-v-102217b1] {
+    fill: none
+  }
+
+  .right-to-left.point[data-v-102217b1] {
+    left: 0;
+    right: auto
+  }
+
+  .right-to-left.point > svg > polyline.right[data-v-102217b1] {
+    display: none
+  }
+
+  .right-to-left.point > svg > polyline.left[data-v-102217b1] {
+    display: inline
+  }
+
+  .point > svg > polyline.left[data-v-102217b1] {
+    display: none
+  }
+
+  .message[data-v-50fe6874] {
+    width: calc(100% - 16px);
+    border-bottom-width: 2px;
+    white-space: nowrap
+  }
+
+  .sync > .message[data-v-50fe6874] {
+    left: 8px
+  }
+
+  .occurrence[data-v-a0d3b81a] {
+    margin-top: -2px
+  }
+
+  .interaction.creation[data-v-0c486a58] {
+    text-align: right
+  }
+
+  .interaction.creation.right-to-left[data-v-0c486a58] {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+    text-align: left
+  }
+
+  .participant.place-holder[data-v-0c486a58] {
+    visibility: hidden;
+    margin-top: -20px
+  }
+
+  .creation.right-to-left > .message.invocation[data-v-0c486a58] {
+    left: -6px;
+    margin-left: auto
+  }
+
+  .right-to-left > .occurrence[data-v-0c486a58] {
+    left: -8px
+  }
+
+  .interaction.right-to-left[data-v-44cbabc4] {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%)
+  }
+
+  .interaction .invisible-occurrence[data-v-99ae55c6] {
+    height: 20px
+  }
+
+  .interaction.async[data-v-99ae55c6] .message {
+    width: 100%
+  }
+
+  .message.self[data-v-02eaff1a] {
+    height: 34px
+  }
+
+  .sync > .message.self[data-v-02eaff1a] {
+    left: 6px
+  }
+
+  .message .name[data-v-02eaff1a] {
+    position: relative;
+    left: 30px;
+    white-space: nowrap
+  }
+
+  .self > .message .name[data-v-02eaff1a] {
+    text-align: left
+  }
+
+  .message.self svg.arrow polyline[data-v-02eaff1a] {
+    fill: none
+  }
+
+  .message.self svg.arrow polyline.head[data-v-02eaff1a] {
+    fill: gray
+  }
+
+  .message.self[data-v-448d144f] {
+    height: 34px
+  }
+
+  .sync > .message.self[data-v-448d144f] {
+    left: 6px
+  }
+
+  .message .name[data-v-448d144f] {
+    position: relative;
+    left: 30px;
+    white-space: nowrap
+  }
+
+  .self > .message .name[data-v-448d144f] {
+    text-align: left
+  }
+
+  .message.self svg.arrow polyline.head[data-v-448d144f], .message.self svg.arrow polyline[data-v-448d144f] {
+    fill: none
+  }
+
+  .self > .comments[data-v-0442f319] {
+    -webkit-transform: translateY(-4px);
+    transform: translateY(-4px)
+  }
+
+  .divider[data-v-55a4f15e] {
+    border-bottom-width: 1px;
+    margin: 10px 4px
+  }
+
+  .comments {
+    position: relative;
+    text-align: left;
+    border: 1px solid transparent;
+    background: #fff;
+    padding: 5px;
+    width: 500px;
+    font-size: .8em;
+    font-style: italic;
+    line-height: 1em;
+    opacity: .5
+  }
+
+  .comments:hover {
+    color: #000
+  }
+
+  .fragment > .comments {
+    width: 100%;
+    border-bottom: 1px solid gray;
+    border-top: none;
+    border-left: none;
+    border-right: none
+  }
+
+  .message-layer[data-v-6909fd0d] {
+    padding-top: 60px;
+    padding-bottom: 40px
+  }
+
+  .interaction {
+    margin-top: 10px;
+    margin-bottom: 5px
+  }
+
+  .interaction, .message {
+    position: relative
+  }
+
+  .message.return {
+    position: absolute;
+    bottom: 0
+  }
+
+  .message > .name {
+    font-size: 13px;
+    text-align: center
+  }
+
+  .message svg {
+    position: absolute;
+    width: 10px
+  }
+
+  .message.self svg {
+    width: 40px
+  }
+
+  .message svg.arrow polyline {
+    stroke: gray;
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linejoin: round
+  }
+
+  .occurrence {
+    position: relative;
+    width: 16px;
+    left: calc(100% - 8px);
+    padding: 16px 0;
+    padding-left: 6px;
+    border-width: 2px
+  }
+
+  .interaction.right-to-left > .occurrence {
+    left: -8px
+  }
+
+  .interaction.self > .occurrence {
+    left: -8px;
+    margin-top: -10px;
+    margin-left: 6px
+  }
+
+  .fragment {
+    border-width: 1px;
+    margin: 2px 0
+  }
+
+  .fragment .header label {
+    padding: 0 10px
+  }
+
+  .fragment .header .name label {
+    padding: 0 10px;
+    background: hsla(0, 0%, 67%, .1)
+  }
+
+  *, :after, :before {
+    -webkit-box-sizing: inherit;
+    box-sizing: inherit
+  }
+
+  .sequence-diagram {
+    position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: normal;
+    text-align: left
+  }
+
+  .participant {
+    padding: 8px 4px;
+    min-width: 88px;
+    max-width: 250px;
+    text-align: center
+  }
+
+  .sequence-diagram {
+    font-family: Helvetica, Verdana, serif;
+    font-size: 16px
+  }
+
+  .sequence-diagram .participant {
+    font-weight: 700;
+    background: #fff
+  }
+
+  .sequence-diagram .occurrence, .sequence-diagram .participant {
+    border: 2px solid rgba(3, 3, 3, .05)
+  }
+
+  .sequence-diagram .message {
+    border-bottom-color: gray
+  }
+
+  .sequence-diagram .occurrence {
+    background-color: #d3d3d3
+  }
+
+  .sequence-diagram .fragment {
+    border-style: solid;
+    border-color: #aaa;
+    border-radius: 2px;
+    background: hsla(0, 0%, 100%, .2);
+    opacity: .9
+  }
+
+  .sequence-diagram .fragment .header .name label {
+    color: #555;
+    font-weight: 700
+  }
+
+  .sequence-diagram .fragment.alt div.divider {
+    border-bottom-style: dashed;
+    border-bottom-color: #555
+  }
+
+  .sequence-diagram .lifeline .line {
+    border-left-style: dashed;
+    border-left-color: gray
+  }</style>
 </head>
 <body>
-Diagram is at below:
 <main id="demo">
-  <div id="app0">to be replaced</div>
-  <div id="app1">
-    {{ message }}
+  <div id="diagram">
+    <seq-diagram></seq-diagram>
   </div>
-  <div id="app2">to be replaced</div>
 </main>
-Diagram is at above
+<script src="https://app.zenuml.com/lib/vue-sequence-bundle.88401766e8fe44530c2b.js"></script>
+<script>
+  app.$store.commit("code", "// Sample code (click \"NEW\" to find more) \n A->B: message \n A.method1() {\n  B.method2()\n}")
+</script>
+
 </body>
 </html>

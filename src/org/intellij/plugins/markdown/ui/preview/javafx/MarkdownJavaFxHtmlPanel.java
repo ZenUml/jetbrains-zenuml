@@ -16,7 +16,6 @@ import javafx.scene.text.FontSmoothingType;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
-import org.intellij.markdown.html.HtmlGenerator;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
@@ -98,15 +97,6 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
     super.setHtml(html);
   }
 
-  @NotNull
-  @Override
-  protected String prepareHtml(@NotNull String html) {
-    return ImageRefreshFix.setStamps(html
-                                       .replace("<head>", "<head>"
-                                                          + "<meta http-equiv=\"Content-Security-Policy\" content=\"" + myCSP + "\"/>"
-                                                          + MarkdownHtmlPanel.getCssLines(null, myCssUris) + "\n" + getScriptingLines()));
-  }
-
   @Override
   public void setCSS(@Nullable String inlineCss, @NotNull String... fileUris) {
     PreviewStaticServer.getInstance().setInlineStyle(inlineCss);
@@ -124,11 +114,6 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
   @Override
   public void scrollToMarkdownSrcOffset(final int offset) {
     runInPlatformWhenAvailable(() -> {
-//      getWebViewGuaranteed().getEngine().executeZenUmlScript(
-//        "if ('__IntelliJTools' in window) " +
-//        "__IntelliJTools.scrollToOffset(" + offset + ", '" + HtmlGenerator.Companion.getSRC_ATTRIBUTE_NAME() + "');"
-//      );
-      executeZenUmlScript();
       final Object result = getWebViewGuaranteed().getEngine().executeScript(
         "document.documentElement.scrollTop || (document.body && document.body.scrollTop)");
       if (result instanceof Number) {
@@ -143,16 +128,6 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
       getWebViewGuaranteed().getEngine().getLoadWorker().stateProperty().removeListener(myScrollPreservingListener);
       getWebViewGuaranteed().getEngine().getLoadWorker().stateProperty().removeListener(myBridgeSettingListener);
     });
-  }
-
-  public void executeZenUmlScript() {
-//    getWebViewGuaranteed().getEngine().executeScript("  (function() {\n" +
-//            "    // your page initialization code here\n" +
-//            "    setTimeout(function () {\n" +
-//            "      // the DOM will be available here\n" +
-//            "      var app = document.getElementById(\"app2\"); app.innerHTML='replaced with inlined JS';\n" +
-//            "    }, 5000)\n" +
-//            "  })()");
   }
 
   @NotNull
@@ -192,13 +167,6 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
       if (newValue == State.RUNNING) {
         final Object result =
           getWebViewGuaranteed().getEngine().executeScript("document.documentElement.scrollTop || document.body.scrollTop");
-        executeZenUmlScript();
-//          getWebViewGuaranteed().getEngine().executeZenUmlScript("var app = new Vue({\n" +
-//                  "  el: '#app',\n" +
-//                  "  data: {\n" +
-//                  "    message: 'Hello Vue!'\n" +
-//                  "  }\n" +
-//                  "})");
         if (result instanceof Number) {
           myScrollY = ((Number)result).intValue();
         }
@@ -207,12 +175,6 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
         getWebViewGuaranteed().getEngine()
           .executeScript("document.documentElement.scrollTop = ({} || document.body).scrollTop = " + myScrollY);
       }
-//      getWebViewGuaranteed().getEngine().executeZenUmlScript("var app = new Vue({\n" +
-//              "  el: '#app',\n" +
-//              "  data: {\n" +
-//              "    message: 'Hello Vue!'\n" +
-//              "  }\n" +
-//              "})");
     }
   }
 }
