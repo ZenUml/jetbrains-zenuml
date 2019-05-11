@@ -8,7 +8,7 @@ import com.intellij.openapi.fileEditor.WeighedFileEditorProvider;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
+import org.intellij.plugins.markdown.lang.ZenUmlFileType;
 import org.intellij.plugins.markdown.lang.MarkdownLanguage;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +17,7 @@ public class MarkdownPreviewFileEditorProvider extends WeighedFileEditorProvider
   public boolean accept(@NotNull Project project, @NotNull VirtualFile file) {
     final FileType fileType = file.getFileType();
 
-    return (fileType == MarkdownFileType.INSTANCE ||
+    return (fileType == ZenUmlFileType.INSTANCE ||
             fileType == ScratchFileType.INSTANCE && LanguageUtil.getLanguageForPsi(project, file) == MarkdownLanguage.INSTANCE) &&
            MarkdownHtmlPanelProvider.hasAvailableProviders();
   }

@@ -4,13 +4,13 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.PlatformTestCase;
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
+import org.intellij.plugins.markdown.lang.ZenUmlFileType;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
 
 import java.io.File;
 import java.io.IOException;
 
-public class MarkdownFileTypeTest extends PlatformTestCase {
+public class ZenUmlFileTypeTest extends PlatformTestCase {
   public void testMarkdownExtension() throws IOException {
     doTest(".markdown");
   }
@@ -26,6 +26,6 @@ public class MarkdownFileTypeTest extends PlatformTestCase {
     assertNotNull(virtualFile);
     PsiFile psi = getPsiManager().findFile(virtualFile);
     assertTrue(psi instanceof MarkdownFile);
-    assertEquals(MarkdownFileType.INSTANCE, virtualFile.getFileType());
+    assertEquals(ZenUmlFileType.INSTANCE, virtualFile.getFileType());
   }
 }

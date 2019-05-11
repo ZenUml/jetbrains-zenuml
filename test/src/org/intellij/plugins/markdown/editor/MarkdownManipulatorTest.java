@@ -13,14 +13,7 @@
 // limitations under the License.
 package org.intellij.plugins.markdown.editor;
 
-import com.intellij.lang.injection.InjectedLanguageManager;
-import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.util.Computable;
-import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl;
 
 public class MarkdownManipulatorTest extends LightPlatformCodeInsightFixtureTestCase {
   public void testSimpleCodeFence() {
@@ -180,7 +173,7 @@ public class MarkdownManipulatorTest extends LightPlatformCodeInsightFixtureTest
   }
 
   public void doTest(String text, String newContent, String expectedText) {
-//    myFixture.configureByText(MarkdownFileType.INSTANCE, text);
+//    myFixture.configureByText(ZenUmlFileType.INSTANCE, text);
 //
 //    int offset = myFixture.getCaretOffset();
 //

@@ -19,7 +19,7 @@ import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElementVisitor;
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
+import org.intellij.plugins.markdown.lang.ZenUmlFileType;
 import org.intellij.plugins.markdown.lang.MarkdownLanguage;
 import org.intellij.plugins.markdown.lang.psi.MarkdownElementVisitor;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
@@ -43,6 +43,6 @@ public class MarkdownFile extends PsiFileBase implements MarkdownPsiElement {
   @Override
   @NotNull
   public FileType getFileType() {
-    return MarkdownFileType.INSTANCE;
+    return ZenUmlFileType.INSTANCE;
   }
 }

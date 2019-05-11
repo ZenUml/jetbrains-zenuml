@@ -6,14 +6,12 @@ import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.lang.Language;
-import com.intellij.lang.LanguageParserDefinitions;
 //import com.intellij.lang.javascript.JavascriptLanguage;
-import com.intellij.openapi.fileTypes.PlainTextParserDefinition;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
 import org.intellij.plugins.markdown.injection.CodeFenceLanguageProvider;
 import org.intellij.plugins.markdown.injection.LanguageGuesser;
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
+import org.intellij.plugins.markdown.lang.ZenUmlFileType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -128,7 +126,7 @@ public class LanguageListCompletionTest extends LightPlatformCodeInsightFixtureT
     }
 
     public void testAutopopup() {
-      myFixture.configureByText(MarkdownFileType.INSTANCE, "");
+      myFixture.configureByText(ZenUmlFileType.INSTANCE, "");
       type("```");
       assertNotNull("Lookup should auto-activate", getLookup());
       myFixture.checkResult("```<caret>```");

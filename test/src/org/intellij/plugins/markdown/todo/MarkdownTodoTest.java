@@ -18,7 +18,7 @@ import com.intellij.psi.search.PsiTodoSearchHelper;
 import com.intellij.psi.search.TodoAttributesUtil;
 import com.intellij.psi.search.TodoPattern;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
+import org.intellij.plugins.markdown.lang.ZenUmlFileType;
 import org.jetbrains.annotations.NotNull;
 
 public class MarkdownTodoTest extends LightPlatformCodeInsightFixtureTestCase {
@@ -51,7 +51,7 @@ public class MarkdownTodoTest extends LightPlatformCodeInsightFixtureTestCase {
   }
 
   private void doTest(@NotNull String text, int expectedTodos) {
-    myFixture.configureByText(MarkdownFileType.INSTANCE, text);
+    myFixture.configureByText(ZenUmlFileType.INSTANCE, text);
     assertEquals(expectedTodos, PsiTodoSearchHelper.SERVICE.getInstance(getProject()).findTodoItems(myFixture.getFile()).length);
   }
 

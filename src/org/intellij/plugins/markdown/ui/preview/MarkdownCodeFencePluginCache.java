@@ -15,7 +15,7 @@ import com.intellij.util.Alarm;
 import com.intellij.util.containers.ContainerUtil;
 import org.intellij.plugins.markdown.extensions.MarkdownCodeFenceCacheableProvider;
 import org.intellij.plugins.markdown.extensions.MarkdownCodeFencePluginGeneratingProvider;
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
+import org.intellij.plugins.markdown.lang.ZenUmlFileType;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -43,7 +43,7 @@ public class MarkdownCodeFencePluginCache implements Disposable {
     VirtualFileManager.getInstance().addVirtualFileListener(new VirtualFileListener() {
       @Override
       public void fileDeleted(@NotNull VirtualFileEvent event) {
-        if (MarkdownFileType.INSTANCE == event.getFile().getFileType()) {
+        if (ZenUmlFileType.INSTANCE == event.getFile().getFileType()) {
           myAdditionalCacheToDelete.addAll(processSourceFileToDelete(event.getFile(), ContainerUtil.emptyList()));
         }
       }
