@@ -4,7 +4,7 @@ import com.intellij.openapi.paths.PathReferenceManager;
 import com.intellij.patterns.PsiElementPattern;
 import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlFile;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownLinkDestinationImpl;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +15,7 @@ public class MarkdownReferenceProvider extends PsiReferenceContributor {
   @Override
   public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar) {
     final PsiElementPattern.Capture<MarkdownLinkDestinationImpl> linkDestinationCapture =
-      psiElement(MarkdownLinkDestinationImpl.class).inFile(psiFile(MarkdownFile.class));
+      psiElement(MarkdownLinkDestinationImpl.class).inFile(psiFile(ZenUmlFile.class));
 
     registrar.registerReferenceProvider(linkDestinationCapture, new LinkDestinationReferenceProvider());
   }

@@ -24,7 +24,7 @@ import org.intellij.markdown.flavours.gfm.GFMTokenTypes;
 import static org.intellij.plugins.markdown.lang.MarkdownElementType.platformType;
 
 public interface MarkdownElementTypes {
-  IFileElementType MARKDOWN_FILE_ELEMENT_TYPE = new IStubFileElementType("Markdown file", MarkdownLanguage.INSTANCE);
+  IFileElementType MARKDOWN_FILE_ELEMENT_TYPE = new IStubFileElementType("Markdown file", ZenUmlLanguage.INSTANCE);
 
   IElementType MARKDOWN_FILE = platformType(org.intellij.markdown.MarkdownElementTypes.MARKDOWN_FILE);
 

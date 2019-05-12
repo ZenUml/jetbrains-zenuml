@@ -17,11 +17,11 @@ package org.intellij.plugins.markdown.lang;
 
 import com.intellij.lang.Language;
 
-public class MarkdownLanguage extends Language {
+public class ZenUmlLanguage extends Language {
 
-  public static final MarkdownLanguage INSTANCE = new MarkdownLanguage();
+  public static final ZenUmlLanguage INSTANCE = new ZenUmlLanguage();
 
-  protected MarkdownLanguage() {
-    super("Markdown", "text/x-markdown");
+  protected ZenUmlLanguage() {
+    super("ZenUML", "text/x-zenuml");
   }
 }

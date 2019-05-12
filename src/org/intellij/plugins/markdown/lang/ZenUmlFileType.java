@@ -27,7 +27,7 @@ public class ZenUmlFileType extends LanguageFileType {
   public static final ZenUmlFileType INSTANCE = new ZenUmlFileType();
 
   private ZenUmlFileType() {
-    super(MarkdownLanguage.INSTANCE);
+    super(ZenUmlLanguage.INSTANCE);
   }
 
   @NotNull

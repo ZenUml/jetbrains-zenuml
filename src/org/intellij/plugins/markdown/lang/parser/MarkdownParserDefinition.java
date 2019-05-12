@@ -30,7 +30,7 @@ import com.intellij.psi.tree.TokenSet;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.lexer.MarkdownToplevelLexer;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiFactory;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlFile;
 import org.intellij.plugins.markdown.lang.stubs.MarkdownStubElementType;
 import org.jetbrains.annotations.NotNull;
 
@@ -84,7 +84,7 @@ public class MarkdownParserDefinition implements ParserDefinition {
   @NotNull
   @Override
   public PsiFile createFile(FileViewProvider viewProvider) {
-    return new MarkdownFile(viewProvider);
+    return new ZenUmlFile(viewProvider);
   }
 
   @NotNull

@@ -6,10 +6,12 @@ import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 import junit.framework.TestSuite;
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
 import org.jetbrains.annotations.NotNull;
+import org.junit.Ignore;
 
 import java.io.File;
 
 @SuppressWarnings("unused")
+@Ignore("Markdown specific")
 public class MarkdownHeaderTestSuite extends TestSuite {
   public static class RunMarkdownHeaderUpTestSuite {
     public static TestSuite suite() {

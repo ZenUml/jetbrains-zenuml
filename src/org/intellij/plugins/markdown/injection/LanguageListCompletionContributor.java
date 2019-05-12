@@ -13,7 +13,7 @@ import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.ui.DeferredIconImpl;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +24,7 @@ public class LanguageListCompletionContributor extends CompletionContributor {
 
   @Override
   public void beforeCompletion(@NotNull CompletionInitializationContext context) {
-    if (context.getFile() instanceof MarkdownFile) {
+    if (context.getFile() instanceof ZenUmlFile) {
       context.setDummyIdentifier(CompletionInitializationContext.DUMMY_IDENTIFIER + "\n");
     }
   }

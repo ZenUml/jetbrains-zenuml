@@ -21,7 +21,7 @@ import com.intellij.openapi.editor.StripTrailingSpacesFilter;
 import com.intellij.openapi.editor.StripTrailingSpacesFilterFactory;
 import com.intellij.openapi.editor.impl.PsiBasedStripTrailingSpacesFilter;
 import com.intellij.openapi.project.Project;
-import org.intellij.plugins.markdown.lang.MarkdownLanguage;
+import org.intellij.plugins.markdown.lang.ZenUmlLanguage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +31,7 @@ public class MarkdownStripTrailingSpacesFilterFactory extends StripTrailingSpace
   @Override
   public StripTrailingSpacesFilter createFilter(@Nullable Project project, @NotNull Document document) {
     Language documentLanguage = PsiBasedStripTrailingSpacesFilter.getDocumentLanguage(document);
-    if (documentLanguage != null && documentLanguage.is(MarkdownLanguage.INSTANCE)) {
+    if (documentLanguage != null && documentLanguage.is(ZenUmlLanguage.INSTANCE)) {
       return StripTrailingSpacesFilter.NOT_ALLOWED;
     }
     return StripTrailingSpacesFilter.ALL_LINES;

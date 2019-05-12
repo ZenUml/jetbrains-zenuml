@@ -9,7 +9,7 @@ import com.intellij.psi.util.PsiUtilCore;
 import com.intellij.util.Consumer;
 import com.intellij.util.NullableConsumer;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlFile;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownHeaderImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +45,7 @@ public class MarkdownPsiUtil {
                                       @NotNull NullableConsumer<? super PsiElement> nextHeaderConsumer) {
     if (myElement == null) return;
 
-    final PsiElement structureContainer = myElement instanceof MarkdownFile ? myElement.getFirstChild()
+    final PsiElement structureContainer = myElement instanceof ZenUmlFile ? myElement.getFirstChild()
                                                                             : getParentOfType(myElement, TRANSPARENT_CONTAINERS);
     if (structureContainer == null) return;
 

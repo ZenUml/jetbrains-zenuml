@@ -20,7 +20,7 @@ import com.intellij.psi.impl.search.IndexPatternBuilder;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlFile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,13 +30,13 @@ public class MarkdownIndexPatternBuilder implements IndexPatternBuilder {
   @Nullable
   @Override
   public Lexer getIndexingLexer(@NotNull PsiFile file) {
-    if (!(file instanceof MarkdownFile)) {
+    if (!(file instanceof ZenUmlFile)) {
       return null;
     }
 
     try {
       LayeredLexer.ourDisableLayersFlag.set(Boolean.TRUE);
-      return ((MarkdownFile)file).getParserDefinition().createLexer(file.getProject());
+      return ((ZenUmlFile)file).getParserDefinition().createLexer(file.getProject());
     }
     finally {
       LayeredLexer.ourDisableLayersFlag.set(null);
@@ -46,7 +46,7 @@ public class MarkdownIndexPatternBuilder implements IndexPatternBuilder {
   @Nullable
   @Override
   public TokenSet getCommentTokenSet(@NotNull PsiFile file) {
-    return file instanceof MarkdownFile ? COMMENT_TOKEN_SET : null;
+    return file instanceof ZenUmlFile ? COMMENT_TOKEN_SET : null;
   }
 
   @Override

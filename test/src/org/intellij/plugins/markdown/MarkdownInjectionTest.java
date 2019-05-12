@@ -5,7 +5,7 @@ package org.intellij.plugins.markdown;
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import org.intellij.plugins.markdown.lang.ZenUmlFileType;
-import org.intellij.plugins.markdown.lang.MarkdownLanguage;
+import org.intellij.plugins.markdown.lang.ZenUmlLanguage;
 import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
 
 public class MarkdownInjectionTest extends LightPlatformCodeInsightFixtureTestCase {
@@ -42,6 +42,6 @@ public class MarkdownInjectionTest extends LightPlatformCodeInsightFixtureTestCa
 
   private void doTest(String text, boolean shouldHaveInjection) {
     final PsiFile file = myFixture.configureByText(ZenUmlFileType.INSTANCE, text);
-    assertEquals(shouldHaveInjection, !file.findElementAt(myFixture.getCaretOffset()).getLanguage().isKindOf(MarkdownLanguage.INSTANCE));
+    assertEquals(shouldHaveInjection, !file.findElementAt(myFixture.getCaretOffset()).getLanguage().isKindOf(ZenUmlLanguage.INSTANCE));
   }
 }

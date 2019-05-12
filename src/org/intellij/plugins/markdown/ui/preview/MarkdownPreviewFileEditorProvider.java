@@ -9,7 +9,7 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.intellij.plugins.markdown.lang.ZenUmlFileType;
-import org.intellij.plugins.markdown.lang.MarkdownLanguage;
+import org.intellij.plugins.markdown.lang.ZenUmlLanguage;
 import org.jetbrains.annotations.NotNull;
 
 public class MarkdownPreviewFileEditorProvider extends WeighedFileEditorProvider {
@@ -18,7 +18,7 @@ public class MarkdownPreviewFileEditorProvider extends WeighedFileEditorProvider
     final FileType fileType = file.getFileType();
 
     return (fileType == ZenUmlFileType.INSTANCE ||
-            fileType == ScratchFileType.INSTANCE && LanguageUtil.getLanguageForPsi(project, file) == MarkdownLanguage.INSTANCE) &&
+            fileType == ScratchFileType.INSTANCE && LanguageUtil.getLanguageForPsi(project, file) == ZenUmlLanguage.INSTANCE) &&
            MarkdownHtmlPanelProvider.hasAvailableProviders();
   }
 

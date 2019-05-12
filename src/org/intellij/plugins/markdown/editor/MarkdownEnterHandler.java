@@ -19,7 +19,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownBlockQuoteImpl;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlFile;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownListItemImpl;
 import org.jetbrains.annotations.NotNull;
 
@@ -89,7 +89,7 @@ public class MarkdownEnterHandler extends EnterHandlerDelegateAdapter {
     }
 
     PsiFile topLevelFile = InjectedLanguageManager.getInstance(project).getTopLevelFile(element);
-    if (!(topLevelFile instanceof MarkdownFile)) {
+    if (!(topLevelFile instanceof ZenUmlFile)) {
       return false;
     }
 

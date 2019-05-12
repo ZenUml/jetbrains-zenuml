@@ -5,7 +5,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.PlatformTestCase;
 import org.intellij.plugins.markdown.lang.ZenUmlFileType;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class ZenUmlFileTypeTest extends PlatformTestCase {
     VirtualFile virtualFile = getVirtualFile(file);
     assertNotNull(virtualFile);
     PsiFile psi = getPsiManager().findFile(virtualFile);
-    assertTrue(psi instanceof MarkdownFile);
+    assertTrue(psi instanceof ZenUmlFile);
     assertEquals(ZenUmlFileType.INSTANCE, virtualFile.getFileType());
   }
 }

@@ -3,10 +3,10 @@ package org.intellij.plugins.markdown.lang.formatter
 
 import com.intellij.application.options.TabbedLanguageCodeStylePanel
 import com.intellij.psi.codeStyle.CodeStyleSettings
-import org.intellij.plugins.markdown.lang.MarkdownLanguage
+import org.intellij.plugins.markdown.lang.ZenUmlLanguage
 
 class MarkdownCodeStyleSettingsPanel(currentSettings: CodeStyleSettings, settings: CodeStyleSettings)
-  : TabbedLanguageCodeStylePanel(MarkdownLanguage.INSTANCE, currentSettings, settings) {
+  : TabbedLanguageCodeStylePanel(ZenUmlLanguage.INSTANCE, currentSettings, settings) {
 
   override fun initTabs(settings: CodeStyleSettings?) {
     addWrappingAndBracesTab(settings)

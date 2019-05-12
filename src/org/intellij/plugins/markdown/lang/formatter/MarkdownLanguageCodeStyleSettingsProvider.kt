@@ -6,10 +6,10 @@ import com.intellij.psi.codeStyle.CodeStyleConfigurable
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
-import org.intellij.plugins.markdown.lang.MarkdownLanguage
+import org.intellij.plugins.markdown.lang.ZenUmlLanguage
 
 class MarkdownLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
-  override fun getLanguage(): Language = MarkdownLanguage.INSTANCE
+  override fun getLanguage(): Language = ZenUmlLanguage.INSTANCE
 
   private val STANDARD_WRAPPING_OPTIONS = arrayOf("RIGHT_MARGIN", "WRAP_ON_TYPING")
 

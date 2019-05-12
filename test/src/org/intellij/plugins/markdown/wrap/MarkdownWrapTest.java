@@ -6,7 +6,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettings;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
-import org.intellij.plugins.markdown.lang.MarkdownLanguage;
+import org.intellij.plugins.markdown.lang.ZenUmlLanguage;
 import org.jetbrains.annotations.NotNull;
 
 public class MarkdownWrapTest extends LightPlatformCodeInsightFixtureTestCase {
@@ -22,7 +22,7 @@ public class MarkdownWrapTest extends LightPlatformCodeInsightFixtureTestCase {
   protected void setUp() throws Exception {
     super.setUp();
     final CodeStyleSettings settings = CodeStyle.getSettings(myFixture.getProject());
-    final CommonCodeStyleSettings commonCodeStyleSettings = settings.getCommonSettings(MarkdownLanguage.INSTANCE);
+    final CommonCodeStyleSettings commonCodeStyleSettings = settings.getCommonSettings(ZenUmlLanguage.INSTANCE);
     myOldWrap = settings.WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN;
     myOldMargin = commonCodeStyleSettings.RIGHT_MARGIN;
     settings.WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN = true;
@@ -33,7 +33,7 @@ public class MarkdownWrapTest extends LightPlatformCodeInsightFixtureTestCase {
   protected void tearDown() throws Exception {
     try {
       final CodeStyleSettings settings = CodeStyle.getSettings(myFixture.getProject());
-      final CommonCodeStyleSettings settingsCommonSettings = settings.getCommonSettings(MarkdownLanguage.INSTANCE);
+      final CommonCodeStyleSettings settingsCommonSettings = settings.getCommonSettings(ZenUmlLanguage.INSTANCE);
       settings.WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN = myOldWrap;
       settingsCommonSettings.RIGHT_MARGIN = myOldMargin;
     }
@@ -67,7 +67,7 @@ public class MarkdownWrapTest extends LightPlatformCodeInsightFixtureTestCase {
 
   public void testWrapRightMargin() {
     final CodeStyleSettings settings = CodeStyle.getSettings(myFixture.getProject());
-    final CommonCodeStyleSettings commonCodeStyleSettings = settings.getCommonSettings(MarkdownLanguage.INSTANCE);
+    final CommonCodeStyleSettings commonCodeStyleSettings = settings.getCommonSettings(ZenUmlLanguage.INSTANCE);
     int oldValue = commonCodeStyleSettings.RIGHT_MARGIN;
     boolean oldMarginValue = settings.WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN;
     commonCodeStyleSettings.RIGHT_MARGIN = 100;

@@ -5,7 +5,7 @@ import org.intellij.plugins.markdown.lang.psi.impl.*;
 import org.jetbrains.annotations.NotNull;
 
 public class MarkdownElementVisitor extends PsiElementVisitor {
-  public void visitMarkdownFile(@NotNull MarkdownFile file) {
+  public void visitMarkdownFile(@NotNull ZenUmlFile file) {
     visitFile(file);
   }
 

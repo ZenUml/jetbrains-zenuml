@@ -20,14 +20,14 @@ import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElementVisitor;
 import org.intellij.plugins.markdown.lang.ZenUmlFileType;
-import org.intellij.plugins.markdown.lang.MarkdownLanguage;
+import org.intellij.plugins.markdown.lang.ZenUmlLanguage;
 import org.intellij.plugins.markdown.lang.psi.MarkdownElementVisitor;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
 import org.jetbrains.annotations.NotNull;
 
-public class MarkdownFile extends PsiFileBase implements MarkdownPsiElement {
-  public MarkdownFile(FileViewProvider viewProvider) {
-    super(viewProvider, MarkdownLanguage.INSTANCE);
+public class ZenUmlFile extends PsiFileBase implements MarkdownPsiElement {
+  public ZenUmlFile(FileViewProvider viewProvider) {
+    super(viewProvider, ZenUmlLanguage.INSTANCE);
   }
 
   @Override

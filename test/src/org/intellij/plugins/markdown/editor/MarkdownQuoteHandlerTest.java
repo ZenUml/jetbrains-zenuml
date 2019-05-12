@@ -2,13 +2,13 @@ package org.intellij.plugins.markdown.editor;
 
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlFile;
 import org.jetbrains.annotations.NotNull;
 
 public class MarkdownQuoteHandlerTest extends LightPlatformCodeInsightFixtureTestCase {
   private void doTest(@NotNull String text, char charToType, @NotNull String expectedResult) {
     final PsiFile file = myFixture.configureByText("test.md", text);
-    assertInstanceOf(file, MarkdownFile.class);
+    assertInstanceOf(file, ZenUmlFile.class);
 
     myFixture.type(charToType);
     myFixture.checkResult(expectedResult);
@@ -60,7 +60,7 @@ public class MarkdownQuoteHandlerTest extends LightPlatformCodeInsightFixtureTes
 
   public void testBacktickShouldBeAdded() {
     final PsiFile file = myFixture.configureByText("test.md", "Hello <caret> world");
-    assertInstanceOf(file, MarkdownFile.class);
+    assertInstanceOf(file, ZenUmlFile.class);
 
     myFixture.type('`');
     myFixture.checkResult("Hello `<caret>` world");
@@ -72,7 +72,7 @@ public class MarkdownQuoteHandlerTest extends LightPlatformCodeInsightFixtureTes
 
   public void testBacktickShouldBeAddedStartOfLine() {
     final PsiFile file = myFixture.configureByText("test.md", "<caret>");
-    assertInstanceOf(file, MarkdownFile.class);
+    assertInstanceOf(file, ZenUmlFile.class);
 
     myFixture.type('`');
     myFixture.checkResult("`<caret>`");
