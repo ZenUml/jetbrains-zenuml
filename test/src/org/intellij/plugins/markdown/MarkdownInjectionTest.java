@@ -35,10 +35,6 @@ public class MarkdownInjectionTest extends LightPlatformCodeInsightFixtureTestCa
     }
   }
 
-  public void testFenceWithJs() {
-//    assertNotNull(LanguageGuesser.INSTANCE.guessLanguage("js"));
-  }
-
   private void doTest(String text, boolean shouldHaveInjection) {
     final PsiFile file = myFixture.configureByText(MarkdownFileType.INSTANCE, text);
     assertEquals(shouldHaveInjection, !file.findElementAt(myFixture.getCaretOffset()).getLanguage().isKindOf(MarkdownLanguage.INSTANCE));
