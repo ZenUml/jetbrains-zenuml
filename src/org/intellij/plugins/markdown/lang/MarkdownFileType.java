@@ -45,7 +45,7 @@ public class MarkdownFileType extends LanguageFileType {
   @NotNull
   @Override
   public String getDefaultExtension() {
-    return "md";
+    return "zen";
   }
 
   @Nullable
