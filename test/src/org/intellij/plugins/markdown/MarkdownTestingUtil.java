@@ -5,6 +5,7 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.util.PathUtil;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 public class MarkdownTestingUtil {
   public static final String TEST_DATA_PATH = findTestDataPath();
@@ -27,6 +28,6 @@ public class MarkdownTestingUtil {
       return FileUtil.toSystemIndependentName(parentPath + "/contrib/markdown/test/data");
     }
 
-    return "";
+    return Paths.get("./test/data/").toAbsolutePath().toString();
   }
 }
