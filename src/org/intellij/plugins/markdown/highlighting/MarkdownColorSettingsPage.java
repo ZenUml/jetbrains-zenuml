@@ -91,7 +91,7 @@ public class MarkdownColorSettingsPage implements ColorSettingsPage {
   @NonNls
   @NotNull
   public String getDemoText() {
-    final InputStream stream = getClass().getResourceAsStream("SampleDocument.md");
+    final InputStream stream = getClass().getResourceAsStream("SampleDocument.zen");
 
     try {
       final String result = StreamUtil.readText(stream, CharsetToolkit.UTF8);

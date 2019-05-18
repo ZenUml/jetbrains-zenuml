@@ -60,7 +60,7 @@ public class MarkdownPlantUMLTest extends LightPlatformCodeInsightFixtureTestCas
     myFixture.copyAll(getTestDataPath(), PLANTUML_TARGET_DIR);
     MarkdownSettingsConfigurable.PLANTUML_JAR_TEST.set(myFixture.getFile(PLANTUML_TARGET_DIR + "/plantuml.jar"));
 
-    VirtualFile mdVFile = myFixture.getFile(PLANTUML_TARGET_DIR + "/" + getTestName(true) + ".md");
+    VirtualFile mdVFile = myFixture.getFile(PLANTUML_TARGET_DIR + "/" + getTestName(true) + ".zen");
     try {
       assertTrue(MarkdownUtil.INSTANCE.generateMarkdownHtml(mdVFile, VfsUtilCore.loadText(mdVFile), getProject()).contains(
         MarkdownUtil.INSTANCE.md5(mdVFile.getPath(), MarkdownCodeFencePluginCache.MARKDOWN_FILE_PATH_KEY)));

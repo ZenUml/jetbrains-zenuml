@@ -26,7 +26,7 @@ public class MarkdownHeaderTestSuite extends TestSuite {
   public MarkdownHeaderTestSuite(@NotNull String actionId, @NotNull String dataName) {
     String testDataPath = getHeadersTestData();
     File dir = new File(testDataPath);
-    File[] files = dir.listFiles((dir1, name) -> name.endsWith("_before.md"));
+    File[] files = dir.listFiles((dir1, name) -> name.endsWith("_before.zen"));
     for (File testFile : files) {
       addTest(new LightPlatformCodeInsightTestCase() {
         @Override
@@ -38,7 +38,7 @@ public class MarkdownHeaderTestSuite extends TestSuite {
         protected void runTest() {
           configureByFile(testFile.getName());
           executeAction(actionId);
-          checkResultByFile(dataName + "/" + StringUtil.substringBefore(testFile.getName(), "_before.md") + "_after.md");
+          checkResultByFile(dataName + "/" + StringUtil.substringBefore(testFile.getName(), "_before.zen") + "_after.zen");
         }
 
         @NotNull

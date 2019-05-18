@@ -22,7 +22,7 @@ public class MarkdownFileTypeTest extends PlatformTestCase {
   }
 
   public void testMdExtension() throws IOException {
-    doTest(".md");
+    doTest(".zen");
   }
 
   private void doTest(String extension) throws IOException {

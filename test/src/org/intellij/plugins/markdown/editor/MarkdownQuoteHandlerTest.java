@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MarkdownQuoteHandlerTest extends LightPlatformCodeInsightFixtureTestCase {
   private void doTest(@NotNull String text, char charToType, @NotNull String expectedResult) {
-    final PsiFile file = myFixture.configureByText("test.md", text);
+    final PsiFile file = myFixture.configureByText("test.zen", text);
     assertInstanceOf(file, MarkdownFile.class);
 
     myFixture.type(charToType);
@@ -59,7 +59,7 @@ public class MarkdownQuoteHandlerTest extends LightPlatformCodeInsightFixtureTes
   }
 
   public void testBacktickShouldBeAdded() {
-    final PsiFile file = myFixture.configureByText("test.md", "Hello <caret> world");
+    final PsiFile file = myFixture.configureByText("test.zen", "Hello <caret> world");
     assertInstanceOf(file, MarkdownFile.class);
 
     myFixture.type('`');
@@ -71,7 +71,7 @@ public class MarkdownQuoteHandlerTest extends LightPlatformCodeInsightFixtureTes
   }
 
   public void testBacktickShouldBeAddedStartOfLine() {
-    final PsiFile file = myFixture.configureByText("test.md", "<caret>");
+    final PsiFile file = myFixture.configureByText("test.zen", "<caret>");
     assertInstanceOf(file, MarkdownFile.class);
 
     myFixture.type('`');

@@ -32,9 +32,9 @@ public class MarkdownToggleStrikeThroughTest extends LightPlatformCodeInsightTes
   }
 
   private void doTest() {
-    configureByFile(getTestName(true) + "_before.md");
+    configureByFile(getTestName(true) + "_before.zen");
     executeAction("org.intellij.plugins.markdown.ui.actions.styling.ToggleStrikethroughAction");
-    checkResultByFile(getTestName(true) + "_after.md");
+    checkResultByFile(getTestName(true) + "_after.zen");
   }
 
   @NotNull

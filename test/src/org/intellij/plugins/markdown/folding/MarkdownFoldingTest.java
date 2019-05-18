@@ -97,7 +97,7 @@ public class MarkdownFoldingTest extends LightPlatformCodeInsightFixtureTestCase
   }
 
   private void doTest() {
-    myFixture.testFolding(getTestDataPath() + "/" + getTestName(true) + ".md");
+    myFixture.testFolding(getTestDataPath() + "/" + getTestName(true) + ".zen");
   }
 
   @Override
