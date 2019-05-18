@@ -43,12 +43,12 @@ Includes the following features:</p>
                              implementationClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownLinkDestinationImpl$Manipulator"/>
 
     <colorSettingsPage implementation="org.intellij.plugins.markdown.highlighting.MarkdownColorSettingsPage"/>
-    <syntaxHighlighter key="Markdown" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownSyntaxHighlighter"/>
+    <syntaxHighlighter key="ZenUML" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownSyntaxHighlighter"/>
     <additionalTextAttributes scheme="Default" file="colorSchemes/MarkdownDefault.xml"/>
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/MarkdownDarcula.xml"/>
 
-    <braceMatcher filetype="Markdown" implementationClass="org.intellij.plugins.markdown.braces.MarkdownBraceMatcher"/>
-    <quoteHandler fileType="Markdown" className="org.intellij.plugins.markdown.braces.MarkdownQuoteHandler"/>
+    <braceMatcher filetype="ZenUML" implementationClass="org.intellij.plugins.markdown.braces.MarkdownBraceMatcher"/>
+    <quoteHandler fileType="ZenUML" className="org.intellij.plugins.markdown.braces.MarkdownQuoteHandler"/>
     <typedHandler implementation="org.intellij.plugins.markdown.editor.MarkdownTypedHandler"/>
 
     <bidiRegionsSeparator language="ZenUML" implementationClass="org.intellij.plugins.markdown.editor.MarkdownBidiRegionsSeparator"/>
@@ -88,7 +88,7 @@ Includes the following features:</p>
     <lang.foldingBuilder language="ZenUML" implementationClass="org.intellij.plugins.markdown.folding.MarkdownFoldingBuilder"/>
     <stubIndex implementation="org.intellij.plugins.markdown.lang.index.MarkdownHeadersIndex"/>
     <anchorReferenceProvider implementation="org.intellij.plugins.markdown.lang.references.MarkdownAnchorPathReferenceProvider"/>
-    <todoIndexer filetype="Markdown" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownTodoIndexer" />
+    <todoIndexer filetype="ZenUML" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownTodoIndexer" />
     <indexPatternBuilder implementation="org.intellij.plugins.markdown.highlighting.MarkdownIndexPatternBuilder" />
     <langCodeStyleSettingsProvider implementation="org.intellij.plugins.markdown.lang.formatter.MarkdownLanguageCodeStyleSettingsProvider"/>
     <enterHandlerDelegate implementation="org.intellij.plugins.markdown.editor.MarkdownEnterHandler"/>
