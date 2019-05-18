@@ -40,8 +40,8 @@ public class MarkdownEnterHandlerTest extends LightPlatformCodeInsightFixtureTes
 
   private void doTest() {
     String testName = getTestName(true);
-    myFixture.configureByFile(testName + ".before.md");
+    myFixture.configureByFile(testName + ".before.zen");
     myFixture.type("\n");
-    myFixture.checkResultByFile(testName + ".after.md");
+    myFixture.checkResultByFile(testName + ".after.zen");
   }
 }

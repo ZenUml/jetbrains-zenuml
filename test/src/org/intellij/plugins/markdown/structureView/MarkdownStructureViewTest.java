@@ -17,7 +17,7 @@ public class MarkdownStructureViewTest extends LightPlatformCodeInsightFixtureTe
   }
 
   public void doTest() {
-    myFixture.configureByFile(getTestName(true) + ".md");
+    myFixture.configureByFile(getTestName(true) + ".zen");
     myFixture.testStructureView(svc -> {
       JTree tree = svc.getTree();
       TreeUtil.expandAll(tree);

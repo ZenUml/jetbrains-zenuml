@@ -13,7 +13,7 @@ public class MarkdownSpellcheckerTest extends LightPlatformCodeInsightFixtureTes
   }
 
   public void testAll() {
-    myFixture.testHighlighting(false, false, true, getTestName(true) + ".md");
+    myFixture.testHighlighting(false, false, true, getTestName(true) + ".zen");
   }
 
   @Override

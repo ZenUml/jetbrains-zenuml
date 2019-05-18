@@ -33,8 +33,7 @@ public class MarkdownFileType extends LanguageFileType {
   @NotNull
   @Override
   public String getName() {
-    // TODO: Warning! Changing this name causes 19 failures.
-    return "Markdown";
+    return "ZenUML";
   }
 
   @NotNull

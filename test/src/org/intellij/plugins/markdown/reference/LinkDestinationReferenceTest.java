@@ -22,7 +22,7 @@ public class LinkDestinationReferenceTest extends LightPlatformCodeInsightFixtur
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    myFixture.configureByFile("sample.md");
+    myFixture.configureByFile("sample.zen");
     myFixture.copyDirectoryToProject("app", "app");
   }
 
@@ -74,7 +74,7 @@ public class LinkDestinationReferenceTest extends LightPlatformCodeInsightFixtur
   }
 
   public void testTrailingSlashUrl() {
-    final PsiReference reference = myFixture.getReferenceAtCaretPosition("trailingSlashUrl.md");
+    final PsiReference reference = myFixture.getReferenceAtCaretPosition("trailingSlashUrl.zen");
     assertNotNull(reference);
 
     assertTrue((reference.resolve()) instanceof FakePsiElement);

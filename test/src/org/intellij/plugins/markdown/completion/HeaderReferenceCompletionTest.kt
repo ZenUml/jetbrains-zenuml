@@ -28,23 +28,23 @@ class HeaderReferenceCompletionTest : LightPlatformCodeInsightFixtureTestCase() 
                                      "what-is-this-repository-for")
   }
 
-  private fun getBeforeFileName() = getTestName(true) + ".md"
+  private fun getBeforeFileName() = getTestName(true) + ".zen"
 
   private fun doTest() {
-    myFixture.testCompletion(getBeforeFileName(), getTestName(true) + "_after.md")
+    myFixture.testCompletion(getBeforeFileName(), getTestName(true) + "_after.zen")
   }
 
   fun testRelativePath() {
-    myFixture.testCompletion("relativePath.md", "relativePath_after.md")
+    myFixture.testCompletion("relativePath.zen", "relativePath_after.zen")
   }
 
   fun testAFileHeaders1() {
-    myFixture.configureByFile("relativePath.md")
-    myFixture.testCompletionVariants(getBeforeFileName(), "aFileHeaders1.md", "relativePath.md")
+    myFixture.configureByFile("relativePath.zen")
+    myFixture.testCompletionVariants(getBeforeFileName(), "aFileHeaders1.zen", "relativePath.zen")
   }
 
   fun testAFileHeaders2() {
-    myFixture.configureByFile("multipleHeaders.md")
+    myFixture.configureByFile("multipleHeaders.zen")
     myFixture.testCompletionVariants(getBeforeFileName(), "environment-variables",
                                      "how-do-i-get-set-up",
                                      "mxbezier3scalar",
