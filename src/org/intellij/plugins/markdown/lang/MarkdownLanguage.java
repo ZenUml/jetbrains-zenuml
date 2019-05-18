@@ -22,6 +22,6 @@ public class MarkdownLanguage extends Language {
   public static final MarkdownLanguage INSTANCE = new MarkdownLanguage();
 
   protected MarkdownLanguage() {
-    super("Markdown", "text/x-zenuml");
+    super("ZenUML", "text/x-zenuml");
   }
 }
