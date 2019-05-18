@@ -34,7 +34,8 @@ public class MarkdownFileType extends LanguageFileType {
   @Override
   public String getName() {
     // TODO: Warning! Changing this name causes 19 failures.
-    return "Markdown";
+    // After changed the following keys in the plugin.xml on 1 fail.
+    return "ZenUML";
   }
 
   @NotNull
