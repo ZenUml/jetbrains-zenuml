@@ -74,11 +74,11 @@ public class MarkdownWrapTest extends LightPlatformCodeInsightFixtureTestCase {
     settings.WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN = true;
     try {
       final String testName = getTestName(true);
-      myFixture.configureByFile(testName + ".md");
+      myFixture.configureByFile(testName + ".zen");
       for (int i = 0; i != 45; ++i) {
         myFixture.type(' ');
       }
-      myFixture.checkResultByFile(testName + ".after.md");
+      myFixture.checkResultByFile(testName + ".after.zen");
     }
     finally {
       commonCodeStyleSettings.RIGHT_MARGIN = oldValue;
@@ -88,8 +88,8 @@ public class MarkdownWrapTest extends LightPlatformCodeInsightFixtureTestCase {
 
   private void doTest(@NotNull String textToType) {
     String testName = getTestName(true);
-    myFixture.configureByFile(testName + ".md");
+    myFixture.configureByFile(testName + ".zen");
     myFixture.type(textToType);
-    myFixture.checkResultByFile(testName + ".after.md");
+    myFixture.checkResultByFile(testName + ".after.zen");
   }
 }

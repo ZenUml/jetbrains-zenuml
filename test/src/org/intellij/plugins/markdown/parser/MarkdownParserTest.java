@@ -28,7 +28,7 @@ import java.io.IOException;
 public class MarkdownParserTest extends ParsingTestCase {
 
   public MarkdownParserTest() {
-    super("parser", "md", true, new MarkdownParserDefinition());
+    super("parser", "zen", true, new MarkdownParserDefinition());
   }
 
   @Override

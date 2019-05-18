@@ -22,6 +22,6 @@ import org.jetbrains.annotations.NotNull;
 public class MarkdownFileTypeFactory extends FileTypeFactory {
   @Override
   public void createFileTypes(@NotNull FileTypeConsumer consumer) {
-    consumer.consume(MarkdownFileType.INSTANCE, "z;zen;zenuml;md");
+    consumer.consume(MarkdownFileType.INSTANCE, "z;zen;zenuml");
   }
 }

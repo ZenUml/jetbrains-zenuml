@@ -14,7 +14,7 @@ public class MarkdownHtmlGenerationTest extends LightPlatformCodeInsightFixtureT
   }
 
   private void doTest(@NotNull String htmlText) {
-    PsiFile mdFile = myFixture.configureByFile(getTestName(true) + ".md");
+    PsiFile mdFile = myFixture.configureByFile(getTestName(true) + ".zen");
 
     assertTrue(MarkdownUtil.INSTANCE.generateMarkdownHtml(mdFile.getVirtualFile(), mdFile.getText(), getProject()).contains(htmlText));
   }

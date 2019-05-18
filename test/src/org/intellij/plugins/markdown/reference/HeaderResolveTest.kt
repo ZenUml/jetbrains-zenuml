@@ -12,7 +12,7 @@ class HeaderResolveTest : ResolveTestCase() {
   override fun getTestDataPath(): String = MarkdownTestingUtil.TEST_DATA_PATH + "/reference/linkDestination/headers/"
 
   private fun doTest() {
-    val fileName = getTestName(true) + ".md"
+    val fileName = getTestName(true) + ".zen"
     val reference = configureByFile(fileName)
     val resolve = reference.resolve()
 
@@ -45,12 +45,12 @@ class HeaderResolveTest : ResolveTestCase() {
   }
 
   fun testAFileHeader1() {
-    configureByFile("header1.md")
+    configureByFile("header1.zen")
     doTest()
   }
 
   fun testAFileHeaderMultipleResolve() {
-    configureByFile("multipleHeaders.md")
+    configureByFile("multipleHeaders.zen")
     checkMultiResolve(2)
   }
 
@@ -59,7 +59,7 @@ class HeaderResolveTest : ResolveTestCase() {
   }
 
   private fun checkMultiResolve(resolveCount: Int) {
-    val fileName = getTestName(true) + ".md"
+    val fileName = getTestName(true) + ".zen"
     val reference = configureByFile(fileName)
     val markdownAnchorReference : MarkdownAnchorReference = ContainerUtil.findInstance((reference as PsiDynaReference<*>).references,
                                                              MarkdownAnchorReference::class.java)
