@@ -59,6 +59,7 @@ intellij {
 }
 
 apply plugin: 'idea'
+
 idea {
   project {
     jdkName = javaVersion
