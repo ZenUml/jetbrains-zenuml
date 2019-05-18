@@ -16,7 +16,6 @@ import javafx.scene.text.FontSmoothingType;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
-import org.intellij.markdown.html.HtmlGenerator;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
@@ -94,17 +93,9 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
 
   @Override
   public void setHtml(@NotNull String html) {
+    html = html.replace("$VUE_SEQUENCE_BUNDLE_JS", PreviewStaticServer.getScriptUrl("vue-sequence-bundle.js"));
     myLastRawHtml = html;
     super.setHtml(html);
-  }
-
-  @NotNull
-  @Override
-  protected String prepareHtml(@NotNull String html) {
-    return ImageRefreshFix.setStamps(html
-                                       .replace("<head>", "<head>"
-                                                          + "<meta http-equiv=\"Content-Security-Policy\" content=\"" + myCSP + "\"/>"
-                                                          + MarkdownHtmlPanel.getCssLines(null, myCssUris) + "\n" + getScriptingLines()));
   }
 
   @Override
@@ -124,10 +115,6 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
   @Override
   public void scrollToMarkdownSrcOffset(final int offset) {
     runInPlatformWhenAvailable(() -> {
-      getWebViewGuaranteed().getEngine().executeScript(
-        "if ('__IntelliJTools' in window) " +
-        "__IntelliJTools.scrollToOffset(" + offset + ", '" + HtmlGenerator.Companion.getSRC_ATTRIBUTE_NAME() + "');"
-      );
       final Object result = getWebViewGuaranteed().getEngine().executeScript(
         "document.documentElement.scrollTop || (document.body && document.body.scrollTop)");
       if (result instanceof Number) {

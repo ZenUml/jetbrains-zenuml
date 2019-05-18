@@ -27,7 +27,7 @@ public class MarkdownSettingsConfigurable implements SearchableConfigurable {
   static final String PLANTUML_JAR = "plantuml.jar";
 
   private static final String DOWNLOAD_CACHE_DIRECTORY = "download-cache";
-  @TestOnly
+//  @TestOnly
   public static final Ref<VirtualFile> PLANTUML_JAR_TEST = Ref.create();
   @Nullable
   private MarkdownSettingsForm myForm = null;
