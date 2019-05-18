@@ -11,8 +11,14 @@ import java.io.File;
 import java.io.IOException;
 
 public class MarkdownFileTypeTest extends PlatformTestCase {
-  public void testMarkdownExtension() throws IOException {
-    doTest(".markdown");
+  public void testZExtension() throws IOException {
+    doTest(".z");
+  }
+  public void testZenExtension() throws IOException {
+    doTest(".zen");
+  }
+  public void testZenUmlExtension() throws IOException {
+    doTest(".zenuml");
   }
 
   public void testMdExtension() throws IOException {
