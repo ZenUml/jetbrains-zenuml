@@ -16,7 +16,7 @@ class MarkdownLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvi
   override fun createConfigurable(baseSettings: CodeStyleSettings, modelSettings: CodeStyleSettings):
     CodeStyleConfigurable = MarkdownCodeStyleConfigurable(baseSettings, modelSettings)
 
-  override fun getConfigurableDisplayName() = "Markdown"
+  override fun getConfigurableDisplayName() = "ZenUML"
 
   override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType)  {
     if (settingsType == LanguageCodeStyleSettingsProvider.SettingsType.WRAPPING_AND_BRACES_SETTINGS) {
