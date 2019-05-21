@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public interface CodeFenceLanguageProvider {
-  ExtensionPointName<CodeFenceLanguageProvider> EP_NAME = ExtensionPointName.create("org.intellij.markdown.fenceLanguageProvider");
+  ExtensionPointName<CodeFenceLanguageProvider> EP_NAME = ExtensionPointName.create("org.intellij.zenuml.fenceLanguageProvider");
 
   /**
    * Implement this method to provide custom rule for selecting {@link Language} to inject into the code fences
