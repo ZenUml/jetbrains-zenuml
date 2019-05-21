@@ -26,7 +26,7 @@ import java.util.Arrays;
 public abstract class MarkdownHtmlPanelProvider {
 
   public static final ExtensionPointName<MarkdownHtmlPanelProvider> EP_NAME =
-    ExtensionPointName.create("org.intellij.markdown.html.panel.provider");
+    ExtensionPointName.create("org.intellij.zenuml.html.panel.provider");
 
   private static MarkdownHtmlPanelProvider[] ourProviders = null;
 
