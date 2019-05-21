@@ -62,8 +62,6 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
   private JPanel myPreviewTitledSeparator;
   private JBCheckBox myAutoScrollCheckBox;
   private JPanel myMultipleProvidersPreviewPanel;
-//  private LinkLabel myPlantUMLDownload;
-//  private JBLabel myPlantUMLStatusLabel;
   private JBRadioButton myVerticalLayout;
   private JBRadioButton myHorizontalLayout;
   private JBLabel myVerticalSplitLabel;
@@ -121,20 +119,6 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     });
 
     adjustAutoScroll();
-
-    updatePlantUMLLabel(false);
-//    myPlantUMLStatusLabel.setFontColor(UIUtil.FontColor.BRIGHTER);
-
-//    myPlantUMLDownload.setListener((source, data) -> {
-//      DownloadableFileService downloader = DownloadableFileService.getInstance();
-//      DownloadableFileDescription description =
-//        downloader.createFileDescription(MarkdownSettingsConfigurable.PLANTUML_JAR_URL, MarkdownSettingsConfigurable.PLANTUML_JAR);
-//
-//      downloader.createDownloader(Collections.singletonList(description), MarkdownSettingsConfigurable.PLANT_UML_DIRECTORY + ".jar")
-//        .downloadFilesWithProgress(MarkdownSettingsConfigurable.getDirectoryToDownload().getAbsolutePath(), null, myMainPanel);
-//
-//      updatePlantUMLLabel(true);
-//    }, null);
   }
 
   private void adjustSplitOption() {
@@ -142,35 +126,6 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     myVerticalLayout.setEnabled(isSplitted);
     myHorizontalLayout.setEnabled(isSplitted);
     myVerticalSplitLabel.setEnabled(isSplitted);
-  }
-
-  public void updatePlantUMLLabel(boolean isJustInstalled) {
-//    myPlantUMLStatusLabel.setForeground(JBColor.foreground());
-//    myPlantUMLStatusLabel.setIcon(null);
-//
-//    if (MarkdownSettingsConfigurable.isPlantUMLAvailable()) {
-//      if (isJustInstalled) {
-//        myPlantUMLStatusLabel.setForeground(SUCCESS_COLOR);
-//        myPlantUMLStatusLabel.setText(MarkdownBundle.message("markdown.settings.preview.plantUML.download.success"));
-//      }
-//      else {
-//        myPlantUMLStatusLabel.setText(MarkdownBundle.message("markdown.settings.preview.plantUML.installed"));
-//      }
-//      myPlantUMLDownload.setVisible(false);
-//    }
-//    else {
-//      if (isJustInstalled) {
-//        myPlantUMLStatusLabel.setForeground(JBColor.RED);
-//        myPlantUMLStatusLabel.setIcon(AllIcons.General.Warning);
-//        myPlantUMLStatusLabel.setText(MarkdownBundle.message("markdown.settings.preview.plantUML.download.failed"));
-//        myPlantUMLDownload.setText(MarkdownBundle.message("markdown.settings.preview.plantUML.download.retry"));
-//      }
-//      else {
-//        myPlantUMLStatusLabel.setText(MarkdownBundle.message("markdown.settings.preview.plantUML.download.isnt.installed"));
-//        myPlantUMLDownload.setText(MarkdownBundle.message("markdown.settings.preview.plantUML.download"));
-//      }
-//      myPlantUMLDownload.setVisible(true);
-//    }
   }
 
   private void adjustAutoScroll() {
