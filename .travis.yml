@@ -1,6 +1,9 @@
 #Document of Using Gradle in TravisCI:
 #https://docs.travis-ci.com/user/languages/java/#Projects-Using-Gradle
 language: java
+install: ./gradlew assemble
+script: ./gradlew check
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
