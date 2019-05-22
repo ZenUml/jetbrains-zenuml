@@ -54,7 +54,7 @@ sourceSets {
 
 intellij {
   version 'IC-2019.1.2'
-  pluginName 'markdown'
+  pluginName 'zenuml'
   downloadSources false
   updateSinceUntilBuild false
   plugins = ['IntelliLang']
