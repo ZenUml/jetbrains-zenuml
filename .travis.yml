@@ -1,7 +1,22 @@
+#Document of Using Gradle in TravisCI:
+#https://docs.travis-ci.com/user/languages/java/#Projects-Using-Gradle
 language: java
 jdk:
   - oraclejdk8
   - oraclejdk9
   - openjdk8
-install: echo install
-script: echo script
+install: ./gradlew assemble
+script: ./gradlew check
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+  - rm -fr $HOME/.gradle/caches/journal-1
+  - rm -fr $HOME/.gradle/caches/*/fileContent/fileContent.lock
+  - rm -fr $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+  - rm -fr $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
+  - rm -fr $HOME/.gradle/caches/*/javaCompile/javaCompile.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
