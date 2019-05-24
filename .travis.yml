@@ -3,8 +3,8 @@ jobs:
   include:
     - if: type = pull_request
       jdk: oraclejdk8
-    - if: type = pull_request
-      jdk: oraclejdk11
+#    - if: type = pull_request
+#      jdk: oraclejdk9
 #        - oraclejdk8
 #        - oraclejdk9
 #        - oraclejdk11
