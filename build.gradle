@@ -11,9 +11,6 @@ repositories {
   flatDir { dirs 'lib' }
 }
 
-//apply plugin: 'java'
-//apply plugin: 'org.jetbrains.intellij'
-
 dependencies {
   // https://mvnrepository.com/artifact/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer
   compile group: 'com.googlecode.owasp-java-html-sanitizer', name: 'owasp-java-html-sanitizer'
