@@ -8,7 +8,7 @@ import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCa
 import com.intellij.testFramework.fixtures.TempDirTestFixture;
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
 import org.intellij.plugins.markdown.settings.MarkdownSettingsConfigurable;
-import org.intellij.plugins.markdown.ui.preview.MarkdownCodeFencePluginCache;
+import org.intellij.plugins.markdown.ui.preview.ZenUmlCodeFencePluginCache;
 import org.intellij.plugins.markdown.ui.preview.MarkdownUtil;
 
 import java.io.IOException;
@@ -63,7 +63,7 @@ public class MarkdownPlantUMLTest extends LightPlatformCodeInsightFixtureTestCas
     VirtualFile mdVFile = myFixture.getFile(PLANTUML_TARGET_DIR + "/" + getTestName(true) + ".md");
     try {
       assertTrue(MarkdownUtil.INSTANCE.generateMarkdownHtml(mdVFile, VfsUtilCore.loadText(mdVFile), getProject()).contains(
-        MarkdownUtil.INSTANCE.md5(mdVFile.getPath(), MarkdownCodeFencePluginCache.MARKDOWN_FILE_PATH_KEY)));
+        MarkdownUtil.INSTANCE.md5(mdVFile.getPath(), ZenUmlCodeFencePluginCache.MARKDOWN_FILE_PATH_KEY)));
     }
     catch (IOException e) {
       e.printStackTrace();

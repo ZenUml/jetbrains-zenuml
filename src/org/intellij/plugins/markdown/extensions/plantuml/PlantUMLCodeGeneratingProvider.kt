@@ -4,7 +4,7 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.util.io.FileUtil
 import org.intellij.plugins.markdown.extensions.MarkdownCodeFenceCacheableProvider
 import org.intellij.plugins.markdown.settings.MarkdownSettingsConfigurable
-import org.intellij.plugins.markdown.ui.preview.MarkdownCodeFencePluginCache.MARKDOWN_FILE_PATH_KEY
+import org.intellij.plugins.markdown.ui.preview.ZenUmlCodeFencePluginCache.MARKDOWN_FILE_PATH_KEY
 import org.intellij.plugins.markdown.ui.preview.MarkdownCodeFencePluginCacheCollector
 import org.intellij.plugins.markdown.ui.preview.MarkdownUtil
 import java.io.File

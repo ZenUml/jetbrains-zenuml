@@ -26,18 +26,18 @@ import java.util.stream.Collectors;
 
 import static com.intellij.util.ArrayUtilRt.EMPTY_FILE_ARRAY;
 
-public class MarkdownCodeFencePluginCache implements Disposable {
+public class ZenUmlCodeFencePluginCache implements Disposable {
   @NotNull public static final String MARKDOWN_FILE_PATH_KEY = "markdown-md5-file-path";
 
   @NotNull private final Alarm myAlarm = new Alarm(this);
   @NotNull private final Collection<MarkdownCodeFencePluginCacheCollector> myCodeFencePluginCaches = ContainerUtil.newConcurrentSet();
   @NotNull private final Collection<File> myAdditionalCacheToDelete = ContainerUtil.newConcurrentSet();
 
-  public static MarkdownCodeFencePluginCache getInstance() {
-    return ServiceManager.getService(MarkdownCodeFencePluginCache.class);
+  public static ZenUmlCodeFencePluginCache getInstance() {
+    return ServiceManager.getService(ZenUmlCodeFencePluginCache.class);
   }
 
-  public MarkdownCodeFencePluginCache() {
+  public ZenUmlCodeFencePluginCache() {
     scheduleClearCache();
 
     VirtualFileManager.getInstance().addVirtualFileListener(new VirtualFileListener() {
