@@ -28,11 +28,11 @@ sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
 
 compileKotlin {
-  kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.jvmTarget = javaVersion
   kotlinOptions.apiVersion = "1.3"
 }
 compileTestKotlin {
-  kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.jvmTarget = javaVersion
 }
 
 sourceSets {
