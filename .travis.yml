@@ -4,7 +4,7 @@ jobs:
     - if: type = pull_request
       jdk: oraclejdk8
     - if: type = pull_request
-      jdk: oraclejdk9
+      jdk: oraclejdk11
 #        - oraclejdk8
 #        - oraclejdk9
 #        - oraclejdk11
