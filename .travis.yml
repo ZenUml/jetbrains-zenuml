@@ -2,9 +2,9 @@ language: java
 jobs:
   include:
     - if: type = pull_request
-      jdk:
-        - oraclejdk8
-        - oraclejdk9
+      jdk: oraclejdk9
+#        - oraclejdk8
+#        - oraclejdk9
 #        - oraclejdk11
 #        - openjdk7
 #        - openjdk8
