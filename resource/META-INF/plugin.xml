@@ -72,7 +72,7 @@ Includes the following features:</p>
                              key="markdown.settings.name"
                              instance="org.intellij.plugins.markdown.settings.MarkdownSettingsConfigurable">
     </applicationConfigurable>
-    <applicationService serviceImplementation="org.intellij.plugins.markdown.settings.MarkdownApplicationSettings"/>
+    <applicationService serviceImplementation="org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings"/>
     <applicationService serviceImplementation="org.intellij.plugins.markdown.ui.preview.MarkdownCodeFencePluginCache"/>
     <lang.psiStructureViewFactory language="ZenUML"
                                   implementationClass="org.intellij.plugins.markdown.structureView.MarkdownStructureViewFactory"/>

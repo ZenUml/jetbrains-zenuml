@@ -7,23 +7,23 @@ import com.intellij.openapi.editor.event.CaretEvent;
 import com.intellij.openapi.editor.event.CaretListener;
 import com.intellij.openapi.fileEditor.TextEditor;
 import com.intellij.pom.Navigatable;
-import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
+import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 import org.intellij.plugins.markdown.ui.split.SplitFileEditor;
 import org.jetbrains.annotations.NotNull;
 
 public class MarkdownSplitEditor extends SplitFileEditor<TextEditor, MarkdownPreviewFileEditor> implements TextEditor {
-  private boolean myAutoScrollPreview = MarkdownApplicationSettings.getInstance().getMarkdownPreviewSettings().isAutoScrollPreview();
-  private boolean myVerticalSplit = MarkdownApplicationSettings.getInstance().getMarkdownPreviewSettings().isVerticalSplit();
+  private boolean myAutoScrollPreview = ZenUmlApplicationSettings.getInstance().getMarkdownPreviewSettings().isAutoScrollPreview();
+  private boolean myVerticalSplit = ZenUmlApplicationSettings.getInstance().getMarkdownPreviewSettings().isVerticalSplit();
 
   public MarkdownSplitEditor(@NotNull TextEditor mainEditor, @NotNull MarkdownPreviewFileEditor secondEditor) {
     super(mainEditor, secondEditor);
 
-    MarkdownApplicationSettings.SettingsChangedListener settingsChangedListener =
-      new MarkdownApplicationSettings.SettingsChangedListener() {
+    ZenUmlApplicationSettings.SettingsChangedListener settingsChangedListener =
+      new ZenUmlApplicationSettings.SettingsChangedListener() {
         @Override
-        public void beforeSettingsChanged(@NotNull MarkdownApplicationSettings newSettings) {
-          boolean oldAutoScrollPreview = MarkdownApplicationSettings.getInstance().getMarkdownPreviewSettings().isAutoScrollPreview();
-          boolean oldVerticalSplit = MarkdownApplicationSettings.getInstance().getMarkdownPreviewSettings().isVerticalSplit();
+        public void beforeSettingsChanged(@NotNull ZenUmlApplicationSettings newSettings) {
+          boolean oldAutoScrollPreview = ZenUmlApplicationSettings.getInstance().getMarkdownPreviewSettings().isAutoScrollPreview();
+          boolean oldVerticalSplit = ZenUmlApplicationSettings.getInstance().getMarkdownPreviewSettings().isVerticalSplit();
 
           ApplicationManager.getApplication().invokeLater(() -> {
             if (oldAutoScrollPreview == myAutoScrollPreview) {
@@ -38,7 +38,7 @@ public class MarkdownSplitEditor extends SplitFileEditor<TextEditor, MarkdownPre
       };
 
     ApplicationManager.getApplication().getMessageBus().connect(this)
-      .subscribe(MarkdownApplicationSettings.SettingsChangedListener.TOPIC, settingsChangedListener);
+      .subscribe(ZenUmlApplicationSettings.SettingsChangedListener.TOPIC, settingsChangedListener);
 
     mainEditor.getEditor().getCaretModel().addCaretListener(new MyCaretListener());
   }

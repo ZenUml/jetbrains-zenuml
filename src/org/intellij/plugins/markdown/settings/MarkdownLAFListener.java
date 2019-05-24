@@ -25,12 +25,12 @@ class MarkdownLAFListener implements LafManagerListener {
   }
 
   public void updateCssSettingsForced(boolean isDarcula) {
-    final MarkdownCssSettings currentCssSettings = MarkdownApplicationSettings.getInstance().getMarkdownCssSettings();
+    final MarkdownCssSettings currentCssSettings = ZenUmlApplicationSettings.getInstance().getMarkdownCssSettings();
     final String stylesheetUri = StringUtil.isEmpty(currentCssSettings.getStylesheetUri())
                        ? MarkdownCssSettings.getDefaultCssSettings(isDarcula).getStylesheetUri()
                        : currentCssSettings.getStylesheetUri();
 
-    MarkdownApplicationSettings.getInstance().setMarkdownCssSettings(new MarkdownCssSettings(
+    ZenUmlApplicationSettings.getInstance().setMarkdownCssSettings(new MarkdownCssSettings(
       currentCssSettings.isUriEnabled(),
       stylesheetUri,
       currentCssSettings.isTextEnabled(),

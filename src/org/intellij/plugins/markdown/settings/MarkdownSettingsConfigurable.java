@@ -14,7 +14,6 @@ import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanelProvider;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.TestOnly;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,10 +31,10 @@ public class MarkdownSettingsConfigurable implements SearchableConfigurable {
   @Nullable
   private MarkdownSettingsForm myForm = null;
   @NotNull
-  private final MarkdownApplicationSettings myMarkdownApplicationSettings;
+  private final ZenUmlApplicationSettings myZenUmlApplicationSettings;
 
-  public MarkdownSettingsConfigurable(@NotNull MarkdownApplicationSettings markdownApplicationSettings) {
-    myMarkdownApplicationSettings = markdownApplicationSettings;
+  public MarkdownSettingsConfigurable(@NotNull ZenUmlApplicationSettings zenUmlApplicationSettings) {
+    myZenUmlApplicationSettings = zenUmlApplicationSettings;
   }
 
   @NotNull
@@ -80,9 +79,9 @@ public class MarkdownSettingsConfigurable implements SearchableConfigurable {
     if (form == null) {
       return false;
     }
-    return !form.getMarkdownCssSettings().equals(myMarkdownApplicationSettings.getMarkdownCssSettings()) ||
-           !form.getMarkdownPreviewSettings().equals(myMarkdownApplicationSettings.getMarkdownPreviewSettings()) ||
-           form.isDisableInjections() != myMarkdownApplicationSettings.isDisableInjections();
+    return !form.getMarkdownCssSettings().equals(myZenUmlApplicationSettings.getMarkdownCssSettings()) ||
+           !form.getMarkdownPreviewSettings().equals(myZenUmlApplicationSettings.getMarkdownPreviewSettings()) ||
+           form.isDisableInjections() != myZenUmlApplicationSettings.isDisableInjections();
   }
 
   @Override
@@ -94,12 +93,12 @@ public class MarkdownSettingsConfigurable implements SearchableConfigurable {
 
     form.validate();
 
-    myMarkdownApplicationSettings.setMarkdownCssSettings(form.getMarkdownCssSettings());
-    myMarkdownApplicationSettings.setMarkdownPreviewSettings(form.getMarkdownPreviewSettings());
-    myMarkdownApplicationSettings.setDisableInjections(form.isDisableInjections());
+    myZenUmlApplicationSettings.setMarkdownCssSettings(form.getMarkdownCssSettings());
+    myZenUmlApplicationSettings.setMarkdownPreviewSettings(form.getMarkdownPreviewSettings());
+    myZenUmlApplicationSettings.setDisableInjections(form.isDisableInjections());
 
-    ApplicationManager.getApplication().getMessageBus().syncPublisher(MarkdownApplicationSettings.SettingsChangedListener.TOPIC)
-      .settingsChanged(myMarkdownApplicationSettings);
+    ApplicationManager.getApplication().getMessageBus().syncPublisher(ZenUmlApplicationSettings.SettingsChangedListener.TOPIC)
+      .settingsChanged(myZenUmlApplicationSettings);
   }
 
   @Override
@@ -108,9 +107,9 @@ public class MarkdownSettingsConfigurable implements SearchableConfigurable {
     if (form == null) {
       return;
     }
-    form.setMarkdownCssSettings(myMarkdownApplicationSettings.getMarkdownCssSettings());
-    form.setMarkdownPreviewSettings(myMarkdownApplicationSettings.getMarkdownPreviewSettings());
-    form.setDisableInjections(myMarkdownApplicationSettings.isDisableInjections());
+    form.setMarkdownCssSettings(myZenUmlApplicationSettings.getMarkdownCssSettings());
+    form.setMarkdownPreviewSettings(myZenUmlApplicationSettings.getMarkdownPreviewSettings());
+    form.setDisableInjections(myZenUmlApplicationSettings.isDisableInjections());
   }
 
   @Override

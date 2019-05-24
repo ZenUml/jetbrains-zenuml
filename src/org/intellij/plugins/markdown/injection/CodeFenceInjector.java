@@ -10,7 +10,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceContentImpl;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl;
-import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
+import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,7 +61,7 @@ public class CodeFenceInjector implements MultiHostInjector {
 
   @Nullable
   private static Language guessLanguageByFenceLang(@NotNull String langName) {
-    if (MarkdownApplicationSettings.getInstance().isDisableInjections()) {
+    if (ZenUmlApplicationSettings.getInstance().isDisableInjections()) {
       return null;
     }
     else {

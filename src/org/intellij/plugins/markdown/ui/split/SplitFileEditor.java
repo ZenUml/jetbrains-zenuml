@@ -13,7 +13,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.wm.IdeFocusManager;
 import com.intellij.ui.JBSplitter;
 import org.intellij.plugins.markdown.MarkdownBundle;
-import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
+import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,9 +37,9 @@ public abstract class SplitFileEditor<E1 extends FileEditor, E2 extends FileEdit
   private final JComponent myComponent;
   @NotNull
   private SplitEditorLayout mySplitEditorLayout =
-    MarkdownApplicationSettings.getInstance().getMarkdownPreviewSettings().getSplitEditorLayout();
+    ZenUmlApplicationSettings.getInstance().getMarkdownPreviewSettings().getSplitEditorLayout();
 
-  private boolean myVerticalSplitOption = MarkdownApplicationSettings.getInstance().getMarkdownPreviewSettings().isVerticalSplit();
+  private boolean myVerticalSplitOption = ZenUmlApplicationSettings.getInstance().getMarkdownPreviewSettings().isVerticalSplit();
   @NotNull
   private final MyListenersMultimap myListenersGenerator = new MyListenersMultimap();
 
@@ -59,15 +59,15 @@ public abstract class SplitFileEditor<E1 extends FileEditor, E2 extends FileEdit
       mySecondEditor.putUserData(PARENT_SPLIT_KEY, this);
     }
 
-    MarkdownApplicationSettings.SettingsChangedListener settingsChangedListener =
-      new MarkdownApplicationSettings.SettingsChangedListener() {
+    ZenUmlApplicationSettings.SettingsChangedListener settingsChangedListener =
+      new ZenUmlApplicationSettings.SettingsChangedListener() {
         @Override
-        public void beforeSettingsChanged(@NotNull MarkdownApplicationSettings newSettings) {
+        public void beforeSettingsChanged(@NotNull ZenUmlApplicationSettings newSettings) {
           SplitEditorLayout oldSplitEditorLayout =
-            MarkdownApplicationSettings.getInstance().getMarkdownPreviewSettings().getSplitEditorLayout();
+            ZenUmlApplicationSettings.getInstance().getMarkdownPreviewSettings().getSplitEditorLayout();
 
           boolean oldVerticalSplitOption =
-            MarkdownApplicationSettings.getInstance().getMarkdownPreviewSettings().isVerticalSplit();
+            ZenUmlApplicationSettings.getInstance().getMarkdownPreviewSettings().isVerticalSplit();
 
           ApplicationManager.getApplication().invokeLater(() -> {
             if (oldSplitEditorLayout == mySplitEditorLayout) {
@@ -82,7 +82,7 @@ public abstract class SplitFileEditor<E1 extends FileEditor, E2 extends FileEdit
       };
 
     ApplicationManager.getApplication().getMessageBus().connect(this)
-      .subscribe(MarkdownApplicationSettings.SettingsChangedListener.TOPIC, settingsChangedListener);
+      .subscribe(ZenUmlApplicationSettings.SettingsChangedListener.TOPIC, settingsChangedListener);
   }
 
   private void triggerSplitOrientationChange(boolean isVerticalSplit) {
@@ -100,7 +100,7 @@ public abstract class SplitFileEditor<E1 extends FileEditor, E2 extends FileEdit
   @NotNull
   private JComponent createComponent() {
     mySplitter =
-      new JBSplitter(!MarkdownApplicationSettings.getInstance().getMarkdownPreviewSettings().isVerticalSplit(), 0.5f, 0.15f, 0.85f);
+      new JBSplitter(!ZenUmlApplicationSettings.getInstance().getMarkdownPreviewSettings().isVerticalSplit(), 0.5f, 0.15f, 0.85f);
     mySplitter.setSplitterProportionKey(MY_PROPORTION_KEY);
     mySplitter.setFirstComponent(myMainEditor.getComponent());
     mySplitter.setSecondComponent(mySecondEditor.getComponent());
