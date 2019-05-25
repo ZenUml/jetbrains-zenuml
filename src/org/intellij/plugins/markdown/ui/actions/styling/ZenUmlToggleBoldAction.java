@@ -5,7 +5,7 @@ import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ToggleBoldAction extends BaseToggleStateAction {
+public class ZenUmlToggleBoldAction extends BaseToggleStateAction {
   @NotNull
   @Override
   protected String getBoundString(@NotNull CharSequence text, int selectionStart, int selectionEnd) {

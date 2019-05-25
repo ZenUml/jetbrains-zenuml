@@ -44,7 +44,7 @@ import java.util.*;
 
 import static org.intellij.plugins.markdown.lang.MarkdownElementTypes.*;
 
-public class MarkdownIntroduceLinkReferenceAction extends AnAction implements DumbAware {
+public class ZenUmlIntroduceLinkReferenceAction extends AnAction implements DumbAware {
   private static final String VAR_NAME = "reference";
 
   @Override
