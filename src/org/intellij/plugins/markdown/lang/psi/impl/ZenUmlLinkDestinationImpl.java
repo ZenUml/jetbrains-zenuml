@@ -14,8 +14,8 @@ import org.intellij.plugins.markdown.lang.psi.MarkdownElementVisitor;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
 import org.jetbrains.annotations.NotNull;
 
-public class MarkdownLinkDestinationImpl extends ASTWrapperPsiElement implements MarkdownPsiElement {
-  public MarkdownLinkDestinationImpl(@NotNull ASTNode node) {
+public class ZenUmlLinkDestinationImpl extends ASTWrapperPsiElement implements MarkdownPsiElement {
+  public ZenUmlLinkDestinationImpl(@NotNull ASTNode node) {
     super(node);
   }
 
@@ -35,12 +35,12 @@ public class MarkdownLinkDestinationImpl extends ASTWrapperPsiElement implements
     return ReferenceProvidersRegistry.getReferencesFromProviders(this);
   }
 
-  public static class Manipulator extends AbstractElementManipulator<MarkdownLinkDestinationImpl> {
+  public static class Manipulator extends AbstractElementManipulator<ZenUmlLinkDestinationImpl> {
 
     @Override
-    public MarkdownLinkDestinationImpl handleContentChange(@NotNull MarkdownLinkDestinationImpl element,
-                                                           @NotNull TextRange range,
-                                                           String newContent) throws IncorrectOperationException {
+    public ZenUmlLinkDestinationImpl handleContentChange(@NotNull ZenUmlLinkDestinationImpl element,
+                                                         @NotNull TextRange range,
+                                                         String newContent) throws IncorrectOperationException {
       final PsiElement child = element.getFirstChild();
       if (child instanceof LeafPsiElement) {
         ((LeafPsiElement)child).replaceWithText(range.replace(child.getText(), newContent));
@@ -54,7 +54,7 @@ public class MarkdownLinkDestinationImpl extends ASTWrapperPsiElement implements
 
     @NotNull
     @Override
-    public TextRange getRangeInElement(@NotNull MarkdownLinkDestinationImpl element) {
+    public TextRange getRangeInElement(@NotNull ZenUmlLinkDestinationImpl element) {
       final String text = element.getText();
       if (text.startsWith("<") && text.endsWith(">")) {
         return TextRange.create(1, text.length() - 1);

@@ -21,7 +21,7 @@ import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.ui.UIUtil;
 import com.zenuml.sequence.html.ZenUmlHtmlGenerator;
 import org.intellij.markdown.html.HtmlGenerator;
-import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
+import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 import org.intellij.plugins.markdown.settings.MarkdownCssSettings;
 import org.intellij.plugins.markdown.settings.MarkdownPreviewSettings;
 import org.intellij.plugins.markdown.ui.split.SplitFileEditor;
@@ -154,8 +154,8 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
     }
 
     MessageBusConnection settingsConnection = ApplicationManager.getApplication().getMessageBus().connect(this);
-    MarkdownApplicationSettings.SettingsChangedListener settingsChangedListener = new MyUpdatePanelOnSettingsChangedListener();
-    settingsConnection.subscribe(MarkdownApplicationSettings.SettingsChangedListener.TOPIC, settingsChangedListener);
+    ZenUmlApplicationSettings.SettingsChangedListener settingsChangedListener = new MyUpdatePanelOnSettingsChangedListener();
+    settingsConnection.subscribe(ZenUmlApplicationSettings.SettingsChangedListener.TOPIC, settingsChangedListener);
   }
 
   public void scrollToSrcOffset(final int offset) {
@@ -266,7 +266,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
   }
 
   @NotNull
-  private MarkdownHtmlPanelProvider retrievePanelProvider(@NotNull MarkdownApplicationSettings settings) {
+  private MarkdownHtmlPanelProvider retrievePanelProvider(@NotNull ZenUmlApplicationSettings settings) {
     final MarkdownHtmlPanelProvider.ProviderInfo providerInfo = settings.getMarkdownPreviewSettings().getHtmlPanelProviderInfo();
 
     MarkdownHtmlPanelProvider provider = MarkdownHtmlPanelProvider.createFromInfo(providerInfo);
@@ -348,7 +348,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
   }
 
   private void attachHtmlPanel() {
-    MarkdownApplicationSettings settings = MarkdownApplicationSettings.getInstance();
+    ZenUmlApplicationSettings settings = ZenUmlApplicationSettings.getInstance();
     myPanel = retrievePanelProvider(settings).createHtmlPanel();
     myHtmlPanelWrapper.add(myPanel.getComponent(), BorderLayout.CENTER);
     myHtmlPanelWrapper.repaint();
@@ -390,9 +390,9 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
            SplitFileEditor.SplitEditorLayout.FIRST;
   }
 
-  private class MyUpdatePanelOnSettingsChangedListener implements MarkdownApplicationSettings.SettingsChangedListener {
+  private class MyUpdatePanelOnSettingsChangedListener implements ZenUmlApplicationSettings.SettingsChangedListener {
     @Override
-    public void settingsChanged(@NotNull MarkdownApplicationSettings settings) {
+    public void settingsChanged(@NotNull ZenUmlApplicationSettings settings) {
       mySwingAlarm.addRequest(() -> {
         if (settings.getMarkdownPreviewSettings().getSplitEditorLayout() != SplitFileEditor.SplitEditorLayout.FIRST) {
           if (myPanel == null) {

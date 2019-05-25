@@ -17,7 +17,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
 import org.intellij.plugins.markdown.MarkdownBundle;
-import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
+import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
 import org.intellij.plugins.markdown.ui.preview.PreviewStaticServer;
 import org.jetbrains.annotations.NotNull;
@@ -51,7 +51,7 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
     super();
     runInPlatformWhenAvailable(() -> {
       if (myWebView != null) {
-        updateFontSmoothingType(myWebView, MarkdownApplicationSettings.getInstance().getMarkdownPreviewSettings().isUseGrayscaleRendering());
+        updateFontSmoothingType(myWebView, ZenUmlApplicationSettings.getInstance().getMarkdownPreviewSettings().isUseGrayscaleRendering());
       }
     });
 
@@ -66,10 +66,10 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
 
   private void subscribeForGrayscaleSetting() {
     MessageBusConnection settingsConnection = ApplicationManager.getApplication().getMessageBus().connect(this);
-    MarkdownApplicationSettings.SettingsChangedListener settingsChangedListener =
-      new MarkdownApplicationSettings.SettingsChangedListener() {
+    ZenUmlApplicationSettings.SettingsChangedListener settingsChangedListener =
+      new ZenUmlApplicationSettings.SettingsChangedListener() {
         @Override
-        public void beforeSettingsChanged(@NotNull final MarkdownApplicationSettings settings) {
+        public void beforeSettingsChanged(@NotNull final ZenUmlApplicationSettings settings) {
           runInPlatformWhenAvailable(() -> {
             if (myWebView != null) {
               updateFontSmoothingType(myWebView, settings.getMarkdownPreviewSettings().isUseGrayscaleRendering());
@@ -77,7 +77,7 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
           });
         }
       };
-    settingsConnection.subscribe(MarkdownApplicationSettings.SettingsChangedListener.TOPIC, settingsChangedListener);
+    settingsConnection.subscribe(ZenUmlApplicationSettings.SettingsChangedListener.TOPIC, settingsChangedListener);
   }
 
   private static void updateFontSmoothingType(@NotNull WebView view, boolean isGrayscale) {

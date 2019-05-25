@@ -7,7 +7,7 @@ import com.intellij.psi.tree.IElementType;
 import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceContentImpl;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl;
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlCodeFenceImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,7 +16,7 @@ public class MarkdownASTFactory extends ASTFactory {
   @Override
   public CompositeElement createComposite(@NotNull IElementType type) {
     if (type == MarkdownElementTypes.CODE_FENCE) {
-      return new MarkdownCodeFenceImpl(type);
+      return new ZenUmlCodeFenceImpl(type);
     }
 
     return super.createComposite(type);

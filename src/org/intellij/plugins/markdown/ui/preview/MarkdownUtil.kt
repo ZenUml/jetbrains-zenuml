@@ -51,7 +51,7 @@ object MarkdownUtil {
 
     val html = HtmlGenerator(text, parsedTree, map, true).generateHtml()
 
-    MarkdownCodeFencePluginCache.getInstance().registerCacheProvider(cacheCollector)
+    ZenUmlCodeFencePluginCache.getInstance().registerCacheProvider(cacheCollector)
 
     return html
   }

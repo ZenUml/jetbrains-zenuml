@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SplitEditorToolbar extends JPanel implements Disposable {
-  private static final String LEFT_TOOLBAR_GROUP_ID = "Markdown.Toolbar.Left";
-  private static final String RIGHT_TOOLBAR_GROUP_ID = "Markdown.Toolbar.Right";
+  private static final String LEFT_TOOLBAR_GROUP_ID = "ZenUml.Toolbar.Left";
+  private static final String RIGHT_TOOLBAR_GROUP_ID = "ZenUml.Toolbar.Right";
 
   private final MySpacingPanel mySpacingPanel;
 

@@ -86,7 +86,7 @@ public class MarkdownFoldingBuilder extends CustomFoldingBuilder implements Dumb
       }
 
       @Override
-      public void visitCodeFence(@NotNull MarkdownCodeFenceImpl codeFence) {
+      public void visitCodeFence(@NotNull ZenUmlCodeFenceImpl codeFence) {
         addDescriptors(codeFence);
         super.visitCodeFence(codeFence);
       }

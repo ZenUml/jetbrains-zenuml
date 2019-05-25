@@ -7,7 +7,7 @@ import org.intellij.plugins.markdown.ui.actions.MarkdownActionUtil
 import org.intellij.plugins.markdown.ui.preview.MarkdownSplitEditor
 import org.intellij.plugins.markdown.ui.split.SplitFileEditor
 
-class AutoScrollAction : ToggleAction(), DumbAware {
+class ZenUmlAutoScrollAction : ToggleAction(), DumbAware {
   override fun isSelected(e: AnActionEvent): Boolean {
     val splitFileEditor = MarkdownActionUtil.findSplitEditor(e)
     if (splitFileEditor !is MarkdownSplitEditor) return false
