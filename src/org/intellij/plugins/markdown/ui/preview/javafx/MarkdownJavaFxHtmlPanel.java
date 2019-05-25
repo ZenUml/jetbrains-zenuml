@@ -98,6 +98,15 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
     super.setHtml(html);
   }
 
+  @NotNull
+  @Override
+  protected String prepareHtml(@NotNull String html) {
+    String htmlWithCss = html
+            .replace("<head>", "<head>"
+                    + MarkdownHtmlPanel.getCssLines(null, myCssUris) + "\n" + getScriptingLines());
+    return htmlWithCss;
+  }
+
   @Override
   public void setCSS(@Nullable String inlineCss, @NotNull String... fileUris) {
     PreviewStaticServer.getInstance().setInlineStyle(inlineCss);
