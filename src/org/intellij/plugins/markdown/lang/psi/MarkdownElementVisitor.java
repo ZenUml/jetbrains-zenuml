@@ -9,7 +9,7 @@ public class MarkdownElementVisitor extends PsiElementVisitor {
     visitFile(file);
   }
 
-  public void visitLinkDestination(@NotNull MarkdownLinkDestinationImpl linkDestination) {
+  public void visitLinkDestination(@NotNull ZenUmlLinkDestinationImpl linkDestination) {
     visitElement(linkDestination);
   }
 
@@ -29,7 +29,7 @@ public class MarkdownElementVisitor extends PsiElementVisitor {
     visitElement(blockQuote);
   }
 
-  public void visitCodeFence(@NotNull MarkdownCodeFenceImpl codeFence) {
+  public void visitCodeFence(@NotNull ZenUmlCodeFenceImpl codeFence) {
     visitElement(codeFence);
   }
 

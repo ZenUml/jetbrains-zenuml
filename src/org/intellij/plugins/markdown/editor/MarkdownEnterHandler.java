@@ -18,7 +18,7 @@ import com.intellij.psi.PsiLanguageInjectionHost;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownBlockQuoteImpl;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl;
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlCodeFenceImpl;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownFile;
 import org.intellij.plugins.markdown.lang.psi.impl.MarkdownListItemImpl;
 import org.jetbrains.annotations.NotNull;
@@ -65,12 +65,12 @@ public class MarkdownEnterHandler extends EnterHandlerDelegateAdapter {
 
   private static boolean processCodeFence(@NotNull Editor editor, @NotNull PsiElement element) {
     PsiLanguageInjectionHost codeFence = InjectedLanguageManager.getInstance(element.getProject()).getInjectionHost(element);
-    if (!(codeFence instanceof MarkdownCodeFenceImpl)) {
-      codeFence = PsiTreeUtil.getParentOfType(element, MarkdownCodeFenceImpl.class);
+    if (!(codeFence instanceof ZenUmlCodeFenceImpl)) {
+      codeFence = PsiTreeUtil.getParentOfType(element, ZenUmlCodeFenceImpl.class);
     }
 
     if (codeFence != null) {
-      EditorModificationUtil.insertStringAtCaret(editor, "\n" + MarkdownCodeFenceImpl.calculateIndent((MarkdownPsiElement)codeFence));
+      EditorModificationUtil.insertStringAtCaret(editor, "\n" + ZenUmlCodeFenceImpl.calculateIndent((MarkdownPsiElement)codeFence));
       return true;
     }
 

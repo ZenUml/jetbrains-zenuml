@@ -22,8 +22,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class MarkdownCodeFenceImpl extends CompositePsiElement implements PsiLanguageInjectionHost, MarkdownPsiElement {
-  public MarkdownCodeFenceImpl(IElementType type) {
+public class ZenUmlCodeFenceImpl extends CompositePsiElement implements PsiLanguageInjectionHost, MarkdownPsiElement {
+  public ZenUmlCodeFenceImpl(IElementType type) {
     super(type);
   }
 
@@ -142,10 +142,10 @@ public class MarkdownCodeFenceImpl extends CompositePsiElement implements PsiLan
     };
   }
 
-  public static class Manipulator extends AbstractElementManipulator<MarkdownCodeFenceImpl> {
+  public static class Manipulator extends AbstractElementManipulator<ZenUmlCodeFenceImpl> {
 
     @Override
-    public MarkdownCodeFenceImpl handleContentChange(@NotNull MarkdownCodeFenceImpl element, @NotNull TextRange range, String newContent)
+    public ZenUmlCodeFenceImpl handleContentChange(@NotNull ZenUmlCodeFenceImpl element, @NotNull TextRange range, String newContent)
       throws IncorrectOperationException {
       if (newContent == null) {
         return null;
@@ -168,7 +168,7 @@ public class MarkdownCodeFenceImpl extends CompositePsiElement implements PsiLan
         }
       }
 
-      return (MarkdownCodeFenceImpl)element.replace(MarkdownPsiElementFactory
+      return (ZenUmlCodeFenceImpl)element.replace(MarkdownPsiElementFactory
                    .createCodeFence(element.getProject(), element.getFenceLanguage(), Objects.requireNonNull(newContent), indent));
     }
   }

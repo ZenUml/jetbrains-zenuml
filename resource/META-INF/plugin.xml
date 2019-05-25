@@ -37,10 +37,10 @@ Includes the following features:</p>
     <lang.parserDefinition language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.parser.MarkdownParserDefinition"/>
     <lang.ast.factory language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.psi.MarkdownASTFactory"/>
 
-    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl"
-                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl$Manipulator"/>
-    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownLinkDestinationImpl"
-                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownLinkDestinationImpl$Manipulator"/>
+    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlCodeFenceImpl"
+                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlCodeFenceImpl$Manipulator"/>
+    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlLinkDestinationImpl"
+                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlLinkDestinationImpl$Manipulator"/>
 
     <!--<colorSettingsPage implementation="org.intellij.plugins.markdown.highlighting.MarkdownColorSettingsPage"/>-->
     <syntaxHighlighter key="ZenUML" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownSyntaxHighlighter"/>
