@@ -19,7 +19,7 @@ import static org.intellij.plugins.markdown.settings.MarkdownCssSettings.DEFAULT
 
 @State(
   name = "ZenUmlApplicationSettings",
-  storages = @Storage("markdown.xml")
+  storages = @Storage("zenuml.xml")
 )
 public class ZenUmlApplicationSettings implements PersistentStateComponent<ZenUmlApplicationSettings.State>,
                                                     MarkdownCssSettings.Holder,
