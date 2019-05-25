@@ -40,7 +40,7 @@ public class MarkdownSettingsConfigurable implements SearchableConfigurable {
   @NotNull
   @Override
   public String getId() {
-    return "Settings.Markdown";
+    return "Settings.ZenUml";
   }
 
   @Nls
