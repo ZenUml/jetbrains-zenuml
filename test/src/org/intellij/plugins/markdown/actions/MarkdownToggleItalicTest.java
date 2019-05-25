@@ -32,7 +32,7 @@ public class MarkdownToggleItalicTest extends LightPlatformCodeInsightTestCase {
 
   private void doTest() {
     configureByFile(getTestName(true) + "_before.zen");
-    executeAction("org.intellij.plugins.markdown.ui.actions.styling.ToggleItalicAction");
+    executeAction("org.intellij.plugins.markdown.ui.actions.styling.ZenUmlToggleItalicAction");
     checkResultByFile(getTestName(true) + "_after.zen");
   }
 

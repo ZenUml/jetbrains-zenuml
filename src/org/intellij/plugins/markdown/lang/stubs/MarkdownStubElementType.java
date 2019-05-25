@@ -24,6 +24,6 @@ public abstract class MarkdownStubElementType<S extends MarkdownStubElement, T e
   @NotNull
   @Override
   public String getExternalId() {
-    return "markdown." + super.toString();
+    return "zenuml." + super.toString();
   }
 }

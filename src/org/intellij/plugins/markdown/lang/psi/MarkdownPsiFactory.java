@@ -22,7 +22,7 @@ public enum MarkdownPsiFactory {
       return new MarkdownHeaderImpl(node);
     }
     if (elementType == MarkdownElementTypes.CODE_FENCE) {
-      return ((MarkdownCodeFenceImpl)node);
+      return ((ZenUmlCodeFenceImpl)node);
     }
     if (MarkdownTokenTypeSets.LISTS.contains(elementType)) {
       return new MarkdownListImpl(node);
@@ -37,7 +37,7 @@ public enum MarkdownPsiFactory {
       return new MarkdownLinkDefinitionImpl(node);
     }
     if (elementType == MarkdownElementTypes.LINK_DESTINATION) {
-      return new MarkdownLinkDestinationImpl(node);
+      return new ZenUmlLinkDestinationImpl(node);
     }
     if (elementType == MarkdownElementTypes.CODE_BLOCK) {
       return new MarkdownCodeBlockImpl(node);

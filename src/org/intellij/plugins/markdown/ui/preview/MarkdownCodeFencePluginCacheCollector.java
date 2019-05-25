@@ -30,7 +30,7 @@ public class MarkdownCodeFencePluginCacheCollector {
     myAliveCachedFiles.add(file);
   }
 
-  //need to override `equals()`/`hasCode()` to scan cache for the latest `cacheProvider` only, see 'MarkdownCodeFencePluginCache.registerCacheProvider()'
+  //need to override `equals()`/`hasCode()` to scan cache for the latest `cacheProvider` only, see 'ZenUmlCodeFencePluginCache.registerCacheProvider()'
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

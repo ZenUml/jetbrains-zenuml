@@ -62,13 +62,13 @@ public class MarkdownHeaderTestSuite extends TestSuite {
 
   private static class MarkdownHeaderUpTestSuite extends MarkdownHeaderTestSuite {
     MarkdownHeaderUpTestSuite() {
-      super("org.intellij.plugins.markdown.ui.actions.styling.HeaderUpAction", "headerUp");
+      super("org.intellij.plugins.markdown.ui.actions.styling.ZenUmlHeaderUpAction", "headerUp");
     }
   }
 
   private static class MarkdownHeaderDownTestSuite extends MarkdownHeaderTestSuite {
     MarkdownHeaderDownTestSuite() {
-      super("org.intellij.plugins.markdown.ui.actions.styling.HeaderDownAction", "headerDown");
+      super("org.intellij.plugins.markdown.ui.actions.styling.ZenUmlHeaderDownAction", "headerDown");
     }
   }
 }
