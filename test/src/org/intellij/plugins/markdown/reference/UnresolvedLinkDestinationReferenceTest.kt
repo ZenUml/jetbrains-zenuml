@@ -2,7 +2,7 @@ package org.intellij.plugins.markdown.reference
 
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase
 import org.intellij.plugins.markdown.MarkdownTestingUtil
-import org.intellij.plugins.markdown.lang.references.MarkdownUnresolvedFileReferenceInspection
+import org.intellij.plugins.markdown.lang.references.ZenUmlUnresolvedFileReferenceInspection
 
 class UnresolvedLinkDestinationReferenceTest : LightPlatformCodeInsightFixtureTestCase() {
   override fun getTestDataPath(): String = MarkdownTestingUtil.TEST_DATA_PATH + "/reference/linkDestination/"
@@ -25,13 +25,14 @@ class UnresolvedLinkDestinationReferenceTest : LightPlatformCodeInsightFixtureTe
   }
 
   private fun doTest(fileName: String) {
-    myFixture.enableInspections(MarkdownUnresolvedFileReferenceInspection::class.java)
+    myFixture.enableInspections(ZenUmlUnresolvedFileReferenceInspection::class.java)
     myFixture.testHighlighting(true, false, false, fileName)
   }
 
   override fun tearDown() {
     try {
-      myFixture.disableInspections(MarkdownUnresolvedFileReferenceInspection())
+      val markdownUnresolvedFileReferenceInspection = ZenUmlUnresolvedFileReferenceInspection()
+      myFixture.disableInspections(markdownUnresolvedFileReferenceInspection)
     }
     finally {
       super.tearDown()

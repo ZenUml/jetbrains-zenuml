@@ -80,10 +80,10 @@ Includes the following features:</p>
     <stripTrailingSpacesFilterFactory implementation="org.intellij.plugins.markdown.editor.MarkdownStripTrailingSpacesFilterFactory"/>
     <httpRequestHandler implementation="org.intellij.plugins.markdown.ui.preview.PreviewStaticServer"/>
 
-    <localInspection shortName="MarkdownUnresolvedFileReference" bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
+    <localInspection shortName="ZenUmlUnresolvedFileReference" bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
                      key="markdown.unresolved.file.inspection.name" groupKey="markdown.inspection.group.ruby.name"
                      enabledByDefault="true" level="WARNING"
-                     implementationClass="org.intellij.plugins.markdown.lang.references.MarkdownUnresolvedFileReferenceInspection"/>
+                     implementationClass="org.intellij.plugins.markdown.lang.references.ZenUmlUnresolvedFileReferenceInspection"/>
 
     <lang.foldingBuilder language="ZenUML" implementationClass="org.intellij.plugins.markdown.folding.MarkdownFoldingBuilder"/>
     <stubIndex implementation="org.intellij.plugins.markdown.lang.index.MarkdownHeadersIndex"/>
