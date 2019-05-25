@@ -1,6 +1,8 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
+  <version>0.0.4</version>
+  <idea-version since-build="14.1"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
   <depends>com.intellij.modules.lang</depends>
@@ -20,6 +22,7 @@ Includes the following features:</p>
 ]]></description>
 
   <change-notes><![CDATA[
+  Resolved conflict with Markdown support.
     ]]>
   </change-notes>
 
