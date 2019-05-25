@@ -105,7 +105,7 @@ public class ZenUmlApplicationSettings implements PersistentStateComponent<ZenUm
   }
 
   public interface SettingsChangedListener {
-    Topic<SettingsChangedListener> TOPIC = Topic.create("MarkdownApplicationSettingsChanged", SettingsChangedListener.class);
+    Topic<SettingsChangedListener> TOPIC = Topic.create("ZenUmlApplicationSettingsChanged", SettingsChangedListener.class);
 
     default void beforeSettingsChanged(@NotNull ZenUmlApplicationSettings settings) { }
 
