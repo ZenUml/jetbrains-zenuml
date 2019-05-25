@@ -65,7 +65,7 @@ Includes the following features:</p>
     <spellchecker.support language="ZenUML"
                           implementationClass="org.intellij.plugins.markdown.spellchecking.MarkdownSpellcheckingStrategy"/>
 
-    <applicationConfigurable id="Settings.Markdown"
+    <applicationConfigurable id="Settings.ZenUml"
                              bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
                              groupId="language"
                              nonDefaultProject="true"
