@@ -54,7 +54,6 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
   private ComboBox myDefaultSplitLayout;
   private JBCheckBox myUseGrayscaleRenderingForJBCheckBox;
   private JPanel myPreviewTitledSeparator;
-  private JBCheckBox myAutoScrollCheckBox;
   private JPanel myMultipleProvidersPreviewPanel;
   private JBRadioButton myVerticalLayout;
   private JBRadioButton myHorizontalLayout;
@@ -106,12 +105,9 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     myDefaultSplitLayout.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        adjustAutoScroll();
         adjustSplitOption();
       }
     });
-
-    adjustAutoScroll();
   }
 
   private void adjustSplitOption() {
@@ -119,10 +115,6 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     myVerticalLayout.setEnabled(isSplitted);
     myHorizontalLayout.setEnabled(isSplitted);
     myVerticalSplitLabel.setEnabled(isSplitted);
-  }
-
-  private void adjustAutoScroll() {
-    myAutoScrollCheckBox.setEnabled(myDefaultSplitLayout.getSelectedItem() == SplitFileEditor.SplitEditorLayout.SPLIT);
   }
 
   private void adjustCSSRulesAvailability() {
@@ -320,7 +312,6 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
 
     mySplitLayoutModel.setSelectedItem(settings.getSplitEditorLayout());
     myUseGrayscaleRenderingForJBCheckBox.setSelected(settings.isUseGrayscaleRendering());
-    myAutoScrollCheckBox.setSelected(settings.isAutoScrollPreview());
     myVerticalLayout.setSelected(settings.isVerticalSplit());
     myHorizontalLayout.setSelected(!settings.isVerticalSplit());
 
@@ -336,7 +327,7 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     return new MarkdownPreviewSettings(mySplitLayoutModel.getSelectedItem(),
                                        provider,
                                        myUseGrayscaleRenderingForJBCheckBox.isSelected(),
-                                       myAutoScrollCheckBox.isSelected(),
+                                       false,
                                        myVerticalLayout.isSelected());
   }
 
