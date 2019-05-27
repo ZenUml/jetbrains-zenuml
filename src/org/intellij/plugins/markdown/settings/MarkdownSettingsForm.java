@@ -1,6 +1,5 @@
 package org.intellij.plugins.markdown.settings;
 
-import com.intellij.icons.AllIcons;
 import com.intellij.ide.highlighter.HighlighterFactory;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
@@ -24,11 +23,7 @@ import com.intellij.ui.*;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBRadioButton;
-import com.intellij.ui.components.labels.LinkLabel;
 import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.download.DownloadableFileDescription;
-import com.intellij.util.download.DownloadableFileService;
-import com.intellij.util.ui.UIUtil;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanelProvider;
 import org.intellij.plugins.markdown.ui.split.SplitFileEditor;
@@ -44,7 +39,6 @@ import java.awt.event.ItemListener;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,7 +59,6 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
   private JBRadioButton myVerticalLayout;
   private JBRadioButton myHorizontalLayout;
   private JBLabel myVerticalSplitLabel;
-  private JBCheckBox myDisableInjections;
 
   private static final Color SUCCESS_COLOR = new JBColor(0x008000, 0x6A8759);
 
@@ -347,11 +340,7 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
                                        myVerticalLayout.isSelected());
   }
 
-  public void setDisableInjections(boolean disableInjections) {
-    myDisableInjections.setSelected(disableInjections);
-  }
-
   public boolean isDisableInjections() {
-    return myDisableInjections.isSelected();
+    return true;
   }
 }

@@ -109,7 +109,6 @@ public class MarkdownSettingsConfigurable implements SearchableConfigurable {
     }
     form.setMarkdownCssSettings(myZenUmlApplicationSettings.getMarkdownCssSettings());
     form.setMarkdownPreviewSettings(myZenUmlApplicationSettings.getMarkdownPreviewSettings());
-    form.setDisableInjections(myZenUmlApplicationSettings.isDisableInjections());
   }
 
   @Override
