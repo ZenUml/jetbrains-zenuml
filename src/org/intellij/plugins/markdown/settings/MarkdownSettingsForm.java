@@ -52,7 +52,6 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
   private JPanel myCssTitledSeparator;
   private ComboBox myPreviewProvider;
   private ComboBox myDefaultSplitLayout;
-  private JBCheckBox myUseGrayscaleRenderingForJBCheckBox;
   private JPanel myPreviewTitledSeparator;
   private JPanel myMultipleProvidersPreviewPanel;
   private JBRadioButton myVerticalLayout;
@@ -100,7 +99,6 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     });
 
     myMultipleProvidersPreviewPanel.setVisible(isMultipleProviders());
-    updateUseGrayscaleEnabled();
 
     myDefaultSplitLayout.addActionListener(new ActionListener() {
       @Override
@@ -270,15 +268,9 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
         }
         else {
           myLastItem = item;
-          updateUseGrayscaleEnabled();
         }
       }
     });
-  }
-
-  private void updateUseGrayscaleEnabled() {
-    final MarkdownHtmlPanelProvider.ProviderInfo selected = getSelectedProvider();
-    myUseGrayscaleRenderingForJBCheckBox.setEnabled(isProviderOf(selected, JAVA_FX_HTML_PANEL_PROVIDER));
   }
 
   private static boolean isProviderOf(@NotNull MarkdownHtmlPanelProvider.ProviderInfo selected, @NotNull String provider) {
@@ -311,11 +303,9 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     }
 
     mySplitLayoutModel.setSelectedItem(settings.getSplitEditorLayout());
-    myUseGrayscaleRenderingForJBCheckBox.setSelected(settings.isUseGrayscaleRendering());
     myVerticalLayout.setSelected(settings.isVerticalSplit());
     myHorizontalLayout.setSelected(!settings.isVerticalSplit());
 
-    updateUseGrayscaleEnabled();
   }
 
   @NotNull
@@ -326,7 +316,7 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     Objects.requireNonNull(provider);
     return new MarkdownPreviewSettings(mySplitLayoutModel.getSelectedItem(),
                                        provider,
-                                       myUseGrayscaleRenderingForJBCheckBox.isSelected(),
+                                       false,
                                        false,
                                        myVerticalLayout.isSelected());
   }
