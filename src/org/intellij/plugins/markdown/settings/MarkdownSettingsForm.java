@@ -1,6 +1,5 @@
 package org.intellij.plugins.markdown.settings;
 
-import com.intellij.icons.AllIcons;
 import com.intellij.ide.highlighter.HighlighterFactory;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
@@ -24,11 +23,7 @@ import com.intellij.ui.*;
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBRadioButton;
-import com.intellij.ui.components.labels.LinkLabel;
 import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.download.DownloadableFileDescription;
-import com.intellij.util.download.DownloadableFileService;
-import com.intellij.util.ui.UIUtil;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanelProvider;
 import org.intellij.plugins.markdown.ui.split.SplitFileEditor;
@@ -44,7 +39,6 @@ import java.awt.event.ItemListener;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,14 +52,11 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
   private JPanel myCssTitledSeparator;
   private ComboBox myPreviewProvider;
   private ComboBox myDefaultSplitLayout;
-  private JBCheckBox myUseGrayscaleRenderingForJBCheckBox;
   private JPanel myPreviewTitledSeparator;
-  private JBCheckBox myAutoScrollCheckBox;
   private JPanel myMultipleProvidersPreviewPanel;
   private JBRadioButton myVerticalLayout;
   private JBRadioButton myHorizontalLayout;
   private JBLabel myVerticalSplitLabel;
-  private JBCheckBox myDisableInjections;
 
   private static final Color SUCCESS_COLOR = new JBColor(0x008000, 0x6A8759);
 
@@ -108,17 +99,13 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     });
 
     myMultipleProvidersPreviewPanel.setVisible(isMultipleProviders());
-    updateUseGrayscaleEnabled();
 
     myDefaultSplitLayout.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        adjustAutoScroll();
         adjustSplitOption();
       }
     });
-
-    adjustAutoScroll();
   }
 
   private void adjustSplitOption() {
@@ -126,10 +113,6 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     myVerticalLayout.setEnabled(isSplitted);
     myHorizontalLayout.setEnabled(isSplitted);
     myVerticalSplitLabel.setEnabled(isSplitted);
-  }
-
-  private void adjustAutoScroll() {
-    myAutoScrollCheckBox.setEnabled(myDefaultSplitLayout.getSelectedItem() == SplitFileEditor.SplitEditorLayout.SPLIT);
   }
 
   private void adjustCSSRulesAvailability() {
@@ -285,15 +268,9 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
         }
         else {
           myLastItem = item;
-          updateUseGrayscaleEnabled();
         }
       }
     });
-  }
-
-  private void updateUseGrayscaleEnabled() {
-    final MarkdownHtmlPanelProvider.ProviderInfo selected = getSelectedProvider();
-    myUseGrayscaleRenderingForJBCheckBox.setEnabled(isProviderOf(selected, JAVA_FX_HTML_PANEL_PROVIDER));
   }
 
   private static boolean isProviderOf(@NotNull MarkdownHtmlPanelProvider.ProviderInfo selected, @NotNull String provider) {
@@ -326,12 +303,9 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     }
 
     mySplitLayoutModel.setSelectedItem(settings.getSplitEditorLayout());
-    myUseGrayscaleRenderingForJBCheckBox.setSelected(settings.isUseGrayscaleRendering());
-    myAutoScrollCheckBox.setSelected(settings.isAutoScrollPreview());
     myVerticalLayout.setSelected(settings.isVerticalSplit());
     myHorizontalLayout.setSelected(!settings.isVerticalSplit());
 
-    updateUseGrayscaleEnabled();
   }
 
   @NotNull
@@ -342,16 +316,12 @@ public class MarkdownSettingsForm implements MarkdownCssSettings.Holder, Markdow
     Objects.requireNonNull(provider);
     return new MarkdownPreviewSettings(mySplitLayoutModel.getSelectedItem(),
                                        provider,
-                                       myUseGrayscaleRenderingForJBCheckBox.isSelected(),
-                                       myAutoScrollCheckBox.isSelected(),
+                                       false,
+                                       false,
                                        myVerticalLayout.isSelected());
   }
 
-  public void setDisableInjections(boolean disableInjections) {
-    myDisableInjections.setSelected(disableInjections);
-  }
-
   public boolean isDisableInjections() {
-    return myDisableInjections.isSelected();
+    return true;
   }
 }

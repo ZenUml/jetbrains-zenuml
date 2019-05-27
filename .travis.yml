@@ -1,6 +1,17 @@
-#Document of Using Gradle in TravisCI:
-#https://docs.travis-ci.com/user/languages/java/#Projects-Using-Gradle
 language: java
+jobs:
+  include:
+    - if: type = pull_request
+      jdk: oraclejdk8
+    - if: type = pull_request
+      jdk: oraclejdk9
+#        - oraclejdk8
+#        - oraclejdk9
+#        - oraclejdk11
+#        - openjdk7
+#        - openjdk8
+    - if: type = push
+
 install: ./gradlew assemble
 script: ./gradlew check
 
