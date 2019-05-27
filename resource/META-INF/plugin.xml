@@ -84,7 +84,7 @@ Includes the following features:</p>
     <httpRequestHandler implementation="org.intellij.plugins.markdown.ui.preview.PreviewStaticServer"/>
 
     <localInspection shortName="ZenUmlUnresolvedFileReference" bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
-                     key="markdown.unresolved.file.inspection.name" groupKey="markdown.inspection.group.ruby.name"
+                     key="zenuml.placeholder.inspection.name" groupKey="zenuml.inspection.group.ruby.name"
                      enabledByDefault="true" level="WARNING"
                      implementationClass="org.intellij.plugins.markdown.lang.references.ZenUmlUnresolvedFileReferenceInspection"/>
 
