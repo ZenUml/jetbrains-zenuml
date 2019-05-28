@@ -1,6 +1,7 @@
 plugins {
   id 'java'
-  id 'org.jetbrains.intellij' version '0.4.7'
+  id 'idea'
+  id 'org.jetbrains.intellij' version '0.4.8'
   id 'org.jetbrains.kotlin.jvm' version '1.3.21'
 }
 
@@ -9,9 +10,6 @@ repositories {
   maven { url 'https://dl.bintray.com/jetbrains/markdown' }
   flatDir { dirs 'lib' }
 }
-
-//apply plugin: 'java'
-//apply plugin: 'org.jetbrains.intellij'
 
 dependencies {
   // https://mvnrepository.com/artifact/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer
@@ -23,13 +21,15 @@ dependencies {
   testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 compileKotlin {
-  kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.jvmTarget = javaVersion
   kotlinOptions.apiVersion = "1.3"
 }
 compileTestKotlin {
-  kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions.jvmTarget = javaVersion
 }
 
 sourceSets {
@@ -60,7 +60,6 @@ intellij {
   plugins = ['IntelliLang']
 }
 
-apply plugin: 'idea'
 idea {
   project {
     jdkName = javaVersion
