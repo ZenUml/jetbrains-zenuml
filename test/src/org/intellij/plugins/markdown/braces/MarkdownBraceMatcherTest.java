@@ -5,7 +5,9 @@ import com.intellij.codeInsight.CodeInsightSettings;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import org.intellij.plugins.markdown.lang.MarkdownFileType;
 import org.jetbrains.annotations.NotNull;
+import org.junit.Ignore;
 
+@Ignore
 public class MarkdownBraceMatcherTest extends LightPlatformCodeInsightFixtureTestCase {
   public void testParenBeforeIdentifier() {
     doTest('(', "<caret>abc", "(abc");
