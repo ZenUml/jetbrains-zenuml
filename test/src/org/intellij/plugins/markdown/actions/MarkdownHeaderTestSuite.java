@@ -6,10 +6,12 @@ import com.intellij.testFramework.LightPlatformCodeInsightTestCase;
 import junit.framework.TestSuite;
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
 import org.jetbrains.annotations.NotNull;
+import org.junit.Ignore;
 
 import java.io.File;
 
 @SuppressWarnings("unused")
+@Ignore
 public class MarkdownHeaderTestSuite extends TestSuite {
   public static class RunMarkdownHeaderUpTestSuite {
     public static TestSuite suite() {
@@ -62,13 +64,13 @@ public class MarkdownHeaderTestSuite extends TestSuite {
 
   private static class MarkdownHeaderUpTestSuite extends MarkdownHeaderTestSuite {
     MarkdownHeaderUpTestSuite() {
-      super("org.intellij.plugins.markdown.ui.actions.styling.HeaderUpAction", "headerUp");
+      super("org.intellij.plugins.markdown.ui.actions.styling.ZenUmlHeaderUpAction", "headerUp");
     }
   }
 
   private static class MarkdownHeaderDownTestSuite extends MarkdownHeaderTestSuite {
     MarkdownHeaderDownTestSuite() {
-      super("org.intellij.plugins.markdown.ui.actions.styling.HeaderDownAction", "headerDown");
+      super("org.intellij.plugins.markdown.ui.actions.styling.ZenUmlHeaderDownAction", "headerDown");
     }
   }
 }

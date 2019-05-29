@@ -6,7 +6,7 @@ import org.intellij.plugins.markdown.lang.MarkdownElementTypes;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ToggleStrikethroughAction extends BaseToggleStateAction {
+public class ZenUmlToggleStrikethroughAction extends BaseToggleStateAction {
   @NotNull
   @Override
   protected String getBoundString(@NotNull CharSequence text, int selectionStart, int selectionEnd) {

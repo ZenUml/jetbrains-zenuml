@@ -17,7 +17,7 @@ import com.intellij.openapi.util.Pair;
 import com.intellij.psi.PsiElement;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
 import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElementFactory;
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl;
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlCodeFenceImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,7 +55,7 @@ public class MarkdownPsiElementFactoryTest extends LightPlatformCodeInsightFixtu
   }
 
   private void doTest(@Nullable String language, @NotNull String text, @NotNull String expectedText) {
-    MarkdownCodeFenceImpl codeFence = MarkdownPsiElementFactory.createCodeFence(myFixture.getProject(), language, text);
+    ZenUmlCodeFenceImpl codeFence = MarkdownPsiElementFactory.createCodeFence(myFixture.getProject(), language, text);
 
     assertNotNull(codeFence);
     assertEquals(codeFence.getText(), expectedText);

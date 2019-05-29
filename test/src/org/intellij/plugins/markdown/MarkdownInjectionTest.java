@@ -3,10 +3,9 @@ package org.intellij.plugins.markdown;
 
 import com.intellij.psi.PsiFile;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
-import org.intellij.plugins.markdown.injection.LanguageGuesser;
 import org.intellij.plugins.markdown.lang.MarkdownFileType;
 import org.intellij.plugins.markdown.lang.MarkdownLanguage;
-import org.intellij.plugins.markdown.settings.MarkdownApplicationSettings;
+import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 
 public class MarkdownInjectionTest extends LightPlatformCodeInsightFixtureTestCase {
   public void testFenceWithLang() {
@@ -19,7 +18,7 @@ public class MarkdownInjectionTest extends LightPlatformCodeInsightFixtureTestCa
   }
 
   public void testFenceWithLangWithDisabledAutoInjection() {
-    MarkdownApplicationSettings markdownSettings = MarkdownApplicationSettings.getInstance();
+    ZenUmlApplicationSettings markdownSettings = ZenUmlApplicationSettings.getInstance();
     boolean oldValue = markdownSettings.isDisableInjections();
     try {
       markdownSettings.setDisableInjections(true);

@@ -6,12 +6,12 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import org.intellij.plugins.markdown.lang.psi.MarkdownElementVisitor
-import org.intellij.plugins.markdown.lang.psi.impl.MarkdownLinkDestinationImpl
+import org.intellij.plugins.markdown.lang.psi.impl.ZenUmlLinkDestinationImpl
 
-class MarkdownUnresolvedFileReferenceInspection : LocalInspectionTool() {
+class ZenUmlUnresolvedFileReferenceInspection : LocalInspectionTool() {
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
     return object : MarkdownElementVisitor() {
-      override fun visitLinkDestination(linkDestination: MarkdownLinkDestinationImpl) {
+      override fun visitLinkDestination(linkDestination: ZenUmlLinkDestinationImpl) {
         checkReference(linkDestination, holder)
       }
     }

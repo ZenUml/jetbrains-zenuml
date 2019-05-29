@@ -18,16 +18,16 @@ import static org.intellij.plugins.markdown.settings.MarkdownCssSettings.DARCULA
 import static org.intellij.plugins.markdown.settings.MarkdownCssSettings.DEFAULT;
 
 @State(
-  name = "MarkdownApplicationSettings",
-  storages = @Storage("markdown.xml")
+  name = "ZenUmlApplicationSettings",
+  storages = @Storage("zenuml.xml")
 )
-public class MarkdownApplicationSettings implements PersistentStateComponent<MarkdownApplicationSettings.State>,
+public class ZenUmlApplicationSettings implements PersistentStateComponent<ZenUmlApplicationSettings.State>,
                                                     MarkdownCssSettings.Holder,
                                                     MarkdownPreviewSettings.Holder {
 
   private final State myState = new State();
 
-  public MarkdownApplicationSettings() {
+  public ZenUmlApplicationSettings() {
     final MarkdownLAFListener lafListener = new MarkdownLAFListener();
     LafManager.getInstance().addLafManagerListener(lafListener);
     // Let's init proper CSS scheme
@@ -35,8 +35,8 @@ public class MarkdownApplicationSettings implements PersistentStateComponent<Mar
   }
 
   @NotNull
-  public static MarkdownApplicationSettings getInstance() {
-    return ServiceManager.getService(MarkdownApplicationSettings.class);
+  public static ZenUmlApplicationSettings getInstance() {
+    return ServiceManager.getService(ZenUmlApplicationSettings.class);
   }
 
   @Nullable
@@ -105,10 +105,10 @@ public class MarkdownApplicationSettings implements PersistentStateComponent<Mar
   }
 
   public interface SettingsChangedListener {
-    Topic<SettingsChangedListener> TOPIC = Topic.create("MarkdownApplicationSettingsChanged", SettingsChangedListener.class);
+    Topic<SettingsChangedListener> TOPIC = Topic.create("ZenUmlApplicationSettingsChanged", SettingsChangedListener.class);
 
-    default void beforeSettingsChanged(@NotNull MarkdownApplicationSettings settings) { }
+    default void beforeSettingsChanged(@NotNull ZenUmlApplicationSettings settings) { }
 
-    default void settingsChanged(@NotNull MarkdownApplicationSettings settings) { }
+    default void settingsChanged(@NotNull ZenUmlApplicationSettings settings) { }
   }
 }

@@ -37,13 +37,13 @@ Includes the following features:</p>
     <lang.parserDefinition language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.parser.MarkdownParserDefinition"/>
     <lang.ast.factory language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.psi.MarkdownASTFactory"/>
 
-    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl"
-                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFenceImpl$Manipulator"/>
-    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownLinkDestinationImpl"
-                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.MarkdownLinkDestinationImpl$Manipulator"/>
+    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlCodeFenceImpl"
+                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlCodeFenceImpl$Manipulator"/>
+    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlLinkDestinationImpl"
+                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlLinkDestinationImpl$Manipulator"/>
 
     <!--<colorSettingsPage implementation="org.intellij.plugins.markdown.highlighting.MarkdownColorSettingsPage"/>-->
-    <syntaxHighlighter key="ZenUML" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownSyntaxHighlighter"/>
+    <!--<syntaxHighlighter key="ZenUML" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownSyntaxHighlighter"/>-->
     <additionalTextAttributes scheme="Default" file="colorSchemes/MarkdownDefault.xml"/>
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/MarkdownDarcula.xml"/>
 
@@ -65,25 +65,25 @@ Includes the following features:</p>
     <spellchecker.support language="ZenUML"
                           implementationClass="org.intellij.plugins.markdown.spellchecking.MarkdownSpellcheckingStrategy"/>
 
-    <applicationConfigurable id="Settings.Markdown"
+    <applicationConfigurable id="Settings.ZenUml"
                              bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
                              groupId="language"
                              nonDefaultProject="true"
                              key="markdown.settings.name"
                              instance="org.intellij.plugins.markdown.settings.MarkdownSettingsConfigurable">
     </applicationConfigurable>
-    <applicationService serviceImplementation="org.intellij.plugins.markdown.settings.MarkdownApplicationSettings"/>
-    <applicationService serviceImplementation="org.intellij.plugins.markdown.ui.preview.MarkdownCodeFencePluginCache"/>
+    <applicationService serviceImplementation="org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings"/>
+    <applicationService serviceImplementation="org.intellij.plugins.markdown.ui.preview.ZenUmlCodeFencePluginCache"/>
     <lang.psiStructureViewFactory language="ZenUML"
                                   implementationClass="org.intellij.plugins.markdown.structureView.MarkdownStructureViewFactory"/>
     <psi.referenceContributor implementation="org.intellij.plugins.markdown.lang.references.MarkdownReferenceProvider"/>
     <stripTrailingSpacesFilterFactory implementation="org.intellij.plugins.markdown.editor.MarkdownStripTrailingSpacesFilterFactory"/>
     <httpRequestHandler implementation="org.intellij.plugins.markdown.ui.preview.PreviewStaticServer"/>
 
-    <localInspection shortName="MarkdownUnresolvedFileReference" bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
+    <localInspection shortName="ZenUmlUnresolvedFileReference" bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
                      key="markdown.unresolved.file.inspection.name" groupKey="markdown.inspection.group.ruby.name"
                      enabledByDefault="true" level="WARNING"
-                     implementationClass="org.intellij.plugins.markdown.lang.references.MarkdownUnresolvedFileReferenceInspection"/>
+                     implementationClass="org.intellij.plugins.markdown.lang.references.ZenUmlUnresolvedFileReferenceInspection"/>
 
     <lang.foldingBuilder language="ZenUML" implementationClass="org.intellij.plugins.markdown.folding.MarkdownFoldingBuilder"/>
     <stubIndex implementation="org.intellij.plugins.markdown.lang.index.MarkdownHeadersIndex"/>
@@ -101,91 +101,36 @@ Includes the following features:</p>
   </extensions>
 
   <actions>
-    <group id="Markdown.Toolbar.Left" class="com.intellij.openapi.actionSystem.DefaultActionGroup" text="Markdown editor actions">
-      <action class="org.intellij.plugins.markdown.ui.actions.styling.ToggleBoldAction"
-              id="org.intellij.plugins.markdown.ui.actions.styling.ToggleBoldAction"
-              text="Toggle bold mode"
-              description="Toggles bold mode on caret/selection"
-              icon="MarkdownIcons.EditorActions.Bold">
-      </action>
-
-      <action class="org.intellij.plugins.markdown.ui.actions.styling.ToggleStrikethroughAction"
-              id="org.intellij.plugins.markdown.ui.actions.styling.ToggleStrikethroughAction"
-              text="Toggle strikethrough mode"
-              description="Toggles strikethrough mode on caret/selection"
-              icon="MarkdownIcons.EditorActions.Strike_through">
-      </action>
-
-      <action class="org.intellij.plugins.markdown.ui.actions.styling.ToggleItalicAction"
-              id="org.intellij.plugins.markdown.ui.actions.styling.ToggleItalicAction"
-              text="Toggle italic mode"
-              description="Toggles italic mode on caret/selection"
-              icon="MarkdownIcons.EditorActions.Italic">
-      </action>
-
-      <action class="org.intellij.plugins.markdown.ui.actions.styling.ToggleCodeSpanAction"
-              id="org.intellij.plugins.markdown.ui.actions.styling.ToggleCodeSpanAction"
-              text="Toggle monospaced (code span) mode"
-              description="Toggles monospaced mode (rendered as code span) on caret/selection"
-              icon="MarkdownIcons.EditorActions.Code_span">
-      </action>
-
-      <action class="org.intellij.plugins.markdown.ui.actions.styling.HeaderDownAction"
-              id="org.intellij.plugins.markdown.ui.actions.styling.HeaderDownAction"
-              text="Decrease Header Level"
-              description="Decreases level of a header by caret"
-              icon="MarkdownIcons.EditorActions.Header_level_down">
-      </action>
-
-      <action class="org.intellij.plugins.markdown.ui.actions.styling.HeaderUpAction"
-              id="org.intellij.plugins.markdown.ui.actions.styling.HeaderUpAction"
-              text="Increase Header Level"
-              description="Creates or increases level of a header by caret"
-              icon="MarkdownIcons.EditorActions.Header_level_up">
-      </action>
-
-      <action class="org.intellij.plugins.markdown.ui.actions.styling.MarkdownIntroduceLinkReferenceAction"
-              id="org.intellij.plugins.markdown.ui.actions.styling.MarkdownIntroduceLinkReferenceAction"
-              text="Introduce reference"
-              description="Creates link from text and replaces it with a reference"
-              icon="MarkdownIcons.EditorActions.Link">
-      </action>
+    <group id="ZenUml.Toolbar.Left" class="com.intellij.openapi.actionSystem.DefaultActionGroup" text="Markdown editor actions">
     </group>
 
 
-    <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.CyclicSplitLayoutChangeAction"
-            id="org.intellij.plugins.markdown.ui.actions.editorLayout.CyclicSplitLayoutChangeAction"
+    <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.ZenUmlCyclicSplitLayoutChangeAction"
+            id="org.intellij.plugins.markdown.ui.actions.editorLayout.ZenUmlCyclicSplitLayoutChangeAction"
             text="Change split layout"
             description="Toggle markdown editor layout through different values (editor only, preview only, wysiwyg split)"
             icon="AllIcons.Actions.PreviewDetails"
             use-shortcut-of="ParameterInfo">
     </action>
 
-    <group id="Markdown.Toolbar.Right" class="com.intellij.openapi.actionSystem.DefaultActionGroup" text="Markdown editor layout actions">
-      <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorOnlyLayoutChangeAction"
-              id="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorOnlyLayoutChangeAction"
+    <group id="ZenUml.Toolbar.Right" class="com.intellij.openapi.actionSystem.DefaultActionGroup" text="Markdown editor layout actions">
+      <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.ZenUmlEditorOnlyLayoutChangeAction"
+              id="org.intellij.plugins.markdown.ui.actions.editorLayout.ZenUmlEditorOnlyLayoutChangeAction"
               text="Show editor only"
               description="Sets markdown editor layout to show editor only"
               icon="AllIcons.General.LayoutEditorOnly">
       </action>
-      <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorAndPreviewLayoutChangeAction"
-              id="org.intellij.plugins.markdown.ui.actions.editorLayout.EditorAndPreviewLayoutChangeAction"
+      <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.ZenUmlEditorAndPreviewLayoutChangeAction"
+              id="org.intellij.plugins.markdown.ui.actions.editorLayout.ZenUmlEditorAndPreviewLayoutChangeAction"
               text="Show editor and preview"
               description="Sets markdown editor layout to show editor and preview in split"
               icon="AllIcons.General.LayoutEditorPreview">
       </action>
-      <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.PreviewOnlyLayoutChangeAction"
-              id="org.intellij.plugins.markdown.ui.actions.editorLayout.PreviewOnlyLayoutChangeAction"
+      <action class="org.intellij.plugins.markdown.ui.actions.editorLayout.ZenUmlPreviewOnlyLayoutChangeAction"
+              id="org.intellij.plugins.markdown.ui.actions.editorLayout.ZenUmlPreviewOnlyLayoutChangeAction"
               text="Show preview only"
               description="Sets markdown editor layout to show preview only"
               icon="AllIcons.General.LayoutPreviewOnly">
-      </action>
-      <separator/>
-      <action class="org.intellij.plugins.markdown.ui.actions.scrolling.AutoScrollAction"
-              id="org.intellij.plugins.markdown.ui.actions.scrolling.AutoScrollAction"
-              text="Auto-Scroll Preview"
-              description="Enable/Disable preview auto scroll"
-              icon="AllIcons.Actions.SynchronizeScrolling">
       </action>
     </group>
   </actions>
