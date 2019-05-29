@@ -1,6 +1,8 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
+  <version>0.0.5</version>
+  <idea-version since-build="162"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
   <depends>com.intellij.modules.lang</depends>
@@ -12,14 +14,15 @@
 </br>
 Includes the following features:</p>
 <ul>
-<li>Instant rendering.</li>
-<li>Developer friendly syntax.</li>
-<li>Syntax highlighting.</li>
+<li>Instant rendering - nothing needs to be sent to the backend.</li>
+<li>Developer friendly syntax - e.g. Service.getBook(id).</li>
+<li>Syntax highlighting - coming soon.</li>
 <li>Ability to use custom stylesheets for a live preview.</li>
 </ul>
 ]]></description>
 
   <change-notes><![CDATA[
+  Resolved toolbar and unnecessary settings.
     ]]>
   </change-notes>
 
@@ -81,7 +84,7 @@ Includes the following features:</p>
     <httpRequestHandler implementation="org.intellij.plugins.markdown.ui.preview.PreviewStaticServer"/>
 
     <localInspection shortName="ZenUmlUnresolvedFileReference" bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
-                     key="markdown.unresolved.file.inspection.name" groupKey="markdown.inspection.group.ruby.name"
+                     key="zenuml.placeholder.inspection.name" groupKey="zenuml.inspection.group.ruby.name"
                      enabledByDefault="true" level="WARNING"
                      implementationClass="org.intellij.plugins.markdown.lang.references.ZenUmlUnresolvedFileReferenceInspection"/>
 
