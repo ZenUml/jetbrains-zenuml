@@ -19,7 +19,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.Alarm;
 import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.ui.UIUtil;
-import com.zenuml.sequence.html.ZenUmlHtmlGenerator;
+import com.zenuml.sequence.plugins.jetbrains.html.ZenUmlHtmlGenerator;
 import org.intellij.markdown.html.HtmlGenerator;
 import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 import org.intellij.plugins.markdown.settings.MarkdownCssSettings;

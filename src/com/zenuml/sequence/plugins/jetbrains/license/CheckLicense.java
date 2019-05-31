@@ -1,4 +1,4 @@
-package com.zenuml.sequence.html.license;
+package com.zenuml.sequence.plugins.jetbrains.license;
 
 import com.intellij.openapi.application.PermanentInstallationID;
 import com.intellij.ui.LicensingFacade;
