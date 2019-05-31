@@ -13,4 +13,11 @@ public class ZenUmlHtmlGeneratorTest {
         String html = generator.from("AB\nCD");
         Assert.assertThat(html, containsString("AB\\nCD"));
     }
+
+    @Test
+    public void should_escape_back_tick_in_DSL() {
+        ZenUmlHtmlGenerator generator = new ZenUmlHtmlGenerator();
+        String html = generator.from("AB`CD`");
+        Assert.assertThat(html, containsString("AB\\`CD\\`"));
+    }
 }
