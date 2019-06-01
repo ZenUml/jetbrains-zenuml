@@ -1,4 +1,4 @@
-package com.zenuml.sequence.html;
+package com.zenuml.sequence.plugins.jetbrains.html;
 
 import org.junit.Assert;
 import org.junit.Test;

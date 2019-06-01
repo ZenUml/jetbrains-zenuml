@@ -1,4 +1,4 @@
-package com.zenuml.sequence.html;
+package com.zenuml.sequence.plugins.jetbrains.html;
 
 import com.google.common.escape.Escaper;
 import com.google.common.escape.Escapers;
