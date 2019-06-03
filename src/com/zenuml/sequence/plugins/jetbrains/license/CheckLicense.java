@@ -1,15 +1,27 @@
 package com.zenuml.sequence.plugins.jetbrains.license;
 
 import com.intellij.openapi.application.PermanentInstallationID;
-import com.intellij.ui.LicensingFacade;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.Signature;
-import java.security.cert.*;
-import java.util.*;
+import java.security.cert.CertPathBuilder;
+import java.security.cert.CertStore;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateFactory;
+import java.security.cert.CollectionCertStoreParameters;
+import java.security.cert.PKIXBuilderParameters;
+import java.security.cert.TrustAnchor;
+import java.security.cert.X509CertSelector;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -98,7 +110,8 @@ public class CheckLicense {
 
 
   public static boolean isLicensed() {
-    final LicensingFacade facade = LicensingFacade.getInstance();
+    return true;
+/*    final LicensingFacade facade = LicensingFacade.getInstance();
     if (facade == null) {
       return false;
     }
@@ -115,6 +128,7 @@ public class CheckLicense {
       return isLicenseServerStampValid(cstamp.substring(STAMP_PREFIX.length()));
     }
     return false;
+*/
   }
 
   private static boolean isKeyValid(String key) {

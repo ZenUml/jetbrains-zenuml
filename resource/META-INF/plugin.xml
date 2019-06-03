@@ -138,5 +138,5 @@ Includes the following features:</p>
     </group>
   </actions>
 
-  <product-descriptor code="PZENUML" release-date="20190601" release-version="20191" />
+<!--  <product-descriptor code="PZENUML" release-date="20190601" release-version="20191" />-->
 </idea-plugin>
