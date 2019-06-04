@@ -2,7 +2,7 @@
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
   <version>0.0.5</version>
-  <idea-version since-build="162"/>
+  <idea-version since-build="182.3911.6"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
   <depends>com.intellij.modules.lang</depends>
@@ -137,4 +137,6 @@ Includes the following features:</p>
       </action>
     </group>
   </actions>
+
+  <product-descriptor code="PZENUML" release-date="20190601" release-version="20191" />
 </idea-plugin>
