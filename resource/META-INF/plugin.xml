@@ -96,7 +96,7 @@ Includes the following features:</p>
     <langCodeStyleSettingsProvider implementation="org.intellij.plugins.markdown.lang.formatter.MarkdownLanguageCodeStyleSettingsProvider"/>
     <enterHandlerDelegate implementation="org.intellij.plugins.markdown.editor.MarkdownEnterHandler"/>
 
-    <toolWindow id="LearnZenUML" icon="/icons/MarkdownPlugin.svg" anchor="left"
+    <toolWindow id="LearnZenUML" icon="/icons/MarkdownPlugin.svg" anchor="left" secondary="true"
                 factoryClass="com.zenuml.sequence.ui.LearnZenUMLToolWindowFactory"/>
   </extensions>
 
