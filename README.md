@@ -19,7 +19,7 @@ The ZenUML plugin running on the JetBrains IDEs.
 1. Use @Xiaopeng's account to login into https://intellij-support.jetbrains.com/hc/en-us
 1. Find `Marketplace EAP` section and related documentations. https://intellij-support.jetbrains.com/hc/en-us/categories/115000066390-Marketplace-EAP
 1. Contact Jetbrains to set up credential for accessing `Market Place Demo Instance` https://marketplace.demo.plugins.aws.intellij.net 
-1. Use@Xiaopeng's account to login into `Demo Instance`. Then click `My Profile` in right top corner dropdown. Then Zenuml Plugin` will be in the dashboard.
+1. Use@Xiaopeng's account to login into `Demo Instance`. Then click `My Profile` in right top corner dropdown. Then `Zenuml Plugin` will be in the dashboard.
 1. Follow documentations in step 2 for usage and testing.
 
 !!! @xiaopeng's account is used for access `Market Place EAP docs` and Publish Plugin in `Demo Instance`.
