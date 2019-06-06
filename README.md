@@ -22,6 +22,8 @@ The ZenUML plugin running on the JetBrains IDEs.
 1. Use@Xiaopeng's account to login into `Demo Instance`. Then click `My Profile` in right top corner dropdown. Then Zenuml Plugin` will be in the dashboard.
 1. Follow documentations in step 2 for usage and testing.
 
+!!! @xiaopeng's account is used for access `Market Place EAP docs` and Publish Plugin in `Demo Instance`.
+
 
 ### [Enabling Internal Mode Of IntelliJ IDEA.](http://www.jetbrains.org/intellij/sdk/docs/reference_guide/internal_actions/enabling_internal.html)
 Not Sure how to use it for  now, But might need it at a later time.
