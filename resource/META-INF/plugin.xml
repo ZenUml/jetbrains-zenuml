@@ -26,6 +26,14 @@ Includes the following features:</p>
     ]]>
   </change-notes>
 
+  <project-components>
+    <component>
+      <implementation-class>org.intellij.sequencer.SequencePlugin</implementation-class>
+      <interface-class>org.intellij.sequencer.SequencePlugin</interface-class>
+      <option name="workspace" value="true"/>
+    </component>
+  </project-components>
+
   <extensionPoints>
     <extensionPoint qualifiedName="org.intellij.zenuml.html.panel.provider"
                     interface="org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanelProvider" />
@@ -95,6 +103,8 @@ Includes the following features:</p>
     <indexPatternBuilder implementation="org.intellij.plugins.markdown.highlighting.MarkdownIndexPatternBuilder" />
     <langCodeStyleSettingsProvider implementation="org.intellij.plugins.markdown.lang.formatter.MarkdownLanguageCodeStyleSettingsProvider"/>
     <enterHandlerDelegate implementation="org.intellij.plugins.markdown.editor.MarkdownEnterHandler"/>
+
+    <applicationService serviceImplementation="org.intellij.sequencer.config.Configuration"/>
   </extensions>
 
   <extensions defaultExtensionNs="org.intellij.zenuml">
@@ -136,6 +146,13 @@ Includes the following features:</p>
               icon="AllIcons.General.LayoutPreviewOnly">
       </action>
     </group>
+
+    <action id="SequencePlugin.ShowSequenceDiagram" class="org.intellij.sequencer.ShowZenUMLScratchAction"
+            icon="SequencePluginIcons.SEQUENCE_ICON"
+            text="Sequence Diagram (experimental)..." description="Generate sequence diagram of the current method">
+      <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+      <add-to-group group-id="ToolsMenu" anchor="last"/>
+    </action>
   </actions>
 
   <product-descriptor code="PZENUML" release-date="20190601" release-version="20191" />
