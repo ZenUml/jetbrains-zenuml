@@ -28,8 +28,8 @@ Includes the following features:</p>
 
   <project-components>
     <component>
-      <implementation-class>org.intellij.sequencer.SequencePlugin</implementation-class>
-      <interface-class>org.intellij.sequencer.SequencePlugin</interface-class>
+      <implementation-class>org.intellij.sequencer.SequencePlugin2</implementation-class>
+      <interface-class>org.intellij.sequencer.SequencePlugin2</interface-class>
       <option name="workspace" value="true"/>
     </component>
   </project-components>
@@ -104,7 +104,7 @@ Includes the following features:</p>
     <langCodeStyleSettingsProvider implementation="org.intellij.plugins.markdown.lang.formatter.MarkdownLanguageCodeStyleSettingsProvider"/>
     <enterHandlerDelegate implementation="org.intellij.plugins.markdown.editor.MarkdownEnterHandler"/>
 
-    <applicationService serviceImplementation="org.intellij.sequencer.config.Configuration"/>
+    <applicationService serviceImplementation="org.intellij.sequencer.config.Configuration2"/>
   </extensions>
 
   <extensions defaultExtensionNs="org.intellij.zenuml">
@@ -147,7 +147,7 @@ Includes the following features:</p>
       </action>
     </group>
 
-    <action id="SequencePlugin.ShowSequenceDiagram" class="org.intellij.sequencer.ShowZenUMLScratchAction"
+    <action id="SequencePlugin.ShowZenUMLScratch" class="org.intellij.sequencer.ShowZenUMLScratchAction"
             icon="SequencePluginIcons.SEQUENCE_ICON"
             text="Sequence Diagram (experimental)..." description="Generate sequence diagram of the current method">
       <add-to-group group-id="EditorPopupMenu" anchor="last"/>
