@@ -1,26 +1,30 @@
 language: java
 jobs:
   include:
-    - if: type = pull_request
-      jdk: oraclejdk8
-    - if: type = pull_request
-      jdk: oraclejdk9
-#        - oraclejdk11
-#        - openjdk8
-    - if: type = push
-
-install: ./gradlew assemble
-script: ./gradlew check
-
+  - if: type = pull_request
+    jdk: oraclejdk8
+  - if: type = pull_request
+    jdk: oraclejdk9
+  - if: type = push
+install: "./gradlew assemble"
+script: "./gradlew check"
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-  - rm -fr $HOME/.gradle/caches/journal-1
-  - rm -fr $HOME/.gradle/caches/*/fileContent/fileContent.lock
-  - rm -fr $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
-  - rm -fr $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
-  - rm -fr $HOME/.gradle/caches/*/javaCompile/javaCompile.lock
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -fr $HOME/.gradle/caches/journal-1
+- rm -fr $HOME/.gradle/caches/*/fileContent/fileContent.lock
+- rm -fr $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+- rm -fr $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
+- rm -fr $HOME/.gradle/caches/*/javaCompile/javaCompile.lock
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+deploy:
+  provider: releases
+  api_key:
+    secure: P1zTdiHmM7CJS5HBgB6VDlvo9iALxF/oDTp4y9gu2dWJK7j5dqWuJbfnqYllf4W3uJu8kw20qXVJeaGIt0+11XEK6loQQX20MvMTvHET5CRyg5ZiMDyvUSF+EGPHj4k/Vj8oBRQxuNe5KkT/P0dKuvETQA9ZCMMLMLyxPp49fNK8X51txcArowjFfASo1QbSMN0VGOwiSEHH8GHhz0752p76GdFdpvfoAuGyXcfcFIrQn0/+Uu5vw0qSob6bk72Xy7rWxlvi1VhuvjL8rMm+R7aGZ9SJ+BBQS1V7cymYWDqSsBukxV6uYnQZ9LfRz3r0uht7W9GQ8mPyt3CWxZSA3306lRl1Y52gWa244T81ETIyvOkDMpxGD3memRqnSs7/b1gcy7VRmvg7IQCzV53cKlWaq6qWHZ/N7KSQ65BqlOJVm4sfGSNvQRt2vB5/MkKXgapS+OeyJfn0pZWOU9gkR+7iolTKANCSRq/Dqt/0PBYd2yRZxmqXWb5i6Zh/uGOcFM0+TS36Qn+EvNsMxl+n0s+IbPAGVjvTg3vBnutlYSo4G4i+ue3M4DCQv2oUNDr+js3N33Cm2gemz+2GSLTghq6QEYDnfKfWM3LdvV7K9o0T7FWWv4kMuny1JHww+2L5Noh8daCQa3Xtdmh5kt8HoWnIapWTyPtrE50WEkW3goU=
+  file: build/distributions/markdown.zip
+  on:
+    repo: ZenUml/jetbrains-zenuml
+    branch: bot
