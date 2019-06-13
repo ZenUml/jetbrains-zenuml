@@ -23,7 +23,7 @@ public class SimpleMessageZenUmlTest extends ZenUmlTestCase {
         PsiMethod clientMethod = selfMessageClass.findMethodsByName("clientMethod", true)[0];
         clientMethod.accept(psiToDslConverter);
         String dsl = psiToDslConverter.getDsl();
-        assertThat(dsl, is("SimpleMessage.clientMethod();"));
+        assertThat(dsl, is("SimpleMessage.clientMethod();\n"));
     }
 
     public void test_convert_to_dsl_nestedMessage() {
@@ -32,7 +32,7 @@ public class SimpleMessageZenUmlTest extends ZenUmlTestCase {
         PsiMethod clientMethod = selfMessageClass.findMethodsByName("nestedMethod", true)[0];
         clientMethod.accept(psiToDslConverter);
         String dsl = psiToDslConverter.getDsl();
-        assertThat(dsl, is("SimpleMessage.nestedMethod(){SimpleMessage.clientMethod();}"));
+        assertThat(dsl, is("SimpleMessage.nestedMethod() {\n\tSimpleMessage.clientMethod();\n}\n"));
     }
 
 }
