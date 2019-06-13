@@ -16,6 +16,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if (method.getBody() != null && !method.getBody().isEmpty()) {
             dsl += "{";
             super.visitMethod(method);
+            System.out.println(method.getNameIdentifier());
             dsl += "}";
         } else {
             dsl += ";";
