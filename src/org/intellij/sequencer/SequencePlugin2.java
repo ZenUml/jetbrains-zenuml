@@ -24,7 +24,7 @@ import com.intellij.ui.components.JBTabbedPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.util.Query;
-import com.zenuml.dsl.SequenceGeneratorV1;
+import com.zenuml.dsl.PsiToDslConverter;
 import icons.SequencePluginIcons;
 import org.intellij.sequencer.generator.SequenceParams;
 import org.intellij.sequencer.generator.filters.MethodFilter;
@@ -116,14 +116,14 @@ public class SequencePlugin2 implements ProjectComponent {
         if(enclosingPsiMethod == null)
             return;
 
-        String dsl = generateZenUML(enclosingPsiMethod, params);
+        String dsl = generateZenUML(enclosingPsiMethod);
         createZenUMLScratch(dsl, event);
     }
 
-    private String generateZenUML(PsiMethod psiMethod, SequenceParams sequenceParams) {
-        SequenceGeneratorV1 sequenceGeneratorV1 = new SequenceGeneratorV1(sequenceParams);
-        sequenceGeneratorV1.generate(psiMethod);
-        return sequenceGeneratorV1.toDsl();
+    private String generateZenUML(PsiMethod psiMethod) {
+        PsiToDslConverter psiToDslConverter = new PsiToDslConverter();
+        psiMethod.accept(psiToDslConverter);
+        return psiToDslConverter.getDsl();
     }
 
     private void createZenUMLScratch(String dsl, AnActionEvent event) {
