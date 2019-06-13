@@ -8,6 +8,7 @@ import java.util.HashSet;
 
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private String dsl = "";
+    private int level = 0;
     private HashSet<PsiMethod> visitedMethods = new HashSet<>();
 
     @Override
@@ -15,16 +16,26 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if(visitedMethods.contains(method)) return;
         visitedMethods.add(method);
 
-        dsl += method.getContainingClass().getName() + "." + method.getName() + "()";
+        String indent = getIndent(level);
+        dsl += indent + method.getContainingClass().getName() + "." + method.getName() + "()";
         // getBody return null if the method belongs to a compiled class
         if (method.getBody() != null && !method.getBody().isEmpty()) {
-            dsl += "{";
+            level++;
+            dsl += " {\n";
             super.visitMethod(method);
             System.out.println(method.getNameIdentifier());
-            dsl += "}";
+            dsl += indent + "}\n";
         } else {
-            dsl += ";";
+            dsl += ";\n";
         }
+    }
+
+    private static String getIndent(int number) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < number; i++) {
+            builder.append('\t');
+        }
+        return builder.toString();
     }
 
     @Override
