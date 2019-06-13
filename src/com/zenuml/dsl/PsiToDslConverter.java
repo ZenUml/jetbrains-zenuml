@@ -2,20 +2,16 @@ package com.zenuml.dsl;
 
 import com.intellij.psi.*;
 import com.intellij.psi.impl.source.tree.PsiWhiteSpaceImpl;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
-import java.util.HashSet;
 
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private String dsl = "";
     private int level = 0;
-    private HashSet<PsiMethod> visitedMethods = new HashSet<>();
 
     @Override
     public void visitMethod(PsiMethod method) {
-        if(visitedMethods.contains(method)) return;
-        visitedMethods.add(method);
-
         String indent = getIndent(level);
         dsl += indent + method.getContainingClass().getName() + "." + method.getName() + "()";
         // getBody return null if the method belongs to a compiled class
