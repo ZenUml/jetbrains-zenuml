@@ -27,7 +27,7 @@ public class DifferentClassesZenUmlTest extends ZenUmlTestCase {
         clientMethod.accept(psiToDslConverter);
 
 
-        assertThat(psiToDslConverter.getDsl(), is("FirstClass.clientMethod() {\n\tSecondClass.method1();\n}\n"));
+        assertThat(psiToDslConverter.getDsl(), is("FirstClass.clientMethod() {\n\tnew SecondClass();\n\tSecondClass.method1();\n}\n"));
     }
 
     public void test_convert_to_dsl_node_differentClass_multiple_calls() {
@@ -37,6 +37,6 @@ public class DifferentClassesZenUmlTest extends ZenUmlTestCase {
 
         clientMethod.accept(psiToDslConverter);
 
-        assertThat(psiToDslConverter.getDsl(), is("FirstClass.clientMethod_multiple_calls() {\n\tSecondClass.method1();\n\tSecondClass.method1();\n}\n"));
+        assertThat(psiToDslConverter.getDsl(), is("FirstClass.clientMethod_multiple_calls() {\n\tnew SecondClass();\n\tSecondClass.method1();\n\tSecondClass.method1();\n}\n"));
     }
 }
