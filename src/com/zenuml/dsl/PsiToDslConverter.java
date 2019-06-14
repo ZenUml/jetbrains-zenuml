@@ -1,8 +1,6 @@
 package com.zenuml.dsl;
 
 import com.intellij.psi.*;
-import com.intellij.psi.impl.source.tree.PsiWhiteSpaceImpl;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 
@@ -13,17 +11,21 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitMethod(PsiMethod method) {
         String indent = getIndent(level);
-        dsl += indent + method.getContainingClass().getName() + "." + method.getName() + "()";
+        dsl += newlineIfNecessary() + indent + method.getContainingClass().getName() + "." + method.getName() + "()";
         // getBody return null if the method belongs to a compiled class
         if (method.getBody() != null && !method.getBody().isEmpty()) {
             level++;
             dsl += " {\n";
             super.visitMethod(method);
-            System.out.println(method.getNameIdentifier());
-            dsl += indent + "}\n";
+            level--;
+            dsl += newlineIfNecessary() + indent + "}\n";
         } else {
             dsl += ";\n";
         }
+    }
+
+    private String newlineIfNecessary() {
+        return dsl.isEmpty() || dsl.endsWith("\n") ? "" : "\n";
     }
 
     private static String getIndent(int number) {
@@ -45,19 +47,26 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitIfStatement(PsiIfStatement statement) {
-        dsl += "if(condition)";
-        System.out.println("Enter: visitIfStatement:" + statement);
-        Arrays.stream(statement.getChildren())
-                .filter(c -> c.getClass() != PsiWhiteSpaceImpl.class)
-                .forEach(c -> System.out.println(c.getClass() + ":\n" + c.getText()));
+        String indent = getIndent(level);
+        dsl += newlineIfNecessary() + indent + "if(condition)";
+        boolean hasBlock = Arrays.stream(statement.getChildren()).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
+        if(!hasBlock) {
+            dsl += " {\n";
+            level++;
+        }
         super.visitIfStatement(statement);
-        System.out.println("Exit: visitIfStatement:" + statement);
+        if(!hasBlock) {
+            level--;
+            dsl += newlineIfNecessary() + indent + "}\n";
+        }
     }
 
     public void visitBlockStatement(PsiBlockStatement statement) {
-        dsl += "{";
+        dsl += " {\n";
+        level++;
         super.visitBlockStatement(statement);
-        dsl += "}";
+        level--;
+        dsl += newlineIfNecessary() + getIndent(level) + "}";
     }
 
     public String getDsl() {

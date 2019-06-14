@@ -23,7 +23,8 @@ public class SelfMessageZenUmlTest extends ZenUmlTestCase {
         PsiMethod clientMethod = selfMessageClass.findMethodsByName("clientMethod", true)[0];
         clientMethod.accept(psiToDslConverter);
 
-        assertThat(psiToDslConverter.getDsl(), is("SelfMessage.clientMethod() {\n\tSelfMessage.internalMethodA() {\n\t\tSelfMessage.internalMethodB() {\n\t\t\tSelfMessage.internalMethodC();\n\t\t}\n\t}\n\t\t\tSelfMessage.internalMethodB() {\n\t\t\t\tSelfMessage.internalMethodC();\n\t\t\t}\n\t\t\t\tSelfMessage.internalMethodC();\n}\n"));
+        String dsl = psiToDslConverter.getDsl();
+        assertThat("Actual:\n" + dsl, dsl, is("SelfMessage.clientMethod() {\n\tSelfMessage.internalMethodA() {\n\t\tSelfMessage.internalMethodB() {\n\t\t\tSelfMessage.internalMethodC();\n\t\t}\n\t}\n\tSelfMessage.internalMethodB() {\n\t\tSelfMessage.internalMethodC();\n\t}\n\tSelfMessage.internalMethodC();\n}\n"));
     }
 
     public void test_convert_to_dsl_node_selfMessage_nest_2_levels() {

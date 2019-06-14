@@ -23,7 +23,7 @@ public class IfElseMessageZenUmlTest extends ZenUmlTestCase {
         PsiMethod clientMethod = selfMessageClass.findMethodsByName("nestedMethod", true)[0];
         clientMethod.accept(psiToDslConverter);
         String dsl = psiToDslConverter.getDsl();
-        assertThat(dsl, is("IfMessage.nestedMethod() {\nif(condition){\tIfMessage.clientMethod();\n\tIfMessage.clientMethod();\n}}\n"));
+        assertThat("Actual:\n" + dsl, dsl, is("IfMessage.nestedMethod() {\n\tIfMessage.clientMethod() {\n\t\tIfMessage.foo();\n\t}\n\tIfMessage.foo();\n\tif(condition) {\n\t\tIfMessage.clientMethod() {\n\t\t\tIfMessage.foo();\n\t\t}\n\t\tIfMessage.clientMethod() {\n\t\t\tIfMessage.foo();\n\t\t}\n\t\tif(condition) {\n\t\t\tIfMessage.foo();\n\t\t}\n\t\tif(condition) {\n\t\t}\n\t\tif(condition) {\n\t\t}\n\t}\n}\n"));
     }
 
 }
