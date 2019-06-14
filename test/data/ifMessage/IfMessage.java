@@ -26,4 +26,11 @@ public class IfMessage {
             }
         }
     }
+
+    public void nestedMethod1() {
+        if (condition) {
+            clientMethod();
+            clientMethod();
+        }
+    }
 }

@@ -1,8 +1,10 @@
 package com.zenuml.dsl;
 
 import com.intellij.psi.*;
+import com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private String dsl = "";
@@ -48,7 +50,15 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitIfStatement(PsiIfStatement statement) {
         String indent = getIndent(level);
-        dsl += newlineIfNecessary() + indent + "if(condition)";
+        dsl += newlineIfNecessary() + indent + "if(";
+        System.out.println("Enter: visitIfStatement:" + statement);
+        Arrays.stream(statement.getChildren())
+                .filter(e -> {
+                    System.out.println(e.toString());
+                    return true;
+                })
+                .filter(e -> Stream.of(PsiLiteralExpressionImpl.class, PsiReferenceExpression.class).anyMatch(clz -> clz.isInstance(e)))
+                .findFirst().ifPresent(e -> dsl += e.getText() + ")");
         boolean hasBlock = Arrays.stream(statement.getChildren()).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
         if(!hasBlock) {
             dsl += " {\n";
