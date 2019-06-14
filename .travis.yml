@@ -29,5 +29,5 @@ deploy:
   on:
     repo: ZenUml/jetbrains-zenuml
     tags: true
-    branch: bot
+    branch: master
     condition: $TRAVIS_TAG =~ ^release-
