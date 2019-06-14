@@ -33,4 +33,11 @@ public class IfMessage {
             clientMethod();
         }
     }
+
+    public void nestedMethod2() {
+        if (1 + 1 == 2) {
+            clientMethod();
+            clientMethod();
+        }
+    }
 }
