@@ -44,8 +44,8 @@ public class IfMessage {
     }
 
     public void nestedMethod3() {
-        ArrayList<Object> list = new ArrayList<>();
-        if (list.length == 2) {
+        List<Object> list = new ArrayList<>();
+        if (list.size() == 2) {
             clientMethod();
             clientMethod();
         }
