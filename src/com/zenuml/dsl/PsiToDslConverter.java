@@ -9,6 +9,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private String dsl = "";
     private int level = 0;
 
+    public void visitNewExpression(PsiNewExpression expression) {
+        String indent = getIndent(level);
+        dsl += indent + expression.getText() + ";\n";
+        this.visitCallExpression(expression);
+    }
+
     @Override
     public void visitMethod(PsiMethod method) {
         String indent = getIndent(level);
