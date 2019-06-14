@@ -1,5 +1,7 @@
 package ifMessage;
 
+import java.util.ArrayList;
+
 public class IfMessage {
     public void foo() {
 
@@ -36,6 +38,14 @@ public class IfMessage {
 
     public void nestedMethod2() {
         if (1 + 1 == 2) {
+            clientMethod();
+            clientMethod();
+        }
+    }
+
+    public void nestedMethod3() {
+        ArrayList<Object> list = new ArrayList<>();
+        if (list.length == 2) {
             clientMethod();
             clientMethod();
         }
