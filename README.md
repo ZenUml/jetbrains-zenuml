@@ -2,9 +2,13 @@
 The ZenUML plugin running on the JetBrains IDEs.
 
 # Development
-
 1. `./gradlew`
 2. `./gradlew runIde` to start another instance of IDEA with our plugin installed.
+
+# Github Release
+1. add new tag to the commit id on **master** branch, format: `release-******`
+1. push tag to remote
+1. travis will release zenuml.zip to github
 
 # Deployment
 1. `./gradlew buildPlugin` build plugin into a local package `./build/distributions/zenuml.zip`.
