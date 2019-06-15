@@ -33,8 +33,17 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             LOG.info(String.format("Call loop detected: %s, stopped", callLoop));
             return;
         }
-
-        dsl += method.getContainingClass().getName() + "." + method.getName();
+        int size = callStack.size();
+        if (size > 0) {
+            PsiMethod parentMethod = callStack.get(size - 1);
+            if (parentMethod.getContainingClass().getName().equals(method.getContainingClass().getName())) {
+                dsl += method.getName();
+            } else {
+                dsl += method.getContainingClass().getName() + "." + method.getName();
+            }
+        } else {
+            dsl += method.getContainingClass().getName() + "." + method.getName();
+        }
 
         callStack.add(method);
 

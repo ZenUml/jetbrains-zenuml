@@ -20,14 +20,14 @@ public class SimpleMessageZenUmlTest extends ZenUmlTestCase {
         PsiMethod clientMethod = getPsiMethod("nestedMethod");
         clientMethod.accept(psiToDslConverter);
         String dsl = psiToDslConverter.getDsl();
-        assertThat(dsl, is("SimpleMessage.nestedMethod() {\n\tSimpleMessage.clientMethod();\n}\n"));
+        assertThat(dsl, is("SimpleMessage.nestedMethod() {\n\tclientMethod();\n}\n"));
     }
 
     public void test_convert_to_dsl_nestedMessage_with_assignment() {
         PsiMethod clientMethod = getPsiMethod("nestedMethod_with_assignment");
         clientMethod.accept(psiToDslConverter);
         String dsl = psiToDslConverter.getDsl();
-        assertThat(dsl, is("SimpleMessage.nestedMethod_with_assignment() {\n\tString s = SimpleMessage.clientMethod();\n}\n"));
+        assertThat(dsl, is("SimpleMessage.nestedMethod_with_assignment() {\n\tString s = clientMethod();\n}\n"));
     }
 
     @NotNull
