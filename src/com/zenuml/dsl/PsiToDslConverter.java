@@ -36,12 +36,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if (size > 0) {
             PsiMethod parentMethod = callStack.get(size - 1);
             if (parentMethod.getContainingClass().equals(method.getContainingClass())) {
-                dsl += method.getName();
+                appendMethodName(method);
             } else {
-                dsl += method.getContainingClass().getName() + "." + method.getName();
+                appendClassNameAndMethodName(method);
             }
         } else {
-            dsl += method.getContainingClass().getName() + "." + method.getName();
+            appendClassNameAndMethodName(method);
         }
 
         callStack.add(method);
@@ -52,11 +52,19 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Exit: visitMethod: " + method);
     }
 
-    public void visitParameter(PsiParameter parameter) {
-        LOG.debug("Enter: visitParameter: " + parameter);
-        super.visitParameter(parameter);
-        LOG.debug("Exit: visitParameter: " + parameter);
+    private void appendClassNameAndMethodName(PsiMethod method) {
+        dsl += method.getContainingClass().getName() + "." + method.getName();
     }
+
+    private void appendMethodName(PsiMethod method) {
+        dsl += method.getName();
+    }
+
+//    public void visitParameter(PsiParameter parameter) {
+//        LOG.debug("Enter: visitParameter: " + parameter);
+//        super.visitParameter(parameter);
+//        LOG.debug("Exit: visitParameter: " + parameter);
+//    }
 
 //    public void visitReceiverParameter(PsiReceiverParameter parameter) {
 //        LOG.debug("Enter: visitReceiverParameter: " + parameter);
@@ -72,18 +80,18 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Exit: visitParameterList: " + list);
     }
 
-    @Override
-    public void visitReferenceExpression(PsiReferenceExpression expression) {
-        LOG.debug("Enter: visitReferenceExpression: " + expression);
-        super.visitReferenceExpression(expression);
-        LOG.debug("Exit: visitReferenceExpression: " + expression);
-    }
+//    @Override
+//    public void visitReferenceExpression(PsiReferenceExpression expression) {
+//        LOG.debug("Enter: visitReferenceExpression: " + expression);
+//        super.visitReferenceExpression(expression);
+//        LOG.debug("Exit: visitReferenceExpression: " + expression);
+//    }
 
-    @Override
-    public void visitModifierList(PsiModifierList list) {
-        LOG.debug("Enter: visitModifierList: " + list);
-        super.visitModifierList(list);
-    }
+//    @Override
+//    public void visitModifierList(PsiModifierList list) {
+//        LOG.debug("Enter: visitModifierList: " + list);
+//        super.visitModifierList(list);
+//    }
 
 //    @Override
 //    public void visitTypeElement(PsiTypeElement type) {
