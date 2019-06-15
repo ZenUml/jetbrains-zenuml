@@ -23,7 +23,7 @@ public class ConstructorMessageTest extends ZenUmlTestCase {
         PsiMethod clientMethod = selfMessageClass.findMethodsByName("clientMethod", true)[0];
         clientMethod.accept(psiToDslConverter);
         String dsl = psiToDslConverter.getDsl();
-        assertThat(dsl, is("Constructor.clientMethod() {\n\tnew Constructor();\n}\n"));
+        assertThat(dsl, is("Constructor.clientMethod() {\n\tconstructor.Constructor c = new Constructor();\n}\n"));
     }
 
 }

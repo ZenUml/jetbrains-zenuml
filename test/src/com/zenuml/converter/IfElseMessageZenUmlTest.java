@@ -23,7 +23,7 @@ public class IfElseMessageZenUmlTest extends ZenUmlTestCase {
         PsiMethod clientMethod = selfMessageClass.findMethodsByName("nestedMethod", true)[0];
         clientMethod.accept(psiToDslConverter);
         String dsl = psiToDslConverter.getDsl();
-        assertThat("Actual:\n" + dsl, dsl, is("IfMessage.nestedMethod() {\n\tIfMessage.clientMethod() {\n\t\tIfMessage.foo();\n\t}\n\tIfMessage.foo();\n\tif(true) {\n\t\tIfMessage.clientMethod() {\n\t\t\tIfMessage.foo();\n\t\t}\n\t\tIfMessage.clientMethod() {\n\t\t\tIfMessage.foo();\n\t\t}\n\t\tif(true) {\n\t\t\tIfMessage.foo();\n\t\t}\n\t\tif(true) {\n\t\t}\n\t\tif(true) {\n\t\t}\n\t}\n}\n"));
+        assertThat("Actual:\n" + dsl, dsl, is("IfMessage.nestedMethod() {\n\tint i = \tIfMessage.clientMethod() {\n\t\tIfMessage.foo();\n\t}\n\t\tIfMessage.foo();\n\t\n\tif(true) {\n\t\t\t\tIfMessage.clientMethod() {\n\t\t\tIfMessage.foo();\n\t\t}\n\t\tIfMessage.clientMethod() {\n\t\t\tIfMessage.foo();\n\t\t}\n\t\tif(true) {\n\t\t\tIfMessage.foo();\n\t\t}\n\t\tif(true) {\n\t\t\t\n\t\t}\n\t\tif(true) {\n\t\t\t\n\t\t}\n\t}\n}\n"));
     }
 
     public void test_convert_to_dsl_ifMessage_reference_expression_as_condition() {
@@ -50,7 +50,7 @@ public class IfElseMessageZenUmlTest extends ZenUmlTestCase {
         PsiMethod clientMethod = selfMessageClass.findMethodsByName("nestedMethod3", true)[0];
         clientMethod.accept(psiToDslConverter);
         String dsl = psiToDslConverter.getDsl();
-        assertThat(dsl, is("IfMessage.nestedMethod3() {\n\tnew ArrayList<>();\n\tif(list.size() == 2) {\n\t\tIfMessage.clientMethod() {\n\t\t\tIfMessage.foo();\n\t\t}\n\t\tIfMessage.clientMethod() {\n\t\t\tIfMessage.foo();\n\t\t}\n\t}\n}\n"));
+        assertThat(dsl, is("IfMessage.nestedMethod3() {\n\tList<Object> list = new ArrayList<>();\n\tif(list.size() == 2) {\n\t\tIfMessage.clientMethod() {\n\t\t\tIfMessage.foo();\n\t\t}\n\t\tIfMessage.clientMethod() {\n\t\t\tIfMessage.foo();\n\t\t}\n\t}\n}\n"));
     }
 
 }

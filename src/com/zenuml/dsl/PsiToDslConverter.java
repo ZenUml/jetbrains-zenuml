@@ -16,8 +16,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     public void visitNewExpression(PsiNewExpression expression) {
         LOG.debug("Enter: visitNewExpression: " + expression);
-        String indent = getIndent(level);
-        dsl += indent + expression.getText() + ";\n";
+        dsl += expression.getText() + ";\n";
         super.visitNewExpression(expression);
         LOG.debug("Exit: visitNewExpression: " + expression);
     }
@@ -35,8 +34,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             return;
         }
 
-        String indent = getIndent(level);
-        dsl += newlineIfNecessary() + indent + method.getContainingClass().getName() + "." + method.getName();
+        dsl += method.getContainingClass().getName() + "." + method.getName();
 
         callStack.add(method);
 
@@ -74,8 +72,50 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     @Override
+    public void visitModifierList(PsiModifierList list) {
+        LOG.debug("Enter: visitModifierList: " + list);
+        super.visitModifierList(list);
+    }
+
+//    @Override
+//    public void visitTypeElement(PsiTypeElement type) {
+//        LOG.debug("Enter: visitTypeElement: " + type);
+//        if (!type.getText().equals("void")) {
+//            dsl += type.getText() + " ";
+//        }
+//        super.visitTypeElement(type);
+//        LOG.debug("Exit: visitTypeElement: " + type);
+//    }
+
+    public void visitDeclarationStatement(PsiDeclarationStatement statement) {
+        LOG.debug("Enter: visitDeclarationStatement: " + statement);
+        String indent = getIndent(level);
+        dsl += indent;
+        super.visitDeclarationStatement(statement);
+    }
+
+    public void visitExpressionStatement(PsiExpressionStatement statement) {
+        LOG.debug("Enter: visitExpressionStatement: " + statement);
+        String indent = getIndent(level);
+        dsl += indent;
+        super.visitExpressionStatement(statement);
+    }
+
+    // variable: String s = clientMethod();
+    public void visitLocalVariable(PsiLocalVariable variable) {
+        LOG.debug("Enter: visitLocalVariable: " + variable);
+        dsl += variable.getType().getCanonicalText();
+        dsl += " ";
+        dsl += variable.getName();
+        dsl += " = ";
+        super.visitLocalVariable(variable);
+        LOG.debug("Exit: visitLocalVariable: " + variable);
+    }
+
+    @Override
     public void visitMethodCallExpression(PsiMethodCallExpression expression) {
         LOG.debug("Enter: visitMethodCallExpression: " + expression);
+
         super.visitMethodCallExpression(expression);
 
         PsiMethod method = expression.resolveMethod();

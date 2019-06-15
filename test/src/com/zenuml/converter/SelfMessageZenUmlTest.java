@@ -32,6 +32,6 @@ public class SelfMessageZenUmlTest extends ZenUmlTestCase {
         PsiClass selfMessageClass = myFixture.findClass("selfMessage.SelfMessage");
         PsiMethod clientMethod = selfMessageClass.findMethodsByName("clientMethod2", true)[0];
         clientMethod.accept(psiToDslConverter);
-        assertThat(psiToDslConverter.getDsl(), is("SelfMessage.clientMethod2() {\n\tSelfMessage.internalMethodA() {\n\t\tSelfMessage.internalMethodB() {\n\t\t\tSelfMessage.internalMethodC();\n\t\t}\n\t}\n}\n"));
+        assertThat(psiToDslConverter.getDsl(), is("SelfMessage.clientMethod2() {\n\tint i = \tSelfMessage.internalMethodA() {\n\t\tSelfMessage.internalMethodB() {\n\t\t\tSelfMessage.internalMethodC();\n\t\t}\n\t}\n}\n"));
     }
 }

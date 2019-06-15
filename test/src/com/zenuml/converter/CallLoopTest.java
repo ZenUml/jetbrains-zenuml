@@ -23,7 +23,7 @@ public class CallLoopTest extends ZenUmlTestCase {
         PsiMethod method = aClass.findMethodsByName("main", true)[0];
         method.accept(psiToDslConverter);
         String dsl = psiToDslConverter.getDsl();
-        assertThat("Actual:\n" + dsl, dsl, is("CallLoop.main() {\n\tnew Foo();\n\tnew Bar();\n\tFoo.method1() {\n\t\tBar.method2() {\n\t\t}\n\t}\n}\n"));
+        assertThat("Actual:\n" + dsl, dsl, is("CallLoop.main() {\n\tcallLoop.Foo foo = new Foo();\n\tcallLoop.Bar bar = new Bar();\n\tFoo.method1() {\n\t\tBar.method2() {\n\t\t\t\n\t\t}\n\t}\n}\n"));
     }
 
 }
