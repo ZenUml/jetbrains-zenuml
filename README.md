@@ -10,8 +10,9 @@ The ZenUML plugin running on the JetBrains IDEs.
 1. push tag to remote
 1. travis will release zenuml.zip to github
 
-# Deployment
-1. `./gradlew buildPlugin` build plugin into a local package `./build/distributions/zenuml.zip`.
+# Publish
+1. Log on to Market place.
+1. Use github release file to upload.
 
 # Installation
 ### Alpha Versions
