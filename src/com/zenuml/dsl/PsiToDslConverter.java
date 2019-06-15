@@ -1,13 +1,18 @@
 package com.zenuml.dsl;
 
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private String dsl = "";
     private int level = 0;
+    private HashSet<PsiMethod> callStack = new HashSet<>();
 
     public void visitNewExpression(PsiNewExpression expression) {
         String indent = getIndent(level);
@@ -17,15 +22,27 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitMethod(PsiMethod method) {
+        if(callStack.contains(method)) {
+            Optional<String> callLoop = Stream.concat(callStack.stream(), Stream.of(method))
+                    .map(PsiMethod::getName)
+                    .reduce((m1, m2) -> String.format("%s -> %s", m1, m2));
+            Logger.getInstance(this.getClass()).info(String.format("Call loop detected: %s, stopped", callLoop));
+            return;
+        }
+
         String indent = getIndent(level);
         dsl += newlineIfNecessary() + indent + method.getContainingClass().getName() + "." + method.getName() + "()";
         // getBody return null if the method belongs to a compiled class
         if (method.getBody() != null && !method.getBody().isEmpty()) {
             level++;
             dsl += " {\n";
+            callStack.add(method);
+
             super.visitMethod(method);
+
             level--;
             dsl += newlineIfNecessary() + indent + "}\n";
+            callStack.remove(method);
         } else {
             dsl += ";\n";
         }
