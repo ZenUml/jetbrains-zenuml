@@ -36,21 +36,13 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         }
 
         String indent = getIndent(level);
-        dsl += newlineIfNecessary() + indent + method.getContainingClass().getName() + "." + method.getName() + "()";
-        // getBody return null if the method belongs to a compiled class
-        if (method.getBody() != null && !method.getBody().isEmpty()) {
-            level++;
-            dsl += " {\n";
-            callStack.add(method);
+        dsl += newlineIfNecessary() + indent + method.getContainingClass().getName() + "." + method.getName();
 
-            super.visitMethod(method);
+        callStack.add(method);
 
-            level--;
-            dsl += newlineIfNecessary() + indent + "}\n";
-            callStack.remove(method);
-        } else {
-            dsl += ";\n";
-        }
+        super.visitMethod(method);
+        callStack.remove(method);
+
         LOG.debug("Exit: visitMethod: " + method);
     }
 
@@ -68,7 +60,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     public void visitParameterList(PsiParameterList list) {
         LOG.debug("Enter: visitParameterList: " + list);
+        dsl += "(";
         super.visitParameterList(list);
+        dsl += ")";
         LOG.debug("Exit: visitParameterList: " + list);
     }
 
@@ -120,14 +114,26 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         }
     }
 
+    @Override
     public void visitBlockStatement(PsiBlockStatement statement) {
         LOG.debug("Enter: visitBlockStatement: " + statement);
-
-        dsl += " {\n";
-        level++;
         super.visitBlockStatement(statement);
+    }
+
+    @Override
+    public void visitCodeBlock(PsiCodeBlock block) {
+        LOG.debug("Enter: visitCodeBlock: " + block);
+        if (block.getStatements().length == 0) {
+            dsl += ";\n";
+            return;
+        }
+        // getBody return null if the method belongs to a compiled class
+        level++;
+        dsl += " {\n";
+        super.visitCodeBlock(block);
+
         level--;
-        dsl += newlineIfNecessary() + getIndent(level) + "}";
+        dsl += newlineIfNecessary() + getIndent(level) + "}\n";
     }
 
     public String getDsl() {
