@@ -3,16 +3,13 @@ package com.zenuml.dsl;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private String dsl = "";
     private int level = 0;
-    private HashSet<PsiMethod> callStack = new HashSet<>();
+    private ArrayList<PsiMethod> callStack = new ArrayList<>();
 
     public void visitNewExpression(PsiNewExpression expression) {
         String indent = getIndent(level);
@@ -23,9 +20,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitMethod(PsiMethod method) {
         if(callStack.contains(method)) {
-            Optional<String> callLoop = Stream.concat(callStack.stream(), Stream.of(method))
+            String callLoop = Stream.concat(callStack.stream(), Stream.of(method))
                     .map(PsiMethod::getName)
-                    .reduce((m1, m2) -> String.format("%s -> %s", m1, m2));
+                    .reduce((m1, m2) -> String.format("%s -> %s", m1, m2))
+                    .get();
             Logger.getInstance(this.getClass()).info(String.format("Call loop detected: %s, stopped", callLoop));
             return;
         }
