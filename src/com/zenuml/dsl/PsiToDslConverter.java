@@ -6,6 +6,8 @@ import com.intellij.psi.*;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
+
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private static final Logger LOG = Logger.getInstance(PsiToDslConverter.class);
 
@@ -26,12 +28,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitMethod(PsiMethod method) {
         LOG.debug("Enter: visitMethod: " + method);
 
-        if(callStack.contains(method)) {
+        if (callStack.contains(method)) {
             String callLoop = Stream.concat(callStack.stream(), Stream.of(method))
                     .map(PsiMethod::getName)
-                    .reduce((m1, m2) -> String.format("%s -> %s", m1, m2))
+                    .reduce((m1, m2) -> format("%s -> %s", m1, m2))
                     .get();
-            LOG.info(String.format("Call loop detected: %s, stopped", callLoop));
+            LOG.info(format("Call loop detected: %s, stopped", callLoop));
             return;
         }
 
@@ -86,8 +88,25 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     @Override
+    public void visitWhileStatement(PsiWhileStatement statement) {
+        String indent = getIndent(level);
+        dsl += newlineIfNecessary() + indent + "while" + getCondition(statement);
+
+        boolean hasBlock = hasBlock(statement.getChildren());
+        if (!hasBlock) {
+            dsl += " {\n";
+            level++;
+        }
+        super.visitWhileStatement(statement);
+        if (!hasBlock) {
+            level--;
+            dsl += newlineIfNecessary() + indent + "}\n";
+        }
+    }
+
+    @Override
     public void visitIfStatement(PsiIfStatement statement) {
-        LOG.debug("Enter: visitMethodCallExpression: " + statement);
+        LOG.debug("Enter: visitIfStatement: " + statement);
 
         String indent = getIndent(level);
         dsl += newlineIfNecessary() + indent + "if(";
@@ -102,13 +121,13 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 })
                 .filter(e -> allowedConditionExpressions.stream().anyMatch(clz -> clz.isInstance(e)))
                 .findFirst().ifPresent(e -> dsl += e.getText() + ")");
-        boolean hasBlock = Arrays.stream(statement.getChildren()).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
-        if(!hasBlock) {
+        boolean hasBlock = hasBlock(statement.getChildren());
+        if (!hasBlock) {
             dsl += " {\n";
             level++;
         }
         super.visitIfStatement(statement);
-        if(!hasBlock) {
+        if (!hasBlock) {
             level--;
             dsl += newlineIfNecessary() + indent + "}\n";
         }
@@ -138,6 +157,30 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     public String getDsl() {
         return dsl;
+    }
+
+    private boolean hasBlock(PsiElement[] children) {
+        return Arrays.stream(children).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
+    }
+
+    private String getCondition(PsiWhileStatement statement) {
+        boolean started = false;
+        ArrayList<PsiElement> elements = new ArrayList<>();
+        for (PsiElement child : statement.getChildren()) {
+            if (started) {
+                if (isParenth(child, "RPARENTH")) {
+                    break;
+                }
+                elements.add(child);
+            } else if (isParenth(child, "LPARENTH")) {
+                started = true;
+            }
+        }
+        return format("(%s)", elements.stream().map(PsiElement::getText).reduce((s1, s2) -> s1 + s2).orElse(""));
+    }
+
+    private boolean isParenth(PsiElement child, String parenth) {
+        return child instanceof PsiJavaToken && ((PsiJavaToken) child).getTokenType().toString().equals(parenth);
     }
 
     private String newlineIfNecessary() {
