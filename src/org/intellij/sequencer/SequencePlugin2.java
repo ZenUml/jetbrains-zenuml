@@ -24,7 +24,7 @@ import com.intellij.ui.components.JBTabbedPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
 import com.intellij.util.Query;
-import com.zenuml.dsl.SequenceGeneratorV1;
+import com.zenuml.dsl.PsiToDslConverter;
 import icons.SequencePluginIcons;
 import org.intellij.sequencer.generator.SequenceParams;
 import org.intellij.sequencer.generator.filters.MethodFilter;
@@ -111,19 +111,19 @@ public class SequencePlugin2 implements ProjectComponent {
             _toolWindow.activate(postAction);
     }
 
-    public void showZenUMLScratch(AnActionEvent event, SequenceParams params) {
+    public void showZenUMLScratch(AnActionEvent event) {
         PsiMethod enclosingPsiMethod = getCurrentPsiMethod();
         if(enclosingPsiMethod == null)
             return;
 
-        String dsl = generateZenUML(enclosingPsiMethod, params);
+        String dsl = generateZenUML(enclosingPsiMethod);
         createZenUMLScratch(dsl, event);
     }
 
-    private String generateZenUML(PsiMethod psiMethod, SequenceParams sequenceParams) {
-        SequenceGeneratorV1 sequenceGeneratorV1 = new SequenceGeneratorV1(sequenceParams);
-        sequenceGeneratorV1.generate(psiMethod);
-        return sequenceGeneratorV1.toDsl();
+    private String generateZenUML(PsiMethod psiMethod) {
+        PsiToDslConverter psiToDslConverter = new PsiToDslConverter();
+        psiToDslConverter.visitMethod(psiMethod);
+        return psiToDslConverter.getDsl();
     }
 
     private void createZenUMLScratch(String dsl, AnActionEvent event) {
@@ -147,24 +147,14 @@ public class SequencePlugin2 implements ProjectComponent {
             _jTabbedPane.setTitleAt(tabIndex, sequencePanel.getTitleName());
             _jTabbedPane.setSelectedIndex(tabIndex);
             ButtonTabComponent buttonTabComponent = new ButtonTabComponent(_jTabbedPane);
-            buttonTabComponent.addTabButtonListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    closeSequence(sequencePanel);
-                }
-            });
+            buttonTabComponent.addTabButtonListener(e -> closeSequence(sequencePanel));
             _jTabbedPane.setTabComponentAt(tabIndex, buttonTabComponent);
         }
         else {
             _jTabbedPane.addTab(sequencePanel.getTitleName(), S_ICON, sequencePanel);
             _jTabbedPane.setSelectedComponent(sequencePanel);
             ButtonTabComponent buttonTabComponent = new ButtonTabComponent(_jTabbedPane);
-            buttonTabComponent.addTabButtonListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    closeSequence(sequencePanel);
-                }
-            });
+            buttonTabComponent.addTabButtonListener(e -> closeSequence(sequencePanel));
             _jTabbedPane.setTabComponentAt(_jTabbedPane.getSelectedIndex(), buttonTabComponent);
         }
         _toolWindow.setTitle(sequencePanel.getTitleName());
@@ -182,25 +172,22 @@ public class SequencePlugin2 implements ProjectComponent {
         return _jTabbedPane.getIconAt(i) == DISABLED_ICON;
     }
 
-    public void closeSequenceAtIndex(int index) {
+    private void closeSequenceAtIndex(int index) {
         _jTabbedPane.remove(index);
         if(_jTabbedPane.getTabCount() == 0)
             _toolWindow.setAvailable(false, null);
     }
 
-    public void closeSequence(SequencePanel sequencePanel) {
+    void closeSequence(SequencePanel sequencePanel) {
         closeSequenceAtIndex(_jTabbedPane.indexOfComponent(sequencePanel));
     }
 
-    public boolean isInsideAMethod() {
+    boolean isInsideAMethod() {
         return getCurrentPsiMethod() != null;
     }
 
     private Editor getSelectedEditor() {
-        Editor selectedEditor = getFileEditorManager().getSelectedTextEditor();
-        if(selectedEditor == null)
-            return null;
-        return selectedEditor;
+        return getFileEditorManager().getSelectedTextEditor();
     }
 
     private PsiManager getPsiManager() {
@@ -227,21 +214,15 @@ public class SequencePlugin2 implements ProjectComponent {
         return PsiUtil.getEnclosingMethod(psiFile, editor.getCaretModel().getOffset());
     }
 
-    public void openClassInEditor(final String className) {
-        Query<PsiClass> search = AllClassesSearch.search(GlobalSearchScope.projectScope(_project), _project, new Condition<String>() {
-            public boolean value(String s) {
-                return className.endsWith(s);
-            }
-        });
+    void openClassInEditor(final String className) {
+        Query<PsiClass> search = AllClassesSearch.search(GlobalSearchScope.projectScope(_project), _project, className::endsWith);
         PsiClass psiClass = search.findFirst();
-//        PsiClass psiClass = PsiManager.getInstance(_project).findClass(className,
-//                GlobalSearchScope.projectScope(_project));
         if(psiClass == null)
             return;
         openInEditor(psiClass, psiClass);
     }
 
-    public void openMethodInEditor(String className, String methodName, List argTypes) {
+    void openMethodInEditor(String className, String methodName, List argTypes) {
         PsiMethod psiMethod = PsiUtil.findPsiMethod(_project, getPsiManager(), className, methodName, argTypes);
         if(psiMethod == null)
             return;
@@ -256,8 +237,8 @@ public class SequencePlugin2 implements ProjectComponent {
                 virtualFile, psiElement.getTextOffset()), true);
     }
 
-    public void openMethodCallInEditor(MethodFilter filter, String fromClass, String fromMethod, List fromArgTypes,
-                                       String toClass, String toMethod, List toArgType, int callNo) {
+    void openMethodCallInEditor(MethodFilter filter, String fromClass, String fromMethod, List fromArgTypes,
+                                String toClass, String toMethod, List toArgType, int callNo) {
         PsiMethod fromPsiMethod = PsiUtil.findPsiMethod(_project, getPsiManager(), fromClass, fromMethod, fromArgTypes);
         if(fromPsiMethod == null)
             return;
@@ -304,22 +285,20 @@ public class SequencePlugin2 implements ProjectComponent {
                 popupMenu.getComponent().show(_jTabbedPane, e.getX(), e.getY());
             }
         });
-        _jTabbedPane.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                int selectedIndex = _jTabbedPane.getSelectedIndex();
-                if(selectedIndex == -1)
-                    return;
-                _toolWindow.setTitle(_jTabbedPane.getTitleAt(selectedIndex));
-            }
+        _jTabbedPane.addChangeListener(e -> {
+            int selectedIndex = _jTabbedPane.getSelectedIndex();
+            if(selectedIndex == -1)
+                return;
+            _toolWindow.setTitle(_jTabbedPane.getTitleAt(selectedIndex));
         });
     }
 
-    public List<String> findImplementations(String className) {
+    List<String> findImplementations(String className) {
         PsiClass psiClass = PsiUtil.findPsiClass(_project, getPsiManager(), className);
 
         if (PsiUtil.isAbstract(psiClass)) {
             PsiElement[] psiElements = DefinitionsScopedSearch.search(psiClass).toArray(PsiElement.EMPTY_ARRAY);
-            ArrayList<String> result = new ArrayList<String>();
+            ArrayList<String> result = new ArrayList<>();
 
             for (PsiElement element : psiElements) {
                 if (element instanceof PsiClass) {
@@ -330,11 +309,11 @@ public class SequencePlugin2 implements ProjectComponent {
 
             return result;
         }
-        return new ArrayList<String>();
+        return new ArrayList<>();
 
     }
 
-    public List<String> findImplementations(String className, String methodName, List argTypes) {
+    List<String> findImplementations(String className, String methodName, List argTypes) {
         PsiMethod psiMethod = PsiUtil.findPsiMethod(_project, getPsiManager(), className, methodName, argTypes);
         PsiClass containingClass = psiMethod.getContainingClass();
         if (containingClass == null) {
@@ -365,7 +344,7 @@ public class SequencePlugin2 implements ProjectComponent {
         private int _index;
         private boolean _isLock;
 
-        public LockUnlockAction(int index, boolean isLock) {
+        LockUnlockAction(int index, boolean isLock) {
             super(isLock? "Lock Tab": "Unlock Tab");
             _index = index;
             _isLock = isLock;
@@ -379,7 +358,7 @@ public class SequencePlugin2 implements ProjectComponent {
     private class CloseAction extends AnAction {
         private int _index;
 
-        public CloseAction(int index) {
+        CloseAction(int index) {
             super("Close Tab");
             _index = index;
         }

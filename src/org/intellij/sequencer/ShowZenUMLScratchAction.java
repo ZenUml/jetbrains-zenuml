@@ -53,7 +53,7 @@ public class ShowZenUMLScratchAction extends AnAction {
             params.getMethodFilter().addFilter(new NoGetterSetterFilter(_noGetterSetters));
             params.getMethodFilter().addFilter(new NoPrivateMethodsFilter(_noPrivateMethods));
             params.getMethodFilter().addFilter(new NoConstructorsFilter(_noConstructors));
-            plugin.showZenUMLScratch(event, params);
+            plugin.showZenUMLScratch(event);
         }
     }
 
