@@ -18,9 +18,7 @@ public class ConstructorMessageTest extends ZenUmlTestCase {
     }
 
     public void test_convert_to_dsl_constructor() {
-        myFixture.copyDirectoryToProject("constructor","");
-        PsiClass selfMessageClass = myFixture.findClass("constructor.Constructor");
-        PsiMethod clientMethod = selfMessageClass.findMethodsByName("clientMethod", true)[0];
+        PsiMethod clientMethod = getPsiMethod("constructor", "constructor.Constructor", "clientMethod");
         clientMethod.accept(psiToDslConverter);
         String dsl = psiToDslConverter.getDsl();
         assertThat(dsl, is("Constructor.clientMethod() {\n\tconstructor.Constructor c = new Constructor();\n}\n"));
