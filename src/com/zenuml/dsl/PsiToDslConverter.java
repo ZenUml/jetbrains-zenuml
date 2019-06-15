@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private static final Logger LOG = Logger.getInstance(PsiToDslConverter.class);
 
-
     private String dsl = "";
     private int level = 0;
     private ArrayList<PsiMethod> callStack = new ArrayList<>();
@@ -36,7 +35,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         int size = callStack.size();
         if (size > 0) {
             PsiMethod parentMethod = callStack.get(size - 1);
-            if (parentMethod.getContainingClass().getName().equals(method.getContainingClass().getName())) {
+            if (parentMethod.getContainingClass().equals(method.getContainingClass())) {
                 dsl += method.getName();
             } else {
                 dsl += method.getContainingClass().getName() + "." + method.getName();
