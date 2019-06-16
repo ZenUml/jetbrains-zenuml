@@ -48,7 +48,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         } else {
             int index = zenDsl.getDsl().lastIndexOf(insertBefore);
             String remainder = zenDsl.getDsl().substring(index);
-            zenDsl.cut(0, index);
+            zenDsl.keepHead(index);
             zenDsl.addMethodCall(methodCall);
             processChildren(method);
             zenDsl.addRemainder(remainder);

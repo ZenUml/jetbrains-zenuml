@@ -30,8 +30,8 @@ public class ZenDsl {
         dsl.append(indent).append(remainder);
     }
 
-    public void cut(int i, int index) {
-        dsl.replace(i, dsl.length(), dsl.substring(i, index));
+    void keepHead(int pos) {
+        dsl.replace(0, dsl.length(), dsl.substring(0, pos));
     }
 
     @NotNull
