@@ -1,38 +1,24 @@
 package com.zenuml.converter;
 
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiMethod;
-import com.zenuml.dsl.PsiToDslConverter;
-import com.zenuml.testFramework.fixture.ZenUmlTestCase;
+import org.jetbrains.annotations.NotNull;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
-public class SimpleMessageZenUmlTest extends ZenUmlTestCase {
-
-    private PsiToDslConverter psiToDslConverter;
-
-    public void setUp() throws Exception {
-        super.setUp();
-        psiToDslConverter = new PsiToDslConverter();
-    }
+public class SimpleMessageZenUmlTest extends BaseDslConversionTest {
 
     public void test_convert_to_dsl_simpleMessage() {
-        myFixture.copyDirectoryToProject("simpleMessage","");
-        PsiClass selfMessageClass = myFixture.findClass("simpleMessage.SimpleMessage");
-        PsiMethod clientMethod = selfMessageClass.findMethodsByName("clientMethod", true)[0];
-        clientMethod.accept(psiToDslConverter);
-        String dsl = psiToDslConverter.getDsl();
-        assertThat(dsl, is("SimpleMessage.clientMethod();\n"));
+        testDslConversion("clientMethod", "SimpleMessage.clientMethod();\n");
     }
 
     public void test_convert_to_dsl_nestedMessage() {
-        myFixture.copyDirectoryToProject("simpleMessage","");
-        PsiClass selfMessageClass = myFixture.findClass("simpleMessage.SimpleMessage");
-        PsiMethod clientMethod = selfMessageClass.findMethodsByName("nestedMethod", true)[0];
-        clientMethod.accept(psiToDslConverter);
-        String dsl = psiToDslConverter.getDsl();
-        assertThat(dsl, is("SimpleMessage.nestedMethod() {\n\tSimpleMessage.clientMethod();\n}\n"));
+        testDslConversion("nestedMethod", "SimpleMessage.nestedMethod() {\n\tclientMethod();\n}\n");
     }
 
+    public void test_convert_to_dsl_nestedMessage_with_assignment() {
+        testDslConversion("nestedMethod_with_assignment", "SimpleMessage.nestedMethod_with_assignment() {\n\tString s = clientMethod();\n}\n");
+    }
+
+    @NotNull
+    @Override
+    protected String getClassName() {
+        return "simpleMessage.SimpleMessage";
+    }
 }
