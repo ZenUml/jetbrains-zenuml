@@ -50,7 +50,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             zenDsl.addMethodCall(methodCall);
             processChildren(method);
 
-            zenDsl.addRemainder(remainder, this.level);
+            zenDsl.addRemainder(remainder, this.zenDsl.getLevel());
         }
     }
 
@@ -125,13 +125,13 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     public void visitDeclarationStatement(PsiDeclarationStatement statement) {
         LOG.debug("Enter: visitDeclarationStatement: " + statement);
-        zenDsl.appendIndent(level);
+        zenDsl.appendIndent(zenDsl.getLevel());
         super.visitDeclarationStatement(statement);
     }
 
     public void visitExpressionStatement(PsiExpressionStatement statement) {
         LOG.debug("Enter: visitExpressionStatement: " + statement);
-        zenDsl.appendIndent(level);
+        zenDsl.appendIndent(zenDsl.getLevel());
         super.visitExpressionStatement(statement);
     }
 
@@ -181,7 +181,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitWhileStatement(PsiWhileStatement statement) {
-        String indent = ZenDsl.getIndent(level);
+        String indent = zenDsl.getIndent(zenDsl.getLevel());
         zenDsl.append(newlineIfNecessary() + indent + "while" + getCondition(statement));
 
         boolean hasBlock = hasBlock(statement.getChildren());
@@ -204,7 +204,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitIfStatement(PsiIfStatement statement) {
         LOG.debug("Enter: visitIfStatement: " + statement);
 
-        String indent = ZenDsl.getIndent(level);
+        String indent = zenDsl.getIndent(zenDsl.getLevel());
         zenDsl.append(newlineIfNecessary() + indent + "if(");
         List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(PsiLiteralExpression.class,
                 PsiBinaryExpression.class,
@@ -252,7 +252,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         zenDsl.levelDecrease();
         level--;
-        zenDsl.append(newlineIfNecessary() + ZenDsl.getIndent(level) + "}\n");
+        zenDsl.append(newlineIfNecessary() + zenDsl.getIndent(zenDsl.getLevel()) + "}\n");
     }
 
     public String getDsl() {

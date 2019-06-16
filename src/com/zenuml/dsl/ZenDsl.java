@@ -6,7 +6,7 @@ public class ZenDsl {
     private StringBuffer dsl = new StringBuffer();
     private int level = 0;
 
-    static String getIndent(int number) {
+    String getIndent(int number) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < number; i++) {
             builder.append('\t');
