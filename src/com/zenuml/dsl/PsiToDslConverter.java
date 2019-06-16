@@ -129,7 +129,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     // variable: String s = clientMethod();
     public void visitLocalVariable(PsiLocalVariable variable) {
         LOG.debug("Enter: visitLocalVariable: " + variable);
-        zenDsl.appendAssignment(variable);
+        zenDsl.appendAssignment(variable.getType().getCanonicalText(), variable.getName());
         super.visitLocalVariable(variable);
         LOG.debug("Exit: visitLocalVariable: " + variable);
     }
