@@ -1,5 +1,6 @@
 package com.zenuml.dsl;
 
+import com.intellij.psi.PsiLocalVariable;
 import org.jetbrains.annotations.NotNull;
 import java.util.stream.IntStream;
 
@@ -65,5 +66,12 @@ public class ZenDsl {
         String remainder = getDsl().substring(index);
         cut(0, index);
         return remainder;
+    }
+
+    void appendAssignment(PsiLocalVariable variable) {
+        append(variable.getType().getCanonicalText());
+        append(" ");
+        append(variable.getName());
+        append(" = ");
     }
 }
