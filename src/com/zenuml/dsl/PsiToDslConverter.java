@@ -43,13 +43,13 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     private void process(PsiMethod method, String insertBefore, String methodCall) {
         if (insertBefore == null) {
-            zenDsl.addMethodCall(methodCall);
+            zenDsl.append(methodCall);
             processChildren(method);
         } else {
             int index = zenDsl.getDsl().lastIndexOf(insertBefore);
             String remainder = zenDsl.getDsl().substring(index);
             zenDsl.keepHead(index);
-            zenDsl.addMethodCall(methodCall);
+            zenDsl.append(methodCall);
             processChildren(method);
             zenDsl.addRemainder(remainder);
         }
@@ -138,7 +138,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitWhileStatement(PsiWhileStatement statement) {
         LOG.debug("Enter: visitWhileStatement: " + statement);
 
-        zenDsl.addIndent()
+        zenDsl.appendIndent()
                 .append("while")
                 .openParenthesis()
                 .append(getCondition(statement))
@@ -151,7 +151,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitIfStatement(PsiIfStatement statement) {
         LOG.debug("Enter: visitIfStatement: " + statement);
 
-        zenDsl.addIndent()
+        zenDsl.appendIndent()
                 .append("if")
                 .openParenthesis()
                 .append(getCondition(statement))

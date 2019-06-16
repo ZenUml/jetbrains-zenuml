@@ -8,26 +8,22 @@ public class ZenDsl {
     private int level = 0;
 
     String getIndent() {
-        return IntStream.range(0, level).mapToObj(i -> "\t").reduce((s1, s2) -> s1 + s2).orElse("");
-    }
-
-    public void setDsl(String dsl) {
-        this.dsl = new StringBuffer(dsl);
+        return IntStream.range(0, level)
+                .mapToObj(i -> "\t")
+                .reduce((s1, s2) -> s1 + s2)
+                .orElse("");
     }
 
     public String getDsl() {
         return dsl.toString();
     }
 
-    void addMethodCall(String methodCall) {
-        dsl.append(methodCall);
-    }
-
     void addRemainder(String remainder) {
+        // because body of the while statement was process before.
         level--;
-        String indent = getIndent();
+        appendIndent();
         level++;
-        dsl.append(indent).append(remainder);
+        append(remainder);
     }
 
     void keepHead(int pos) {
@@ -55,8 +51,7 @@ public class ZenDsl {
 
     @NotNull
     ZenDsl closeExpressionAndNewLine() {
-        dsl.append(";\n");
-        return this;
+        return append(";").changeLine();
     }
 
     void appendAssignment(String type, String name) {
@@ -84,11 +79,6 @@ public class ZenDsl {
         appendIndent()
         .append("}")
         .changeLine();
-    }
-
-    @NotNull
-    ZenDsl addIndent() {
-        return append(getIndent());
     }
 
     @NotNull
