@@ -3,20 +3,14 @@ package com.zenuml.dsl;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
 import io.reactivex.Observable;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
-
-import static java.lang.String.format;
+import java.util.Arrays;
 
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private static final Logger LOG = Logger.getInstance(PsiToDslConverter.class);
 
     private final MethodStack methodStack = new MethodStack();
     private final ZenDsl zenDsl = new ZenDsl();
-    private final List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(PsiLiteralExpression.class,
-            PsiBinaryExpression.class,
-            PsiReferenceExpression.class);
 
     // TODO: we are not following the implementation of constructor. The behaviour is NOT defined.
     public void visitNewExpression(PsiNewExpression expression) {
