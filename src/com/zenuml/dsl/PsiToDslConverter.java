@@ -184,7 +184,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             zenDsl.closeExpressionAndNewLine();
             return;
         }
-        // getBody return null if the method belongs to a compiled class
         zenDsl.startBlock();
         super.visitCodeBlock(block);
         zenDsl.closeBlock();
