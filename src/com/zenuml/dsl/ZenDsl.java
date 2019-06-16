@@ -35,8 +35,9 @@ public class ZenDsl {
     }
 
     @NotNull
-    StringBuffer append(String s) {
-        return dsl.append(s);
+    ZenDsl append(String s) {
+        dsl.append(s);
+        return this;
     }
 
     void appendIndent() {
@@ -52,4 +53,9 @@ public class ZenDsl {
         level--;
     }
 
+    @NotNull
+    ZenDsl closeExpressionAndNewLine() {
+        dsl.append(";\n");
+        return this;
+    }
 }

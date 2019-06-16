@@ -13,9 +13,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private final MethodStack methodStack = new MethodStack();
     private final ZenDsl zenDsl = new ZenDsl();
 
+    // TODO: we are not following the implementation of constructor. The behaviour is NOT defined.
     public void visitNewExpression(PsiNewExpression expression) {
         LOG.debug("Enter: visitNewExpression: " + expression);
-        zenDsl.append(expression.getText()).append(";\n");
+        zenDsl.append(expression.getText()).closeExpressionAndNewLine();
         super.visitNewExpression(expression);
         LOG.debug("Exit: visitNewExpression: " + expression);
     }
@@ -234,7 +235,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitCodeBlock(PsiCodeBlock block) {
         LOG.debug("Enter: visitCodeBlock: " + block);
         if (block.getStatements().length == 0) {
-            zenDsl.append(";\n");
+            zenDsl.closeExpressionAndNewLine();
             return;
         }
         // getBody return null if the method belongs to a compiled class
