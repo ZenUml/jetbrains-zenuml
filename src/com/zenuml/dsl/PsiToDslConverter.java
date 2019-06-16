@@ -73,18 +73,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         return methodPrefix + method.getName();
     }
 
-    //    public void visitParameter(PsiParameter parameter) {
-//        LOG.debug("Enter: visitParameter: " + parameter);
-//        super.visitParameter(parameter);
-//        LOG.debug("Exit: visitParameter: " + parameter);
-//    }
-
-//    public void visitReceiverParameter(PsiReceiverParameter parameter) {
-//        LOG.debug("Enter: visitReceiverParameter: " + parameter);
-//        super.visitReceiverParameter(parameter);
-//        LOG.debug("Exit: visitReceiverParameter: " + parameter);
-//    }
-
     public void visitParameterList(PsiParameterList list) {
         LOG.debug("Enter: visitParameterList: " + list);
         zenDsl.append("(");
@@ -92,29 +80,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         zenDsl.append(")");
         LOG.debug("Exit: visitParameterList: " + list);
     }
-
-    //    @Override
-//    public void visitReferenceExpression(PsiReferenceExpression expression) {
-//        LOG.debug("Enter: visitReferenceExpression: " + expression);
-//        super.visitReferenceExpression(expression);
-//        LOG.debug("Exit: visitReferenceExpression: " + expression);
-//    }
-
-//    @Override
-//    public void visitModifierList(PsiModifierList list) {
-//        LOG.debug("Enter: visitModifierList: " + list);
-//        super.visitModifierList(list);
-//    }
-
-//    @Override
-//    public void visitTypeElement(PsiTypeElement type) {
-//        LOG.debug("Enter: visitTypeElement: " + type);
-//        if (!type.getText().equals("void")) {
-//            dsl.append(type.getText() + " ";
-//        }
-//        super.visitTypeElement(type);
-//        LOG.debug("Exit: visitTypeElement: " + type);
-//    }
 
     public void visitDeclarationStatement(PsiDeclarationStatement statement) {
         LOG.debug("Enter: visitDeclarationStatement: " + statement);
