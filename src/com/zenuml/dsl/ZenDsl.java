@@ -60,20 +60,30 @@ public class ZenDsl {
     }
 
     void appendAssignment(String type, String name) {
-        append(type);
-        append(" ");
-        append(name);
-        append(" = ");
+        append(type)
+        .whiteSpace()
+        .append(name)
+        .whiteSpace()
+        .append("=")
+        .whiteSpace();
     }
 
     void startBlock() {
-        append(" {\n");
+        whiteSpace()
+        .append("{")
+        .changeLine();
         levelIncrease();
+    }
+
+    private ZenDsl whiteSpace() {
+        return append(" ");
     }
 
     void closeBlock() {
         levelDecrease();
-        appendIndent().append("}").changeLine();
+        appendIndent()
+        .append("}")
+        .changeLine();
     }
 
     @NotNull
@@ -91,7 +101,7 @@ public class ZenDsl {
         return append(")");
     }
 
-    public ZenDsl changeLine() {
+    ZenDsl changeLine() {
         return append("\n");
     }
 
