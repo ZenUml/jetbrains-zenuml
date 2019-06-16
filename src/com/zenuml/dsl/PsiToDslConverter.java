@@ -136,8 +136,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitWhileStatement(PsiWhileStatement statement) {
-        String indent = zenDsl.getIndent();
-        zenDsl.append(indent + "while" + getCondition(statement));
+        zenDsl.addIndent().append("while" + getCondition(statement));
 
         boolean hasBlock = hasBlock(statement.getChildren());
         if (!hasBlock) {
@@ -153,8 +152,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitIfStatement(PsiIfStatement statement) {
         LOG.debug("Enter: visitIfStatement: " + statement);
 
-        String indent = zenDsl.getIndent();
-        zenDsl.append(indent + "if(");
+        zenDsl.addIndent().append("if(");
         List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(PsiLiteralExpression.class,
                 PsiBinaryExpression.class,
                 PsiReferenceExpression.class);

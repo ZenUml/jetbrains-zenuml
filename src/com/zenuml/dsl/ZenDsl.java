@@ -80,4 +80,9 @@ public class ZenDsl {
         levelDecrease();
         append(newlineIfNecessary() + getIndent() + "}\n");
     }
+
+    @NotNull
+    ZenDsl addIndent() {
+        return append(getIndent());
+    }
 }
