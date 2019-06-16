@@ -67,7 +67,8 @@ public class ZenDsl {
     }
 
     String newlineIfNecessary() {
-        return dsl.length() == 0 || dsl.toString().endsWith("\n") ? "" : "\n";
+        assert dsl.length() > 0;
+        return dsl.toString().endsWith("\n") ? "" : "\n";
     }
 
     void startBlock() {
@@ -75,8 +76,8 @@ public class ZenDsl {
         levelIncrease();
     }
 
-    void closeWhileBlock() {
+    void closeBlock() {
         levelDecrease();
-        append(getIndent() + "}\n");
+        append(newlineIfNecessary() + getIndent() + "}\n");
     }
 }
