@@ -36,6 +36,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         if (methodStack.contains(method)) {
             LOG.debug("Exit (loop detected): visitMethod: " + method);
+            zenDsl.changeLine();
             return;
         }
 
@@ -175,6 +176,13 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if (!hasBlock) {
             zenDsl.closeBlock();
         }
+    }
+
+    // A a = B.method() seems not triggering this method
+    // Only simple `i = 1` does.
+    @Override
+    public void visitAssignmentExpression(PsiAssignmentExpression expression) {
+        zenDsl.comment(expression.getText());
     }
 
     @Override

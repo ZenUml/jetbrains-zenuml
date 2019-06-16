@@ -19,7 +19,7 @@ public class ZenDsl {
         return dsl.toString();
     }
 
-    public void addMethodCall(String methodCall) {
+    void addMethodCall(String methodCall) {
         dsl.append(methodCall);
     }
 
@@ -40,16 +40,16 @@ public class ZenDsl {
         return this;
     }
 
-    void appendIndent() {
+    ZenDsl appendIndent() {
         String indent = getIndent();
-        append(indent);
+        return append(indent);
     }
 
-    public void levelIncrease() {
+    private void levelIncrease() {
         level++;
     }
 
-    public void levelDecrease() {
+    private void levelDecrease() {
         level--;
     }
 
@@ -66,11 +66,6 @@ public class ZenDsl {
         append(" = ");
     }
 
-    String newlineIfNecessary() {
-        assert dsl.length() > 0;
-        return dsl.toString().endsWith("\n") ? "" : "\n";
-    }
-
     void startBlock() {
         append(" {\n");
         levelIncrease();
@@ -78,7 +73,7 @@ public class ZenDsl {
 
     void closeBlock() {
         levelDecrease();
-        append(newlineIfNecessary() + getIndent() + "}\n");
+        appendIndent().append("}").changeLine();
     }
 
     @NotNull
@@ -94,5 +89,13 @@ public class ZenDsl {
     @NotNull
     ZenDsl closeParenthesis() {
         return append(")");
+    }
+
+    public ZenDsl changeLine() {
+        return append("\n");
+    }
+
+    public ZenDsl comment(String text) {
+        return append("// ").append(text).changeLine();
     }
 }
