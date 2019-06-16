@@ -65,4 +65,13 @@ public class ZenDsl {
         append(name);
         append(" = ");
     }
+
+    String newlineIfNecessary() {
+        return dsl.length() == 0 || dsl.toString().endsWith("\n") ? "" : "\n";
+    }
+
+    void startBlock() {
+        append(" {\n");
+        levelIncrease();
+    }
 }

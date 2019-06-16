@@ -137,17 +137,16 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitWhileStatement(PsiWhileStatement statement) {
         String indent = zenDsl.getIndent();
-        zenDsl.append(newlineIfNecessary() + indent + "while" + getCondition(statement));
+        zenDsl.append(zenDsl.newlineIfNecessary() + indent + "while" + getCondition(statement));
 
         boolean hasBlock = hasBlock(statement.getChildren());
         if (!hasBlock) {
-            zenDsl.append(" {\n");
-            zenDsl.levelIncrease();
+            zenDsl.startBlock();
         }
         super.visitWhileStatement(statement);
         if (!hasBlock) {
             zenDsl.levelDecrease();
-            zenDsl.append(newlineIfNecessary() + indent + "}\n");
+            zenDsl.append(zenDsl.newlineIfNecessary() + indent + "}\n");
         }
     }
 
@@ -156,7 +155,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Enter: visitIfStatement: " + statement);
 
         String indent = zenDsl.getIndent();
-        zenDsl.append(newlineIfNecessary() + indent + "if(");
+        zenDsl.append(zenDsl.newlineIfNecessary() + indent + "if(");
         List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(PsiLiteralExpression.class,
                 PsiBinaryExpression.class,
                 PsiReferenceExpression.class);
@@ -170,13 +169,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 .findFirst().ifPresent(e -> zenDsl.append(e.getText() + ")"));
         boolean hasBlock = hasBlock(statement.getChildren());
         if (!hasBlock) {
-            zenDsl.append(" {\n");
-            zenDsl.levelIncrease();
+            zenDsl.startBlock();
         }
         super.visitIfStatement(statement);
         if (!hasBlock) {
             zenDsl.levelDecrease();
-            zenDsl.append(newlineIfNecessary() + indent + "}\n");
+            zenDsl.append(zenDsl.newlineIfNecessary() + indent + "}\n");
         }
     }
 
@@ -199,7 +197,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         super.visitCodeBlock(block);
 
         zenDsl.levelDecrease();
-        zenDsl.append(newlineIfNecessary() + zenDsl.getIndent() + "}\n");
+        zenDsl.append(zenDsl.newlineIfNecessary() + zenDsl.getIndent() + "}\n");
     }
 
     public String getDsl() {
@@ -236,10 +234,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     private boolean isParenth(PsiElement child, String parenth) {
         return child instanceof PsiJavaToken && ((PsiJavaToken) child).getTokenType().toString().equals(parenth);
-    }
-
-    private String newlineIfNecessary() {
-        return zenDsl.getDsl().toString().isEmpty() || zenDsl.getDsl().toString().endsWith("\n") ? "" : "\n";
     }
 
 }
