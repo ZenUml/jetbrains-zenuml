@@ -158,14 +158,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(PsiLiteralExpression.class,
                 PsiBinaryExpression.class,
                 PsiReferenceExpression.class);
-        System.out.println("Enter: visitIfStatement:" + statement);
         Arrays.stream(statement.getChildren())
-                .filter(e -> {
-                    System.out.println(e.toString());
-                    return true;
-                })
                 .filter(e -> allowedConditionExpressions.stream().anyMatch(clz -> clz.isInstance(e)))
-                .findFirst().ifPresent(e -> zenDsl.append(e.getText() + ")"));
+                .findFirst().ifPresent(e -> zenDsl.append(e.getText()));
+        zenDsl.append(")");
         boolean hasBlock = hasBlock(statement.getChildren());
         if (!hasBlock) {
             zenDsl.startBlock();
