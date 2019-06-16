@@ -6,9 +6,10 @@ import com.intellij.psi.*;
 import java.util.*;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
+
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private static final Logger LOG = Logger.getInstance(PsiToDslConverter.class);
-
 
     private String dsl = "";
     private int level = 0;
@@ -16,41 +17,67 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     public void visitNewExpression(PsiNewExpression expression) {
         LOG.debug("Enter: visitNewExpression: " + expression);
-        String indent = getIndent(level);
-        dsl += indent + expression.getText() + ";\n";
+        dsl += expression.getText() + ";\n";
         super.visitNewExpression(expression);
         LOG.debug("Exit: visitNewExpression: " + expression);
     }
 
     @Override
     public void visitMethod(PsiMethod method) {
+        visitMethod(method, null);
+    }
+
+    private void visitMethod(PsiMethod method, String insertBefore) {
         LOG.debug("Enter: visitMethod: " + method);
 
-        if(callStack.contains(method)) {
+        if (callStack.contains(method)) {
             String callLoop = Stream.concat(callStack.stream(), Stream.of(method))
                     .map(PsiMethod::getName)
-                    .reduce((m1, m2) -> String.format("%s -> %s", m1, m2))
+                    .reduce((m1, m2) -> format("%s -> %s", m1, m2))
                     .get();
-            LOG.info(String.format("Call loop detected: %s, stopped", callLoop));
+            LOG.info(format("Call loop detected: %s, stopped", callLoop));
             return;
         }
 
-        String indent = getIndent(level);
-        dsl += newlineIfNecessary() + indent + method.getContainingClass().getName() + "." + method.getName();
+        String methodName = getMethodPrefix(method) + method.getName();
+
+        String remainder = "";
+        if (insertBefore != null) {
+            int index = dsl.lastIndexOf(insertBefore);
+            remainder = this.dsl.substring(index);
+            this.dsl = this.dsl.substring(0, index);
+        }
+
+        this.dsl += methodName;
 
         callStack.add(method);
 
         super.visitMethod(method);
         callStack.remove(method);
 
+        if (remainder.length() > 0) {
+            this.dsl += getIndent(level - 1) + remainder;
+        }
+
         LOG.debug("Exit: visitMethod: " + method);
     }
 
-    public void visitParameter(PsiParameter parameter) {
-        LOG.debug("Enter: visitParameter: " + parameter);
-        super.visitParameter(parameter);
-        LOG.debug("Exit: visitParameter: " + parameter);
+    private String getMethodPrefix(PsiMethod method) {
+        int size = callStack.size();
+        if (size > 0) {
+            PsiMethod parentMethod = callStack.get(size - 1);
+            if (parentMethod.getContainingClass().equals(method.getContainingClass())) {
+                return "";
+            }
+        }
+        return method.getContainingClass().getName() + ".";
     }
+
+    //    public void visitParameter(PsiParameter parameter) {
+//        LOG.debug("Enter: visitParameter: " + parameter);
+//        super.visitParameter(parameter);
+//        LOG.debug("Exit: visitParameter: " + parameter);
+//    }
 
 //    public void visitReceiverParameter(PsiReceiverParameter parameter) {
 //        LOG.debug("Enter: visitReceiverParameter: " + parameter);
@@ -66,28 +93,107 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Exit: visitParameterList: " + list);
     }
 
-    @Override
-    public void visitReferenceExpression(PsiReferenceExpression expression) {
-        LOG.debug("Enter: visitReferenceExpression: " + expression);
-        super.visitReferenceExpression(expression);
-        LOG.debug("Exit: visitReferenceExpression: " + expression);
+//    @Override
+//    public void visitReferenceExpression(PsiReferenceExpression expression) {
+//        LOG.debug("Enter: visitReferenceExpression: " + expression);
+//        super.visitReferenceExpression(expression);
+//        LOG.debug("Exit: visitReferenceExpression: " + expression);
+//    }
+
+//    @Override
+//    public void visitModifierList(PsiModifierList list) {
+//        LOG.debug("Enter: visitModifierList: " + list);
+//        super.visitModifierList(list);
+//    }
+
+//    @Override
+//    public void visitTypeElement(PsiTypeElement type) {
+//        LOG.debug("Enter: visitTypeElement: " + type);
+//        if (!type.getText().equals("void")) {
+//            dsl += type.getText() + " ";
+//        }
+//        super.visitTypeElement(type);
+//        LOG.debug("Exit: visitTypeElement: " + type);
+//    }
+
+    public void visitDeclarationStatement(PsiDeclarationStatement statement) {
+        LOG.debug("Enter: visitDeclarationStatement: " + statement);
+        String indent = getIndent(level);
+        dsl += indent;
+        super.visitDeclarationStatement(statement);
+    }
+
+    public void visitExpressionStatement(PsiExpressionStatement statement) {
+        LOG.debug("Enter: visitExpressionStatement: " + statement);
+        String indent = getIndent(level);
+        dsl += indent;
+        super.visitExpressionStatement(statement);
+    }
+
+    // variable: String s = clientMethod();
+    public void visitLocalVariable(PsiLocalVariable variable) {
+        LOG.debug("Enter: visitLocalVariable: " + variable);
+        dsl += variable.getType().getCanonicalText();
+        dsl += " ";
+        dsl += variable.getName();
+        dsl += " = ";
+        super.visitLocalVariable(variable);
+        LOG.debug("Exit: visitLocalVariable: " + variable);
     }
 
     @Override
     public void visitMethodCallExpression(PsiMethodCallExpression expression) {
         LOG.debug("Enter: visitMethodCallExpression: " + expression);
+
         super.visitMethodCallExpression(expression);
 
         PsiMethod method = expression.resolveMethod();
         if (method != null) {
             LOG.debug("Method resolved from expression:" + method);
-            visitMethod(method);
+            PsiElement whileChild = getDirectWhileStatementChildFromAncestors(expression);
+            String insertBefore = whileChild != null && isInsideCondition(whileChild) ? "while" : null;
+            visitMethod(method, insertBefore);
+        }
+    }
+
+    private PsiElement getDirectWhileStatementChildFromAncestors(PsiElement element) {
+        PsiElement current = element;
+        PsiElement parent = current.getParent();
+        while (parent != null) {
+            if(parent instanceof PsiWhileStatement) return current;
+            current = parent;
+            parent = current.getParent();
+        }
+        return null;
+    }
+
+    private boolean isInsideCondition(PsiElement element) {
+        PsiElement nextSibling = element.getNextSibling();
+        if(nextSibling == null) return false;
+        if(isRparenth(nextSibling)) return true;
+        return isInsideCondition(nextSibling);
+    }
+
+    @Override
+    public void visitWhileStatement(PsiWhileStatement statement) {
+        String indent = getIndent(level);
+        dsl += newlineIfNecessary() + indent + "while" + getCondition(statement);
+
+        boolean hasBlock = hasBlock(statement.getChildren());
+        if (!hasBlock) {
+            dsl += " {\n";
+            level++;
+        }
+        super.visitWhileStatement(statement);
+        if (!hasBlock) {
+            level--;
+            dsl += newlineIfNecessary() + indent + "}\n";
         }
     }
 
     @Override
     public void visitIfStatement(PsiIfStatement statement) {
-        LOG.debug("Enter: visitMethodCallExpression: " + statement);
+        LOG.debug("Enter: visitIfStatement: " + statement);
 
         String indent = getIndent(level);
         dsl += newlineIfNecessary() + indent + "if(";
@@ -102,13 +208,13 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 })
                 .filter(e -> allowedConditionExpressions.stream().anyMatch(clz -> clz.isInstance(e)))
                 .findFirst().ifPresent(e -> dsl += e.getText() + ")");
-        boolean hasBlock = Arrays.stream(statement.getChildren()).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
-        if(!hasBlock) {
+        boolean hasBlock = hasBlock(statement.getChildren());
+        if (!hasBlock) {
             dsl += " {\n";
             level++;
         }
         super.visitIfStatement(statement);
-        if(!hasBlock) {
+        if (!hasBlock) {
             level--;
             dsl += newlineIfNecessary() + indent + "}\n";
         }
@@ -138,6 +244,34 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     public String getDsl() {
         return dsl;
+    }
+
+    private boolean hasBlock(PsiElement[] children) {
+        return Arrays.stream(children).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
+    }
+
+    private String getCondition(PsiWhileStatement statement) {
+        boolean started = false;
+        ArrayList<PsiElement> elements = new ArrayList<>();
+        for (PsiElement child : statement.getChildren()) {
+            if (started) {
+                if (isRparenth(child)) {
+                    break;
+                }
+                elements.add(child);
+            } else if (isParenth(child, "LPARENTH")) {
+                started = true;
+            }
+        }
+        return format("(%s)", elements.stream().map(PsiElement::getText).reduce((s1, s2) -> s1 + s2).orElse(""));
+    }
+
+    private boolean isRparenth(PsiElement child) {
+        return isParenth(child, "RPARENTH");
+    }
+
+    private boolean isParenth(PsiElement child, String parenth) {
+        return child instanceof PsiJavaToken && ((PsiJavaToken) child).getTokenType().toString().equals(parenth);
     }
 
     private String newlineIfNecessary() {
