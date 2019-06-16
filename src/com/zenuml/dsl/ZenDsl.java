@@ -85,4 +85,14 @@ public class ZenDsl {
     ZenDsl addIndent() {
         return append(getIndent());
     }
+
+    @NotNull
+    ZenDsl openParenthesis() {
+        return append("(");
+    }
+
+    @NotNull
+    ZenDsl closeParenthesis() {
+        return append(")");
+    }
 }

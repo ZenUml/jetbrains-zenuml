@@ -75,9 +75,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     public void visitParameterList(PsiParameterList list) {
         LOG.debug("Enter: visitParameterList: " + list);
-        zenDsl.append("(");
+        zenDsl.openParenthesis();
         super.visitParameterList(list);
-        zenDsl.append(")");
+        zenDsl.closeParenthesis();
         LOG.debug("Exit: visitParameterList: " + list);
     }
 
@@ -152,14 +152,18 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitIfStatement(PsiIfStatement statement) {
         LOG.debug("Enter: visitIfStatement: " + statement);
 
-        zenDsl.addIndent().append("if(");
+        zenDsl.addIndent()
+                .append("if")
+                .openParenthesis();
+
         List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(PsiLiteralExpression.class,
                 PsiBinaryExpression.class,
                 PsiReferenceExpression.class);
         Arrays.stream(statement.getChildren())
                 .filter(e -> allowedConditionExpressions.stream().anyMatch(clz -> clz.isInstance(e)))
                 .findFirst().ifPresent(e -> zenDsl.append(e.getText()));
-        zenDsl.append(")");
+
+        zenDsl.closeParenthesis();
         boolean hasBlock = hasBlock(statement.getChildren());
         if (!hasBlock) {
             zenDsl.startBlock();
