@@ -59,14 +59,6 @@ public class ZenDsl {
         return this;
     }
 
-    String getRemainder(String cursorWord) {
-        int index = getDsl().lastIndexOf(cursorWord);
-
-        String remainder = getDsl().substring(index);
-        cut(0, index);
-        return remainder;
-    }
-
     void appendAssignment(String type, String name) {
         append(type);
         append(" ");
