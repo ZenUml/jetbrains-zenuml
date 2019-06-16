@@ -49,7 +49,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             zenDsl.addMethodCall(methodCall);
             processChildren(method);
 
-            zenDsl.addRemainder(remainder, this.zenDsl.getLevel());
+            zenDsl.addRemainder(remainder);
         }
     }
 
@@ -124,13 +124,13 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     public void visitDeclarationStatement(PsiDeclarationStatement statement) {
         LOG.debug("Enter: visitDeclarationStatement: " + statement);
-        zenDsl.appendIndent(zenDsl.getLevel());
+        zenDsl.appendIndent();
         super.visitDeclarationStatement(statement);
     }
 
     public void visitExpressionStatement(PsiExpressionStatement statement) {
         LOG.debug("Enter: visitExpressionStatement: " + statement);
-        zenDsl.appendIndent(zenDsl.getLevel());
+        zenDsl.appendIndent();
         super.visitExpressionStatement(statement);
     }
 
@@ -180,7 +180,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitWhileStatement(PsiWhileStatement statement) {
-        String indent = zenDsl.getIndent(zenDsl.getLevel());
+        String indent = zenDsl.getIndent();
         zenDsl.append(newlineIfNecessary() + indent + "while" + getCondition(statement));
 
         boolean hasBlock = hasBlock(statement.getChildren());
@@ -199,7 +199,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitIfStatement(PsiIfStatement statement) {
         LOG.debug("Enter: visitIfStatement: " + statement);
 
-        String indent = zenDsl.getIndent(zenDsl.getLevel());
+        String indent = zenDsl.getIndent();
         zenDsl.append(newlineIfNecessary() + indent + "if(");
         List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(PsiLiteralExpression.class,
                 PsiBinaryExpression.class,
@@ -243,7 +243,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         super.visitCodeBlock(block);
 
         zenDsl.levelDecrease();
-        zenDsl.append(newlineIfNecessary() + zenDsl.getIndent(zenDsl.getLevel()) + "}\n");
+        zenDsl.append(newlineIfNecessary() + zenDsl.getIndent() + "}\n");
     }
 
     public String getDsl() {
