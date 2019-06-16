@@ -24,6 +24,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitMethod(PsiMethod method) {
+        visitMethod(method, null);
+    }
+
+    private void visitMethod(PsiMethod method, String insertBefore) {
         LOG.debug("Enter: visitMethod: " + method);
 
         if (callStack.contains(method)) {
@@ -34,35 +38,42 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             LOG.info(format("Call loop detected: %s, stopped", callLoop));
             return;
         }
-        int size = callStack.size();
-        if (size > 0) {
-            PsiMethod parentMethod = callStack.get(size - 1);
-            if (parentMethod.getContainingClass().equals(method.getContainingClass())) {
-                appendMethodName(method);
-            } else {
-                appendClassNameAndMethodName(method);
-            }
-        } else {
-            appendClassNameAndMethodName(method);
+
+        String methodName = getMethodPrefix(method) + method.getName();
+
+        String remainder = "";
+        if (insertBefore != null) {
+            int index = dsl.lastIndexOf(insertBefore);
+            remainder = this.dsl.substring(index);
+            this.dsl = this.dsl.substring(0, index);
         }
+
+        this.dsl += methodName;
 
         callStack.add(method);
 
         super.visitMethod(method);
         callStack.remove(method);
 
+        if (remainder.length() > 0) {
+            this.dsl += getIndent(level - 1) + remainder;
+        }
+
         LOG.debug("Exit: visitMethod: " + method);
     }
 
-    private void appendClassNameAndMethodName(PsiMethod method) {
-        dsl += method.getContainingClass().getName() + "." + method.getName();
+    private String getMethodPrefix(PsiMethod method) {
+        int size = callStack.size();
+        if (size > 0) {
+            PsiMethod parentMethod = callStack.get(size - 1);
+            if (parentMethod.getContainingClass().equals(method.getContainingClass())) {
+                return "";
+            }
+        }
+        return method.getContainingClass().getName() + ".";
     }
 
-    private void appendMethodName(PsiMethod method) {
-        dsl += method.getName();
-    }
-
-//    public void visitParameter(PsiParameter parameter) {
+    //    public void visitParameter(PsiParameter parameter) {
 //        LOG.debug("Enter: visitParameter: " + parameter);
 //        super.visitParameter(parameter);
 //        LOG.debug("Exit: visitParameter: " + parameter);
@@ -139,8 +150,28 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         PsiMethod method = expression.resolveMethod();
         if (method != null) {
             LOG.debug("Method resolved from expression:" + method);
-            visitMethod(method);
+            PsiElement whileChild = getDirectWhileStatementChildFromAncestors(expression);
+            String insertBefore = whileChild != null && isInsideCondition(whileChild) ? "while" : null;
+            visitMethod(method, insertBefore);
         }
+    }
+
+    private PsiElement getDirectWhileStatementChildFromAncestors(PsiElement element) {
+        PsiElement current = element;
+        PsiElement parent = current.getParent();
+        while (parent != null) {
+            if(parent instanceof PsiWhileStatement) return current;
+            current = parent;
+            parent = current.getParent();
+        }
+        return null;
+    }
+
+    private boolean isInsideCondition(PsiElement element) {
+        PsiElement nextSibling = element.getNextSibling();
+        if(nextSibling == null) return false;
+        if(isRparenth(nextSibling)) return true;
+        return isInsideCondition(nextSibling);
     }
 
     @Override
@@ -224,7 +255,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         ArrayList<PsiElement> elements = new ArrayList<>();
         for (PsiElement child : statement.getChildren()) {
             if (started) {
-                if (isParenth(child, "RPARENTH")) {
+                if (isRparenth(child)) {
                     break;
                 }
                 elements.add(child);
@@ -233,6 +264,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             }
         }
         return format("(%s)", elements.stream().map(PsiElement::getText).reduce((s1, s2) -> s1 + s2).orElse(""));
+    }
+
+    private boolean isRparenth(PsiElement child) {
+        return isParenth(child, "RPARENTH");
     }
 
     private boolean isParenth(PsiElement child, String parenth) {
