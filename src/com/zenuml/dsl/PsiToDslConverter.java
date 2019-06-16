@@ -190,7 +190,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     public String getDsl() {
-        return zenDsl.getDsl().toString();
+        return zenDsl.getDsl();
     }
 
     private boolean hasFollowingBraces(PsiElement[] children) {

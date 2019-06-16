@@ -15,8 +15,8 @@ public class ZenDsl {
         this.dsl = new StringBuffer(dsl);
     }
 
-    public StringBuffer getDsl() {
-        return dsl;
+    public String getDsl() {
+        return dsl.toString();
     }
 
     public void addMethodCall(String methodCall) {
