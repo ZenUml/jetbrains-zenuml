@@ -34,6 +34,46 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             return;
         }
 
+        String methodCall = getMethodCall(method);
+
+        process(method, insertBefore, methodCall);
+
+        LOG.debug("Exit: visitMethod: " + method);
+    }
+
+    private void process(PsiMethod method, String insertBefore, String methodCall) {
+        ZenDsl zenDsl = new ZenDsl(dsl);
+        if (insertBefore == null) {
+            zenDsl.addMethodCall(methodCall);
+            this.dsl = zenDsl.getDsl();
+            processChildren(method);
+        } else {
+            String remainder = getRemainder(zenDsl, insertBefore);
+            zenDsl.addMethodCall(methodCall);
+            dsl = zenDsl.getDsl();
+            processChildren(method);
+
+            zenDsl.addRemainder(remainder, this.level);
+            this.dsl = zenDsl.getDsl();
+        }
+    }
+
+    private String getRemainder(ZenDsl zenDsl, String insertBefore) {
+        int index = zenDsl.getDsl().lastIndexOf(insertBefore);
+        String remainder = zenDsl.getDsl().substring(index);
+        zenDsl.setDsl(zenDsl.getDsl().substring(0, index));
+        dsl = zenDsl.getDsl();
+
+        return remainder;
+    }
+
+    private void processChildren(PsiMethod method) {
+        methodStack.push(method);
+        super.visitMethod(method);
+        methodStack.pop();
+    }
+
+    private String getMethodCall(PsiMethod method) {
         PsiClass containingClass = method.getContainingClass();
         // prefix is : `ClassName.`
         String methodPrefix = methodStack
@@ -42,27 +82,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 .map(cls -> "")
                 .orElse(containingClass.getName() + ".");
 
-        String methodName = methodPrefix + method.getName();
-
-        String remainder = "";
-        if (insertBefore != null) {
-            int index = dsl.lastIndexOf(insertBefore);
-            remainder = this.dsl.substring(index);
-            this.dsl = new StringBuffer(this.dsl.substring(0, index));
-        }
-
-        this.dsl.append(methodName);
-
-        methodStack.push(method);
-
-        super.visitMethod(method);
-        methodStack.pop();
-
-        if (remainder.length() > 0) {
-            this.dsl.append(getIndent(level - 1) + remainder);
-        }
-
-        LOG.debug("Exit: visitMethod: " + method);
+        return methodPrefix + method.getName();
     }
 
     //    public void visitParameter(PsiParameter parameter) {
@@ -274,7 +294,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         return dsl.toString().isEmpty() || dsl.toString().endsWith("\n") ? "" : "\n";
     }
 
-    private static String getIndent(int number) {
+    static String getIndent(int number) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < number; i++) {
             builder.append('\t');
