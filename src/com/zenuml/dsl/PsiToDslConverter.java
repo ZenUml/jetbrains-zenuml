@@ -187,11 +187,15 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         boolean hasBlock = hasBlock(statement.getChildren());
         if (!hasBlock) {
             zenDsl.append(" {\n");
+            zenDsl.levelIncrease();
             level++;
+            assert level == zenDsl.getLevel();
         }
         super.visitWhileStatement(statement);
         if (!hasBlock) {
+            zenDsl.levelDecrease();
             level--;
+            assert level == zenDsl.getLevel();
             zenDsl.append(newlineIfNecessary() + indent + "}\n");
         }
     }
@@ -216,10 +220,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         boolean hasBlock = hasBlock(statement.getChildren());
         if (!hasBlock) {
             zenDsl.append(" {\n");
+            zenDsl.levelIncrease();
             level++;
         }
         super.visitIfStatement(statement);
         if (!hasBlock) {
+            zenDsl.levelDecrease();
             level--;
             zenDsl.append(newlineIfNecessary() + indent + "}\n");
         }
@@ -239,10 +245,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             return;
         }
         // getBody return null if the method belongs to a compiled class
+        zenDsl.levelIncrease();
         level++;
         zenDsl.append(" {\n");
         super.visitCodeBlock(block);
 
+        zenDsl.levelDecrease();
         level--;
         zenDsl.append(newlineIfNecessary() + ZenDsl.getIndent(level) + "}\n");
     }

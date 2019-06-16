@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ZenDsl {
     private StringBuffer dsl = new StringBuffer();
+    private int level = 0;
 
     static String getIndent(int number) {
         StringBuilder builder = new StringBuilder();
@@ -42,4 +43,17 @@ public class ZenDsl {
         String indent = getIndent(level);
         append(indent);
     }
+
+    public void levelIncrease() {
+        level++;
+    }
+
+    public void levelDecrease() {
+        level--;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
 }
