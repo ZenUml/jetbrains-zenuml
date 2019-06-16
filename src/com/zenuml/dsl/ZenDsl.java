@@ -74,4 +74,9 @@ public class ZenDsl {
         append(" {\n");
         levelIncrease();
     }
+
+    void closeWhileBlock() {
+        levelDecrease();
+        append(getIndent() + "}\n");
+    }
 }

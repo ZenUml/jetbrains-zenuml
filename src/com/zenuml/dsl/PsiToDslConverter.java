@@ -145,8 +145,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         }
         super.visitWhileStatement(statement);
         if (!hasBlock) {
-            zenDsl.levelDecrease();
-            zenDsl.append(indent + "}\n");
+            zenDsl.closeWhileBlock();
         }
     }
 
