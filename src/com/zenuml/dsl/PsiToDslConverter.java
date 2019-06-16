@@ -4,7 +4,6 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
@@ -13,7 +12,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     private String dsl = "";
     private int level = 0;
-    private ArrayList<PsiMethod> callStack = new ArrayList<>();
+    private final MethodStack methodStack = new MethodStack();
 
     public void visitNewExpression(PsiNewExpression expression) {
         LOG.debug("Enter: visitNewExpression: " + expression);
@@ -30,18 +29,14 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private void visitMethod(PsiMethod method, String insertBefore) {
         LOG.debug("Enter: visitMethod: " + method);
 
-        if (callStack.contains(method)) {
-            String callLoop = Stream.concat(callStack.stream(), Stream.of(method))
-                    .map(PsiMethod::getName)
-                    .reduce((m1, m2) -> format("%s -> %s", m1, m2))
-                    .get();
-            LOG.info(format("Call loop detected: %s, stopped", callLoop));
+        if (methodStack.contains(method)) {
+            LOG.debug("Exit (loop detected): visitMethod: " + method);
             return;
         }
 
         PsiClass containingClass = method.getContainingClass();
         // prefix is : `ClassName.`
-        String methodPrefix = new MethodStack(callStack)
+        String methodPrefix = methodStack
                 .peekContainingClass()
                 .filter(cls -> cls.equals(containingClass))
                 .map(cls -> "")
@@ -58,10 +53,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         this.dsl += methodName;
 
-        callStack.add(method);
+        methodStack.push(method);
 
         super.visitMethod(method);
-        callStack.remove(method);
+        methodStack.pop();
 
         if (remainder.length() > 0) {
             this.dsl += getIndent(level - 1) + remainder;
