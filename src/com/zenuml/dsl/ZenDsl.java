@@ -23,4 +23,8 @@ public class ZenDsl {
     void addRemainder(String remainder, int level) {
         dsl.append(PsiToDslConverter.getIndent(level - 1) + remainder);
     }
+
+    public void substring(int i, int index) {
+        dsl.replace(i, dsl.length(), dsl.substring(i, index));
+    }
 }
