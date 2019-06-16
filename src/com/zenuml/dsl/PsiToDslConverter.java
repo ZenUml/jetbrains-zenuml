@@ -184,12 +184,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     @Override
-    public void visitBlockStatement(PsiBlockStatement statement) {
-        LOG.debug("Enter: visitBlockStatement: " + statement);
-        super.visitBlockStatement(statement);
-    }
-
-    @Override
     public void visitCodeBlock(PsiCodeBlock block) {
         LOG.debug("Enter: visitCodeBlock: " + block);
         if (block.getStatements().length == 0) {
