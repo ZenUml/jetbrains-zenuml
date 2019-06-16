@@ -10,13 +10,13 @@ import static java.lang.String.format;
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private static final Logger LOG = Logger.getInstance(PsiToDslConverter.class);
 
-    private StringBuffer dsl = new StringBuffer();
     private int level = 0;
     private final MethodStack methodStack = new MethodStack();
+    private final ZenDsl zenDsl = new ZenDsl();
 
     public void visitNewExpression(PsiNewExpression expression) {
         LOG.debug("Enter: visitNewExpression: " + expression);
-        dsl.append(expression.getText()).append(";\n");
+        zenDsl.append(expression.getText()).append(";\n");
         super.visitNewExpression(expression);
         LOG.debug("Exit: visitNewExpression: " + expression);
     }
@@ -42,7 +42,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     private void process(PsiMethod method, String insertBefore, String methodCall) {
-        ZenDsl zenDsl = new ZenDsl(dsl);
         if (insertBefore == null) {
             zenDsl.addMethodCall(methodCall);
             processChildren(method);
@@ -59,7 +58,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         int index = zenDsl.getDsl().lastIndexOf(insertBefore);
 
         String remainder = zenDsl.getDsl().substring(index);
-        zenDsl.substring(0, index);
+        zenDsl.cut(0, index);
         return remainder;
     }
 
@@ -95,13 +94,13 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     public void visitParameterList(PsiParameterList list) {
         LOG.debug("Enter: visitParameterList: " + list);
-        dsl.append("(");
+        zenDsl.append("(");
         super.visitParameterList(list);
-        dsl.append(")");
+        zenDsl.append(")");
         LOG.debug("Exit: visitParameterList: " + list);
     }
 
-//    @Override
+    //    @Override
 //    public void visitReferenceExpression(PsiReferenceExpression expression) {
 //        LOG.debug("Enter: visitReferenceExpression: " + expression);
 //        super.visitReferenceExpression(expression);
@@ -126,25 +125,23 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     public void visitDeclarationStatement(PsiDeclarationStatement statement) {
         LOG.debug("Enter: visitDeclarationStatement: " + statement);
-        String indent = getIndent(level);
-        dsl.append(indent);
+        zenDsl.appendIndent(level);
         super.visitDeclarationStatement(statement);
     }
 
     public void visitExpressionStatement(PsiExpressionStatement statement) {
         LOG.debug("Enter: visitExpressionStatement: " + statement);
-        String indent = getIndent(level);
-        dsl.append(indent);
+        zenDsl.appendIndent(level);
         super.visitExpressionStatement(statement);
     }
 
     // variable: String s = clientMethod();
     public void visitLocalVariable(PsiLocalVariable variable) {
         LOG.debug("Enter: visitLocalVariable: " + variable);
-        dsl.append(variable.getType().getCanonicalText());
-        dsl.append(" ");
-        dsl.append(variable.getName());
-        dsl.append(" = ");
+        zenDsl.append(variable.getType().getCanonicalText());
+        zenDsl.append(" ");
+        zenDsl.append(variable.getName());
+        zenDsl.append(" = ");
         super.visitLocalVariable(variable);
         LOG.debug("Exit: visitLocalVariable: " + variable);
     }
@@ -184,18 +181,18 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitWhileStatement(PsiWhileStatement statement) {
-        String indent = getIndent(level);
-        dsl.append(newlineIfNecessary() + indent + "while" + getCondition(statement));
+        String indent = ZenDsl.getIndent(level);
+        zenDsl.append(newlineIfNecessary() + indent + "while" + getCondition(statement));
 
         boolean hasBlock = hasBlock(statement.getChildren());
         if (!hasBlock) {
-            dsl.append(" {\n");
+            zenDsl.append(" {\n");
             level++;
         }
         super.visitWhileStatement(statement);
         if (!hasBlock) {
             level--;
-            dsl.append(newlineIfNecessary() + indent + "}\n");
+            zenDsl.append(newlineIfNecessary() + indent + "}\n");
         }
     }
 
@@ -203,8 +200,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitIfStatement(PsiIfStatement statement) {
         LOG.debug("Enter: visitIfStatement: " + statement);
 
-        String indent = getIndent(level);
-        dsl.append(newlineIfNecessary() + indent + "if(");
+        String indent = ZenDsl.getIndent(level);
+        zenDsl.append(newlineIfNecessary() + indent + "if(");
         List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(PsiLiteralExpression.class,
                 PsiBinaryExpression.class,
                 PsiReferenceExpression.class);
@@ -215,16 +212,16 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                     return true;
                 })
                 .filter(e -> allowedConditionExpressions.stream().anyMatch(clz -> clz.isInstance(e)))
-                .findFirst().ifPresent(e -> dsl.append(e.getText() + ")"));
+                .findFirst().ifPresent(e -> zenDsl.append(e.getText() + ")"));
         boolean hasBlock = hasBlock(statement.getChildren());
         if (!hasBlock) {
-            dsl.append(" {\n");
+            zenDsl.append(" {\n");
             level++;
         }
         super.visitIfStatement(statement);
         if (!hasBlock) {
             level--;
-            dsl.append(newlineIfNecessary() + indent + "}\n");
+            zenDsl.append(newlineIfNecessary() + indent + "}\n");
         }
     }
 
@@ -238,20 +235,20 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitCodeBlock(PsiCodeBlock block) {
         LOG.debug("Enter: visitCodeBlock: " + block);
         if (block.getStatements().length == 0) {
-            dsl.append(";\n");
+            zenDsl.append(";\n");
             return;
         }
         // getBody return null if the method belongs to a compiled class
         level++;
-        dsl.append(" {\n");
+        zenDsl.append(" {\n");
         super.visitCodeBlock(block);
 
         level--;
-        dsl.append(newlineIfNecessary() + getIndent(level) + "}\n");
+        zenDsl.append(newlineIfNecessary() + ZenDsl.getIndent(level) + "}\n");
     }
 
     public String getDsl() {
-        return dsl.toString();
+        return zenDsl.getDsl().toString();
     }
 
     private boolean hasBlock(PsiElement[] children) {
@@ -287,14 +284,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     private String newlineIfNecessary() {
-        return dsl.toString().isEmpty() || dsl.toString().endsWith("\n") ? "" : "\n";
+        return zenDsl.getDsl().toString().isEmpty() || zenDsl.getDsl().toString().endsWith("\n") ? "" : "\n";
     }
 
-    static String getIndent(int number) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < number; i++) {
-            builder.append('\t');
-        }
-        return builder.toString();
-    }
 }

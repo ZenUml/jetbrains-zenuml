@@ -1,11 +1,16 @@
 package com.zenuml.dsl;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ZenDsl {
-    private StringBuffer dsl;
+    private StringBuffer dsl = new StringBuffer();
 
-    public ZenDsl(StringBuffer dsl) {
-
-        this.dsl = dsl;
+    static String getIndent(int number) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < number; i++) {
+            builder.append('\t');
+        }
+        return builder.toString();
     }
 
     public void setDsl(String dsl) {
@@ -21,10 +26,20 @@ public class ZenDsl {
     }
 
     void addRemainder(String remainder, int level) {
-        dsl.append(PsiToDslConverter.getIndent(level - 1) + remainder);
+        dsl.append(getIndent(level - 1)).append(remainder);
     }
 
-    public void substring(int i, int index) {
+    public void cut(int i, int index) {
         dsl.replace(i, dsl.length(), dsl.substring(i, index));
+    }
+
+    @NotNull
+    StringBuffer append(String s) {
+        return dsl.append(s);
+    }
+
+    void appendIndent(int level) {
+        String indent = getIndent(level);
+        append(indent);
     }
 }
