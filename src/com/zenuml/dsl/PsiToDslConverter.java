@@ -39,7 +39,15 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             return;
         }
 
-        String methodName = getMethodPrefix(method) + method.getName();
+        PsiClass containingClass = method.getContainingClass();
+        // prefix is : `ClassName.`
+        String methodPrefix = new MethodStack(callStack)
+                .peekContainingClass()
+                .filter(cls -> cls.equals(containingClass))
+                .map(cls -> "")
+                .orElse(containingClass.getName() + ".");
+
+        String methodName = methodPrefix + method.getName();
 
         String remainder = "";
         if (insertBefore != null) {
@@ -60,17 +68,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         }
 
         LOG.debug("Exit: visitMethod: " + method);
-    }
-
-    private String getMethodPrefix(PsiMethod method) {
-        int size = callStack.size();
-        if (size > 0) {
-            PsiMethod parentMethod = callStack.get(size - 1);
-            if (parentMethod.getContainingClass().equals(method.getContainingClass())) {
-                return "";
-            }
-        }
-        return method.getContainingClass().getName() + ".";
     }
 
     //    public void visitParameter(PsiParameter parameter) {
@@ -259,11 +256,15 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                     break;
                 }
                 elements.add(child);
-            } else if (isParenth(child, "LPARENTH")) {
+            } else if (isLparenth(child)) {
                 started = true;
             }
         }
         return format("(%s)", elements.stream().map(PsiElement::getText).reduce((s1, s2) -> s1 + s2).orElse(""));
+    }
+
+    private boolean isLparenth(PsiElement child) {
+        return isParenth(child, "LPARENTH");
     }
 
     private boolean isRparenth(PsiElement child) {
