@@ -58,4 +58,12 @@ public class ZenDsl {
         dsl.append(";\n");
         return this;
     }
+
+    String getRemainder(String cursorWord) {
+        int index = getDsl().lastIndexOf(cursorWord);
+
+        String remainder = getDsl().substring(index);
+        cut(0, index);
+        return remainder;
+    }
 }

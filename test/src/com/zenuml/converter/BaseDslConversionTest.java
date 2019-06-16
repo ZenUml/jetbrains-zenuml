@@ -14,6 +14,6 @@ public abstract class BaseDslConversionTest extends ZenUmlTestCase {
         PsiMethod method = getPsiMethod(methodName);
         method.accept(psiToDslConverter);
         String dsl = psiToDslConverter.getDsl();
-        assertThat("Actual:\n" + dsl, dsl, is(expectedDsl));
+        assertThat(dsl, is(expectedDsl));
     }
 }
