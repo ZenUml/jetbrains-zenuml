@@ -22,11 +22,7 @@ public abstract class ZenUmlTestCase extends LightCodeInsightFixtureTestCase {
         return Paths.get("test/data/").toAbsolutePath().toString();
     }
 
-    public void testEmptyTest() {
-
-    }
-
-    protected PsiMethod getPsiMethod(String folder, String className, String methodName) {
+    private PsiMethod getPsiMethod(String folder, String className, String methodName) {
         myFixture.copyDirectoryToProject(folder, "");
         PsiClass selfMessageClass = myFixture.findClass(className);
         return selfMessageClass.findMethodsByName(methodName, true)[0];
@@ -37,12 +33,10 @@ public abstract class ZenUmlTestCase extends LightCodeInsightFixtureTestCase {
     }
 
     @NotNull
-    protected String getClassName() {
-        return null;
-    }
+    protected abstract String getClassName();
 
     @NotNull
-    protected String getFolder() {
+    private String getFolder() {
         String className = getClassName();
         return className.substring(0, className.lastIndexOf('.'));
     }
