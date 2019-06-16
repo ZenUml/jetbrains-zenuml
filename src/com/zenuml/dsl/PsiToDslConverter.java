@@ -2,6 +2,7 @@ package com.zenuml.dsl;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -12,6 +13,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     private final MethodStack methodStack = new MethodStack();
     private final ZenDsl zenDsl = new ZenDsl();
+    private final List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(PsiLiteralExpression.class,
+            PsiBinaryExpression.class,
+            PsiReferenceExpression.class);
 
     // TODO: we are not following the implementation of constructor. The behaviour is NOT defined.
     public void visitNewExpression(PsiNewExpression expression) {
@@ -136,16 +140,15 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitWhileStatement(PsiWhileStatement statement) {
-        zenDsl.addIndent().append("while" + getCondition(statement));
+        LOG.debug("Enter: visitWhileStatement: " + statement);
 
-        boolean hasBlock = hasBlock(statement.getChildren());
-        if (!hasBlock) {
-            zenDsl.startBlock();
-        }
-        super.visitWhileStatement(statement);
-        if (!hasBlock) {
-            zenDsl.closeBlock();
-        }
+        zenDsl.addIndent()
+                .append("while")
+                .openParenthesis()
+                .append(getCondition(statement))
+                .closeParenthesis();
+
+        processBody(statement);
     }
 
     @Override
@@ -154,24 +157,30 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         zenDsl.addIndent()
                 .append("if")
-                .openParenthesis();
+                .openParenthesis()
+                .append(getCondition(statement))
+                .closeParenthesis();
 
-        List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(PsiLiteralExpression.class,
-                PsiBinaryExpression.class,
-                PsiReferenceExpression.class);
-        Arrays.stream(statement.getChildren())
-                .filter(e -> allowedConditionExpressions.stream().anyMatch(clz -> clz.isInstance(e)))
-                .findFirst().ifPresent(e -> zenDsl.append(e.getText()));
+        processBody(statement);
+    }
 
-        zenDsl.closeParenthesis();
-        boolean hasBlock = hasBlock(statement.getChildren());
+    private void processBody(PsiStatement statement) {
+        boolean hasBlock = hasFollowingBraces(statement.getChildren());
+        // following braces are not there, we should add them here.
         if (!hasBlock) {
             zenDsl.startBlock();
         }
-        super.visitIfStatement(statement);
+        super.visitStatement(statement);
         if (!hasBlock) {
             zenDsl.closeBlock();
         }
+    }
+
+    @NotNull
+    private String getCondition(PsiIfStatement statement) {
+        return Arrays.stream(statement.getChildren())
+                    .filter(e -> allowedConditionExpressions.stream().anyMatch(clz -> clz.isInstance(e)))
+                    .findFirst().map(PsiElement::getText).orElse("condition");
     }
 
     @Override
@@ -190,7 +199,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         // getBody return null if the method belongs to a compiled class
         zenDsl.startBlock();
         super.visitCodeBlock(block);
-
         zenDsl.closeBlock();
     }
 
@@ -198,7 +206,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         return zenDsl.getDsl().toString();
     }
 
-    private boolean hasBlock(PsiElement[] children) {
+    private boolean hasFollowingBraces(PsiElement[] children) {
         return Arrays.stream(children).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
     }
 
@@ -215,7 +223,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 started = true;
             }
         }
-        return format("(%s)", elements.stream().map(PsiElement::getText).reduce((s1, s2) -> s1 + s2).orElse(""));
+        return format("%s", elements.stream().map(PsiElement::getText).reduce((s1, s2) -> s1 + s2).orElse(""));
     }
 
     private boolean isLparenth(PsiElement child) {
