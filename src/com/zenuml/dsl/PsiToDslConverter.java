@@ -2,6 +2,7 @@ package com.zenuml.dsl;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
+import io.reactivex.Observable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -205,19 +206,13 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     private String getCondition(PsiWhileStatement statement) {
-        boolean started = false;
-        ArrayList<PsiElement> elements = new ArrayList<>();
-        for (PsiElement child : statement.getChildren()) {
-            if (started) {
-                if (isRparenth(child)) {
-                    break;
-                }
-                elements.add(child);
-            } else if (isLparenth(child)) {
-                started = true;
-            }
-        }
-        return format("%s", elements.stream().map(PsiElement::getText).reduce((s1, s2) -> s1 + s2).orElse(""));
+
+        return Observable.fromArray(statement.getChildren())
+                .skipWhile(psiElement -> !isLparenth(psiElement))
+                .skip(1) // skip `(`
+                .takeWhile(psiElement -> !isRparenth(psiElement))
+                .map(PsiElement::getText)
+                .reduce((s1, s2) -> s1 + s2).blockingGet();
     }
 
     private boolean isLparenth(PsiElement child) {
