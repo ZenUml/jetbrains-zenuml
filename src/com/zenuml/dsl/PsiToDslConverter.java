@@ -177,13 +177,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         }
     }
 
-    @NotNull
-    private String getCondition(PsiIfStatement statement) {
-        return Arrays.stream(statement.getChildren())
-                    .filter(e -> allowedConditionExpressions.stream().anyMatch(clz -> clz.isInstance(e)))
-                    .findFirst().map(PsiElement::getText).orElse("condition");
-    }
-
     @Override
     public void visitCodeBlock(PsiCodeBlock block) {
         LOG.debug("Enter: visitCodeBlock: " + block);
@@ -205,7 +198,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         return Arrays.stream(children).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
     }
 
-    private String getCondition(PsiWhileStatement statement) {
+    private String getCondition(PsiStatement statement) {
 
         return Observable.fromArray(statement.getChildren())
                 .skipWhile(psiElement -> !isLparenth(psiElement))
