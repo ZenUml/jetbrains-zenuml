@@ -5,12 +5,17 @@ import com.intellij.psi.*;
 import io.reactivex.Observable;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private static final Logger LOG = Logger.getInstance(PsiToDslConverter.class);
 
     private final MethodStack methodStack = new MethodStack();
     private final ZenDsl zenDsl = new ZenDsl();
+    List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(
+            PsiMethodCallExpression.class,
+            PsiBinaryExpression.class,
+            PsiReferenceExpression.class);
 
     // TODO: we are not following the implementation of constructor. The behaviour is NOT defined.
     public void visitNewExpression(PsiNewExpression expression) {
@@ -66,13 +71,11 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     public void visitDeclarationStatement(PsiDeclarationStatement statement) {
         LOG.debug("Enter: visitDeclarationStatement: " + statement);
-        zenDsl.appendIndent();
         super.visitDeclarationStatement(statement);
     }
 
     public void visitExpressionStatement(PsiExpressionStatement statement) {
         LOG.debug("Enter: visitExpressionStatement: " + statement);
-        zenDsl.appendIndent();
         super.visitExpressionStatement(statement);
     }
 
@@ -101,8 +104,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitWhileStatement(PsiWhileStatement statement) {
         LOG.debug("Enter: visitWhileStatement: " + statement);
         processCondition(statement);
-        zenDsl.appendIndent()
-                .append("while")
+        zenDsl.append("while")
                 .openParenthesis()
                 .append(getCondition(statement))
                 .closeParenthesis();
@@ -115,10 +117,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 .skipWhile(psiElement -> !isLparenth(psiElement))
                 .skip(1) // skip `(`
                 .takeWhile(psiElement -> !isRparenth(psiElement))
-                .filter(psiElement -> psiElement instanceof PsiMethodCallExpression)
+                .filter(psiElement -> allowedConditionExpressions.stream().anyMatch(cls -> cls.isInstance(psiElement)))
                 .subscribe(psiElement -> {
-                    LOG.debug("Process condition first");
-                    zenDsl.appendIndent().append(psiElement.getText()).closeExpressionAndNewLine();
+                    psiElement.accept(this);
                 });
     }
 
@@ -126,7 +127,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitIfStatement(PsiIfStatement statement) {
         LOG.debug("Enter: visitIfStatement: " + statement);
 
-        zenDsl.appendIndent()
+        zenDsl.ensureIndent()
                 .append("if")
                 .openParenthesis()
                 .append(getCondition(statement))

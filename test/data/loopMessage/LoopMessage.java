@@ -33,9 +33,20 @@ public class LoopMessage {
         }
     }
 
+    void method6() {
+        while (getCount() > 1) {
+            foo();
+        }
+    }
+
     void foo() {
     }
 
     boolean isBar() {
+
+    }
+
+    int getCount() {
+
     }
 }

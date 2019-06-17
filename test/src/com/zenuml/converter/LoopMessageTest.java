@@ -34,6 +34,12 @@ public class LoopMessageTest extends BaseDslConversionTest {
                 "LoopMessage.method5() {\n\tisBar();\n\twhile(isBar()) {\n\t\tfoo();\n\t}\n}\n");
     }
 
+    public void test_method6() {
+        testDslConversion(
+                "method6",
+                "LoopMessage.method6() {\n\tgetCount();\n\twhile(getCount() > 1) {\n\t\tfoo();\n\t}\n}\n");
+    }
+
     @NotNull
     @Override
     protected String getClassName() {
