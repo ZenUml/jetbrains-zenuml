@@ -5,17 +5,12 @@ import com.intellij.psi.*;
 import io.reactivex.Observable;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private static final Logger LOG = Logger.getInstance(PsiToDslConverter.class);
 
     private final MethodStack methodStack = new MethodStack();
     private final ZenDsl zenDsl = new ZenDsl();
-    List<Class<? extends PsiExpression>> allowedConditionExpressions = Arrays.asList(
-            PsiMethodCallExpression.class,
-            PsiBinaryExpression.class,
-            PsiReferenceExpression.class);
 
     // TODO: we are not following the implementation of constructor. The behaviour is NOT defined.
     public void visitNewExpression(PsiNewExpression expression) {
@@ -117,7 +112,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 .skipWhile(psiElement -> !isLparenth(psiElement))
                 .skip(1) // skip `(`
                 .takeWhile(psiElement -> !isRparenth(psiElement))
-                .filter(psiElement -> allowedConditionExpressions.stream().anyMatch(cls -> cls.isInstance(psiElement)))
                 .subscribe(psiElement -> {
                     psiElement.accept(this);
                 });
