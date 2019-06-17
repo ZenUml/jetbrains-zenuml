@@ -10,7 +10,7 @@ import static org.junit.Assert.assertThat;
 public class IfElseMessageZenUmlTest extends BaseDslConversionTest {
 
     public void test_convert_to_dsl_ifMessage() {
-        testDslConversion("nestedMethod", "IfMessage.nestedMethod() {\n\tint i = \tclientMethod() {\n\t\tfoo();\n\t}\n\t\tfoo();\n\t\n\tif(true) {\n\t\t\t\tclientMethod() {\n\t\t\tfoo();\n\t\t}\n\t\tclientMethod() {\n\t\t\tfoo();\n\t\t}\n\t\tif(true) {\n\t\t\tfoo();\n\t\t}\n\t\tif(true) {\n\t\t\t\n\t\t}\n\t\tif(true) {\n\t\t\t\n\t\t}\n\t}\n}\n");
+        testDslConversion("nestedMethod", "IfMessage.nestedMethod() {\n\tint i = \tclientMethod() {\n\t\tfoo();\n\t}\n\t// i = 2\n\tfoo();\n\t// i = 3\n\tif(true) {\n\t\t// i = 4\n\t\tclientMethod() {\n\t\t\tfoo();\n\t\t}\n\t\tclientMethod() {\n\t\t\tfoo();\n\t\t}\n\t\tif(true) {\n\t\t\tfoo();\n\t\t}\n\t\tif(true) {\n\t\t\t// i=5\n\t\t}\n\t\tif(true) {\n\t\t\t// i = 6\n\t\t}\n\t}\n}\n");
     }
 
     public void test_convert_to_dsl_ifMessage_reference_expression_as_condition() {
