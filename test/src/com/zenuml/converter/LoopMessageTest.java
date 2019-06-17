@@ -31,7 +31,7 @@ public class LoopMessageTest extends BaseDslConversionTest {
     public void test_method5() {
         testDslConversion(
                 "method5",
-                "LoopMessage.method5() {\n\tisBar();\n\twhile(isBar()) {\n\t\tfoo();\n\t}\n}\n");
+                "LoopMessage.method5() {\n\tisBar();\n\twhile((isBar()) && 2>1) {\n\t\tfoo();\n\t}\n}\n");
     }
 
     public void test_method6() {
