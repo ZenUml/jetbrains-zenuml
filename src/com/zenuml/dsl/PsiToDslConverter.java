@@ -22,10 +22,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitMethod(PsiMethod method) {
-        visitMethod(method, null);
-    }
-
-    private void visitMethod(PsiMethod method, String insertBefore) {
         LOG.debug("Enter: visitMethod: " + method);
 
         if (methodStack.contains(method)) {
@@ -36,23 +32,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         String methodCall = getMethodCall(method);
 
-        process(method, insertBefore, methodCall);
+        zenDsl.append(methodCall);
+        processChildren(method);
 
         LOG.debug("Exit: visitMethod: " + method);
-    }
-
-    private void process(PsiMethod method, String insertBefore, String methodCall) {
-        if (insertBefore == null) {
-            zenDsl.append(methodCall);
-            processChildren(method);
-        } else {
-            int index = zenDsl.getDsl().lastIndexOf(insertBefore);
-            String remainder = zenDsl.getDsl().substring(index);
-            zenDsl.keepHead(index);
-            zenDsl.append(methodCall);
-            processChildren(method);
-            zenDsl.addRemainder(remainder);
-        }
     }
 
     private void processChildren(PsiMethod method) {
@@ -110,34 +93,14 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         PsiMethod method = expression.resolveMethod();
         if (method != null) {
             LOG.debug("Method resolved from expression:" + method);
-            PsiElement whileChild = getDirectWhileStatementChildFromAncestors(expression);
-            String insertBefore = whileChild != null && isInsideCondition(whileChild) ? "while" : null;
-            visitMethod(method, insertBefore);
+            visitMethod(method);
         }
-    }
-
-    private PsiElement getDirectWhileStatementChildFromAncestors(PsiElement element) {
-        PsiElement current = element;
-        PsiElement parent = current.getParent();
-        while (parent != null) {
-            if(parent instanceof PsiWhileStatement) return current;
-            current = parent;
-            parent = current.getParent();
-        }
-        return null;
-    }
-
-    private boolean isInsideCondition(PsiElement element) {
-        PsiElement nextSibling = element.getNextSibling();
-        if(nextSibling == null) return false;
-        if(isRparenth(nextSibling)) return true;
-        return isInsideCondition(nextSibling);
     }
 
     @Override
     public void visitWhileStatement(PsiWhileStatement statement) {
         LOG.debug("Enter: visitWhileStatement: " + statement);
-
+        processCondition(statement);
         zenDsl.appendIndent()
                 .append("while")
                 .openParenthesis()
@@ -145,6 +108,18 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 .closeParenthesis();
 
         processBody(statement);
+    }
+
+    private void processCondition(PsiWhileStatement statement) {
+        Observable.fromArray(statement.getChildren())
+                .skipWhile(psiElement -> !isLparenth(psiElement))
+                .skip(1) // skip `(`
+                .takeWhile(psiElement -> !isRparenth(psiElement))
+                .filter(psiElement -> psiElement instanceof PsiMethodCallExpression)
+                .subscribe(psiElement -> {
+                    LOG.debug("Process condition first");
+                    zenDsl.appendIndent().append(psiElement.getText()).closeExpressionAndNewLine();
+                });
     }
 
     @Override
@@ -161,15 +136,23 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     private void processBody(PsiStatement statement) {
+        LOG.debug("Enter: processBody");
         boolean hasBlock = hasFollowingBraces(statement.getChildren());
         // following braces are not there, we should add them here.
         if (!hasBlock) {
             zenDsl.startBlock();
         }
-        super.visitStatement(statement);
+        Observable.fromArray(statement.getChildren())
+        .skipWhile(psiElement -> !isRparenth(psiElement))
+        .skip(1)
+        .subscribe(psiElement -> {
+            LOG.debug("Process body then:" + psiElement.getText());
+            psiElement.accept(this);
+        });
         if (!hasBlock) {
             zenDsl.closeBlock();
         }
+        LOG.debug("Exit: processBody");
     }
 
     // A a = B.method() seems not triggering this method

@@ -1,9 +1,12 @@
 package com.zenuml.dsl;
 
+import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 import java.util.stream.IntStream;
 
 public class ZenDsl {
+    private static final Logger LOG = Logger.getInstance(ZenDsl.class);
+
     private StringBuffer dsl = new StringBuffer();
     private int level = 0;
 
@@ -33,6 +36,7 @@ public class ZenDsl {
     @NotNull
     ZenDsl append(String s) {
         dsl.append(s);
+        LOG.debug(dsl.toString());
         return this;
     }
 
@@ -68,6 +72,7 @@ public class ZenDsl {
         .append("{")
         .changeLine();
         levelIncrease();
+        LOG.debug("StartBlock");
     }
 
     private ZenDsl whiteSpace() {
@@ -79,6 +84,7 @@ public class ZenDsl {
         appendIndent()
         .append("}")
         .changeLine();
+        LOG.debug("CloseBlock");
     }
 
     @NotNull

@@ -28,9 +28,9 @@ public class LoopMessage {
     }
 
     void method5() {
-        while ((isBar()) && 2>1)
+        while (isBar()) {
             foo();
-
+        }
     }
 
     void foo() {
