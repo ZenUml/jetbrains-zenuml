@@ -25,6 +25,10 @@ public class IfElseMessageZenUmlTest extends BaseDslConversionTest {
         testDslConversion("nestedMethod3", "IfMessage.nestedMethod3() {\n\tList<Object> list = new ArrayList<>();\n\tif(list.size() == 2) {\n\t\tclientMethod() {\n\t\t\tfoo();\n\t\t}\n\t\tclientMethod() {\n\t\t\tfoo();\n\t\t}\n\t}\n}\n");
     }
 
+    public void test_convert_to_dsl_ifMessage_with_chained_method_calls() {
+        testDslConversion("methodWithChainedMethodCalls", "IfMessage.methodWithChainedMethodCalls() {\n\tnew Foo();\n\tFoo.getBar() {\n\t\tnew Bar();\n\t}\n\tBar.isBar() {\n\t}\n\tif(new Foo().getBar().isBar()) {\n\t\tfoo();\n\t}\n}\n");
+    }
+
     @NotNull
     @Override
     protected String getClassName() {
