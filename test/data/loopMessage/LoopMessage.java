@@ -39,6 +39,12 @@ public class LoopMessage {
         }
     }
 
+    void methodWithChainedMethodCalls() {
+        while (new Foo().getBar().isBar()) {
+            foo();
+        }
+    }
+
     void foo() {
     }
 
@@ -48,5 +54,17 @@ public class LoopMessage {
 
     int getCount() {
 
+    }
+}
+
+class Foo {
+    Bar getBar() {
+        return new Bar();
+    }
+}
+
+class Bar {
+    boolean isBar() {
+        return true;
     }
 }
