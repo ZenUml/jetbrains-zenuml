@@ -1,0 +1,34 @@
+// This is a sample to document ZenUML
+// This sample is not intended to be realistic, but instead to show the features of ZenUML
+// Comments at the beginning are not shown in the diagram
+
+// [Optional] Change order of participants (by appearance) - list them here
+LibraryApp
+UnknownBookException
+LibraryDB
+
+// [Optional] Define a Starter or leave it without - does not work with participants listed above
+@Starter(User)
+// Ask for a book
+book = LibraryApp.getBook(Treasure_Island, Stevenson) {
+  // Create a new instance using "new"
+  bm = new BookManager()
+  // Call on an other object with returned value:
+  bookID = bm:BookManager.getBook(Treasure_Island, Stevenson) {
+    // LOOP: use `for`, `foreach` or `while`
+    foreach(author) {
+      // Self-call (explicit object)
+      bm:BookManager.search(Stevenson1)
+    }
+  }
+  // ALTERNATIVE: If-Else block
+  if(bookID != null) {
+    // self-call (implicit object)
+    bookShelf = getShelf(bookID)
+    // async message `A ->B: some message`
+    LibraryApp -> LibraryDB: bookID is borrowed
+  } else {
+    UnknownBookException.throw_exception()
+  }
+}
+
