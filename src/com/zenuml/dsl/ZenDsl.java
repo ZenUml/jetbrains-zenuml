@@ -1,48 +1,41 @@
 package com.zenuml.dsl;
 
+import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 import java.util.stream.IntStream;
 
 public class ZenDsl {
+    private static final Logger LOG = Logger.getInstance(ZenDsl.class);
+
     private StringBuffer dsl = new StringBuffer();
     private int level = 0;
 
     String getIndent() {
-        return IntStream.range(0, level).mapToObj(i -> "\t").reduce((s1, s2) -> s1 + s2).orElse("");
-    }
-
-    public void setDsl(String dsl) {
-        this.dsl = new StringBuffer(dsl);
+        return IntStream.range(0, level)
+                .mapToObj(i -> "\t")
+                .reduce((s1, s2) -> s1 + s2)
+                .orElse("");
     }
 
     public String getDsl() {
         return dsl.toString();
     }
 
-    void addMethodCall(String methodCall) {
-        dsl.append(methodCall);
-    }
-
-    void addRemainder(String remainder) {
-        level--;
-        String indent = getIndent();
-        level++;
-        dsl.append(indent).append(remainder);
-    }
-
-    void keepHead(int pos) {
-        dsl.replace(0, dsl.length(), dsl.substring(0, pos));
-    }
-
     @NotNull
     ZenDsl append(String s) {
+        ensureIndent();
         dsl.append(s);
+        LOG.debug(dsl.toString());
         return this;
     }
 
-    ZenDsl appendIndent() {
+    ZenDsl ensureIndent() {
+        if(!dsl.toString().endsWith("\n")) {
+            return this;
+        }
         String indent = getIndent();
-        return append(indent);
+        dsl.append(indent);
+        return this;
     }
 
     private void levelIncrease() {
@@ -55,8 +48,7 @@ public class ZenDsl {
 
     @NotNull
     ZenDsl closeExpressionAndNewLine() {
-        dsl.append(";\n");
-        return this;
+        return append(";").changeLine();
     }
 
     void appendAssignment(String type, String name) {
@@ -73,6 +65,7 @@ public class ZenDsl {
         .append("{")
         .changeLine();
         levelIncrease();
+        LOG.debug("StartBlock");
     }
 
     private ZenDsl whiteSpace() {
@@ -81,14 +74,10 @@ public class ZenDsl {
 
     void closeBlock() {
         levelDecrease();
-        appendIndent()
+        ensureIndent()
         .append("}")
         .changeLine();
-    }
-
-    @NotNull
-    ZenDsl addIndent() {
-        return append(getIndent());
+        LOG.debug("CloseBlock");
     }
 
     @NotNull

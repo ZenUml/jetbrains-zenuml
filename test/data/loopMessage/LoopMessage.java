@@ -28,14 +28,25 @@ public class LoopMessage {
     }
 
     void method5() {
-        while ((isBar()) && 2>1)
+        while ((isBar()) && 2>1) {
             foo();
+        }
+    }
 
+    void method6() {
+        while (getCount() > 1) {
+            foo();
+        }
     }
 
     void foo() {
     }
 
     boolean isBar() {
+
+    }
+
+    int getCount() {
+
     }
 }
