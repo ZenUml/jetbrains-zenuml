@@ -40,6 +40,12 @@ public class LoopMessageTest extends BaseDslConversionTest {
                 "LoopMessage.method6() {\n\tgetCount();\n\twhile(getCount() > 1) {\n\t\tfoo();\n\t}\n}\n");
     }
 
+    public void test_methodWithChainedMethodCalls() {
+        testDslConversion(
+                "methodWithChainedMethodCalls",
+                "LoopMessage.methodWithChainedMethodCalls() {\n\tnew Foo();\n\tFoo.getBar() {\n\t\tnew Bar();\n\t}\n\tBar.isBar() {\n\t}\n\twhile(new Foo().getBar().isBar()) {\n\t\tfoo();\n\t}\n}\n");
+    }
+
     @NotNull
     @Override
     protected String getClassName() {

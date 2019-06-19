@@ -50,4 +50,22 @@ public class IfMessage {
             clientMethod();
         }
     }
+
+    void methodWithChainedMethodCalls() {
+        if (new Foo().getBar().isBar()) {
+            foo();
+        }
+    }
+}
+
+class Foo {
+    Bar getBar() {
+        return new Bar();
+    }
+}
+
+class Bar {
+    boolean isBar() {
+        return true;
+    }
 }
