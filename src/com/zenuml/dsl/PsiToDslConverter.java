@@ -74,10 +74,15 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         super.visitExpressionStatement(statement);
     }
 
-    // variable: String s = clientMethod();
+    // case 1: String s;
+    // case 2: String s = clientMethod();
     public void visitLocalVariable(PsiLocalVariable variable) {
         LOG.debug("Enter: visitLocalVariable: " + variable);
-        zenDsl.appendAssignment(variable.getTypeElement().getText(), variable.getName());
+        if (variable.hasInitializer()) {
+            zenDsl.appendAssignment(variable.getTypeElement().getText(), variable.getName());
+        } else {
+            zenDsl.comment(variable.getText());
+        }
         super.visitLocalVariable(variable);
         LOG.debug("Exit: visitLocalVariable: " + variable);
     }
@@ -146,7 +151,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Exit: processBody");
     }
 
-    // A a = B.method() seems not triggering this method
+    // A a = B.method() seems triggering declaration
+    // a = B.method() is trigger this.
     // Only simple `i = 1` does.
     @Override
     public void visitAssignmentExpression(PsiAssignmentExpression expression) {

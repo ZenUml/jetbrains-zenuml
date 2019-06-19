@@ -5,6 +5,10 @@ public class SimpleMessage {
 
     }
 
+    public String declareVariable() {
+        String s;
+    }
+
     public void nestedMethod() {
         clientMethod();
     }
