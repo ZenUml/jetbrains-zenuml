@@ -98,7 +98,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitWhileStatement(PsiWhileStatement statement) {
         LOG.debug("Enter: visitWhileStatement: " + statement);
-        processCondition(statement);
+        visitCondition(statement);
+
         zenDsl.append("while")
                 .openParenthesis()
                 .append(getCondition(statement))
@@ -107,14 +108,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         processBody(statement);
     }
 
-    private void processCondition(PsiWhileStatement statement) {
-        Observable.fromArray(statement.getChildren())
-                .skipWhile(psiElement -> !isLparenth(psiElement))
-                .skip(1) // skip `(`
-                .takeWhile(psiElement -> !isRparenth(psiElement))
-                .subscribe(psiElement -> {
-                    psiElement.accept(this);
-                });
+    private void visitCondition(PsiWhileStatement statement) {
+        getChildrenWithinParenthesis(statement).subscribe(element -> element.accept(this));
     }
 
     @Override
@@ -138,12 +133,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             zenDsl.startBlock();
         }
         Observable.fromArray(statement.getChildren())
-        .skipWhile(psiElement -> !isRparenth(psiElement))
-        .skip(1)
-        .subscribe(psiElement -> {
-            LOG.debug("Process body then:" + psiElement.getText());
-            psiElement.accept(this);
-        });
+                .skipWhile(psiElement -> !isRparenth(psiElement))
+                .skip(1)
+                .subscribe(psiElement -> {
+                    LOG.debug("Process body then:" + psiElement.getText());
+                    psiElement.accept(this);
+                });
         if (!hasBlock) {
             zenDsl.closeBlock();
         }
@@ -178,13 +173,16 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     private String getCondition(PsiStatement statement) {
+        return getChildrenWithinParenthesis(statement)
+                .map(PsiElement::getText)
+                .reduce((s1, s2) -> s1 + s2).blockingGet();
+    }
 
+    private Observable<PsiElement> getChildrenWithinParenthesis(PsiStatement statement) {
         return Observable.fromArray(statement.getChildren())
                 .skipWhile(psiElement -> !isLparenth(psiElement))
                 .skip(1) // skip `(`
-                .takeWhile(psiElement -> !isRparenth(psiElement))
-                .map(PsiElement::getText)
-                .reduce((s1, s2) -> s1 + s2).blockingGet();
+                .takeWhile(psiElement -> !isRparenth(psiElement));
     }
 
     private boolean isLparenth(PsiElement child) {
