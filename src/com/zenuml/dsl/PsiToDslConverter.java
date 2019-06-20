@@ -193,9 +193,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         zenDsl.closeBlock();
     }
 
+    // TODO: this method trigger a class inspection warning.
+    @Override
     public void visitReturnStatement(PsiReturnStatement statement) {
         LOG.debug("Enter: visitCodeBlock: " + statement);
         zenDsl.comment(statement.getText());
+        super.visitReturnStatement(statement);
     }
 
 
