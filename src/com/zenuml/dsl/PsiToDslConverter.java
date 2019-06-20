@@ -94,9 +94,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             LOG.debug("Method resolved from expression:" + method);
             // If we delegate it to visit method, we lose the parameters.
             zenDsl.append(getMethodCall(method))
-                    .openParenthesis()
-                    .append(getConditionOrArguments(expression.getArgumentList().getChildren()))
-                    .closeParenthesis();
+                    .append(expression.getArgumentList().getText());
             processChildren(method);
         } else {
             LOG.debug("Method not resolved from expression, appending the expression directly");
@@ -111,7 +109,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         zenDsl.append("while")
                 .openParenthesis()
-                .append(getConditionOrArguments(statement.getChildren()))
+                .append(getCondition(statement.getChildren()))
                 .closeParenthesis();
 
         processBody(statement);
@@ -129,7 +127,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         zenDsl.ensureIndent()
                 .append("if")
                 .openParenthesis()
-                .append(getConditionOrArguments(statement.getChildren()))
+                .append(getCondition(statement.getChildren()))
                 .closeParenthesis();
 
         processBody(statement);
@@ -192,8 +190,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         return Arrays.stream(children).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
     }
 
-    // An array of elements of which we know there is a pair of parenthesis.
-    private String getConditionOrArguments(PsiElement[] children) {
+    // condition for if or while
+    private String getCondition(PsiElement[] children) {
         return getChildrenWithinParenthesis(children)
                 .map(PsiElement::getText)
                 .reduce("", (s1, s2) -> s1 + s2).blockingGet();
