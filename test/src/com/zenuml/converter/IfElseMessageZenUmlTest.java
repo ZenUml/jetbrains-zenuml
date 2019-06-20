@@ -22,7 +22,7 @@ public class IfElseMessageZenUmlTest extends BaseDslConversionTest {
     }
 
     public void test_convert_to_dsl_ifMessage_binary_expression_as_condition() {
-        testDslConversion("nestedMethod3", "IfMessage.nestedMethod3() {\n\tList<Object> list = new ArrayList<>();\n\tif(list.size() == 2) {\n\t\tclientMethod() {\n\t\t\tfoo();\n\t\t}\n\t\tclientMethod() {\n\t\t\tfoo();\n\t\t}\n\t}\n}\n");
+        testDslConversion("nestedMethod3", "IfMessage.nestedMethod3() {\n\tList<Object> list = new ArrayList<>();\n\tlist.size()\n\tif(list.size() == 2) {\n\t\tclientMethod() {\n\t\t\tfoo();\n\t\t}\n\t\tclientMethod() {\n\t\t\tfoo();\n\t\t}\n\t}\n}\n");
     }
 
     public void test_convert_to_dsl_ifMessage_with_chained_method_calls() {

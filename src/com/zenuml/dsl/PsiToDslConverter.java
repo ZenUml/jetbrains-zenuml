@@ -3,6 +3,7 @@ package com.zenuml.dsl;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
 import io.reactivex.Observable;
+import org.intellij.sequencer.util.PsiUtil;
 
 import java.util.Arrays;
 
@@ -26,7 +27,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         if (methodStack.contains(method)) {
             LOG.debug("Exit (loop detected): visitMethod: " + method);
-            zenDsl.changeLine();
+            zenDsl.comment("Method re-entered");
             return;
         }
 
@@ -34,6 +35,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         zenDsl.append(methodCall);
         processChildren(method);
+        // TODO: Not covered in test
+        if (PsiUtil.isInJarFileSystem(method) || PsiUtil.isInClassFile(method)) {
+            zenDsl.closeExpressionAndNewLine();
+        }
 
         LOG.debug("Exit: visitMethod: " + method);
     }
@@ -74,10 +79,15 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         super.visitExpressionStatement(statement);
     }
 
-    // variable: String s = clientMethod();
+    // case 1: String s;
+    // case 2: String s = clientMethod();
     public void visitLocalVariable(PsiLocalVariable variable) {
         LOG.debug("Enter: visitLocalVariable: " + variable);
-        zenDsl.appendAssignment(variable.getTypeElement().getText(), variable.getName());
+        if (variable.hasInitializer()) {
+            zenDsl.appendAssignment(variable.getTypeElement().getText(), variable.getName());
+        } else {
+            zenDsl.comment(variable.getText());
+        }
         super.visitLocalVariable(variable);
         LOG.debug("Exit: visitLocalVariable: " + variable);
     }
@@ -87,11 +97,16 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Enter: visitMethodCallExpression: " + expression);
 
         super.visitMethodCallExpression(expression);
-
+        // An expression can be resolved to a method when IDE can find the method in the provided classpath.
+        // In our test, if we use System.out.println(), IDE cannot resolve it, because JDK is not in the
+        // classpath. If for any reason, in production, it cannot be resolved, we should append it as text.
         PsiMethod method = expression.resolveMethod();
         if (method != null) {
             LOG.debug("Method resolved from expression:" + method);
             visitMethod(method);
+        } else {
+            LOG.debug("Method not resolved from expression, appending the expression directly");
+            zenDsl.append(expression.getText()).changeLine();
         }
     }
 
@@ -146,7 +161,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Exit: processBody");
     }
 
-    // A a = B.method() seems not triggering this method
+    // A a = B.method() seems triggering declaration
+    // a = B.method() is trigger this.
     // Only simple `i = 1` does.
     @Override
     public void visitAssignmentExpression(PsiAssignmentExpression expression) {
