@@ -21,28 +21,21 @@ public class ZenDsl {
         return dsl.toString();
     }
 
-    void addRemainder(String remainder) {
-        // because body of the while statement was process before.
-        level--;
-        appendIndent();
-        level++;
-        append(remainder);
-    }
-
-    void keepHead(int pos) {
-        dsl.replace(0, dsl.length(), dsl.substring(0, pos));
-    }
-
     @NotNull
     ZenDsl append(String s) {
+        ensureIndent();
         dsl.append(s);
         LOG.debug(dsl.toString());
         return this;
     }
 
-    ZenDsl appendIndent() {
+    ZenDsl ensureIndent() {
+        if(!dsl.toString().endsWith("\n")) {
+            return this;
+        }
         String indent = getIndent();
-        return append(indent);
+        dsl.append(indent);
+        return this;
     }
 
     private void levelIncrease() {
@@ -81,7 +74,7 @@ public class ZenDsl {
 
     void closeBlock() {
         levelDecrease();
-        appendIndent()
+        ensureIndent()
         .append("}")
         .changeLine();
         LOG.debug("CloseBlock");

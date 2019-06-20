@@ -9,7 +9,7 @@ public class SelfMessageZenUmlTest extends BaseDslConversionTest {
     }
 
     public void test_convert_to_dsl_node_selfMessage_nest_2_levels() {
-        testDslConversion("clientMethod2", "SelfMessage.clientMethod2() {\n\tint i = \tinternalMethodA() {\n\t\tinternalMethodB() {\n\t\t\tinternalMethodC();\n\t\t}\n\t}\n}\n");
+        testDslConversion("clientMethod2", "SelfMessage.clientMethod2() {\n\tint i = internalMethodA() {\n\t\tinternalMethodB() {\n\t\t\tinternalMethodC();\n\t\t}\n\t}\n}\n");
     }
 
     @Override

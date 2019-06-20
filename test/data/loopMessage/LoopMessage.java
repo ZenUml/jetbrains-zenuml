@@ -28,7 +28,19 @@ public class LoopMessage {
     }
 
     void method5() {
-        while (isBar()) {
+        while ((isBar()) && 2>1) {
+            foo();
+        }
+    }
+
+    void method6() {
+        while (getCount() > 1) {
+            foo();
+        }
+    }
+
+    void methodWithChainedMethodCalls() {
+        while (new Foo().getBar().isBar()) {
             foo();
         }
     }
@@ -37,5 +49,22 @@ public class LoopMessage {
     }
 
     boolean isBar() {
+
+    }
+
+    int getCount() {
+
+    }
+}
+
+class Foo {
+    Bar getBar() {
+        return new Bar();
+    }
+}
+
+class Bar {
+    boolean isBar() {
+        return true;
     }
 }
