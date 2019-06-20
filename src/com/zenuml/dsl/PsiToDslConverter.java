@@ -33,7 +33,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         String methodCall = getMethodCall(method);
 
-        zenDsl.append(methodCall);
+        zenDsl.append(methodCall)
+            .openParenthesis()
+            .closeParenthesis();
         processChildren(method);
         // TODO: Not covered in test
         if (PsiUtil.isInJarFileSystem(method) || PsiUtil.isInClassFile(method)) {
@@ -44,6 +46,11 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     private void processChildren(PsiMethod method) {
+        if (methodStack.contains(method)) {
+            LOG.debug("Exit (loop detected): visitMethod: " + method);
+            zenDsl.comment("Method re-entered");
+            return;
+        }
         methodStack.push(method);
         super.visitMethod(method);
         methodStack.pop();
@@ -61,13 +68,13 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         return methodPrefix + method.getName();
     }
 
-    public void visitParameterList(PsiParameterList list) {
-        LOG.debug("Enter: visitParameterList: " + list);
-        zenDsl.openParenthesis();
-        super.visitParameterList(list);
-        zenDsl.closeParenthesis();
-        LOG.debug("Exit: visitParameterList: " + list);
-    }
+//    public void visitParameterList(PsiParameterList list) {
+//        LOG.debug("Enter: visitParameterList: " + list);
+//        zenDsl.openParenthesis();
+//        super.visitParameterList(list);
+//        zenDsl.closeParenthesis();
+//        LOG.debug("Exit: visitParameterList: " + list);
+//    }
 
     public void visitDeclarationStatement(PsiDeclarationStatement statement) {
         LOG.debug("Enter: visitDeclarationStatement: " + statement);
@@ -103,7 +110,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         PsiMethod method = expression.resolveMethod();
         if (method != null) {
             LOG.debug("Method resolved from expression:" + method);
-            visitMethod(method);
+            // If we delegate it to visit method, we lose the parameters.
+            zenDsl.append(getMethodCall(method))
+                    .openParenthesis()
+                    .append(getCondition(expression.getArgumentList().getChildren()))
+                    .closeParenthesis();
+            processChildren(method);
         } else {
             LOG.debug("Method not resolved from expression, appending the expression directly");
             zenDsl.append(expression.getText()).changeLine();
@@ -117,14 +129,14 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         zenDsl.append("while")
                 .openParenthesis()
-                .append(getCondition(statement))
+                .append(getCondition(statement.getChildren()))
                 .closeParenthesis();
 
         processBody(statement);
     }
 
     private void visitCondition(PsiStatement statement) {
-        getChildrenWithinParenthesis(statement).subscribe(element -> element.accept(this));
+        getChildrenWithinParenthesis(statement.getChildren()).subscribe(element -> element.accept(this));
     }
 
     @Override
@@ -135,7 +147,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         zenDsl.ensureIndent()
                 .append("if")
                 .openParenthesis()
-                .append(getCondition(statement))
+                .append(getCondition(statement.getChildren()))
                 .closeParenthesis();
 
         processBody(statement);
@@ -181,6 +193,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         zenDsl.closeBlock();
     }
 
+    public void visitReturnStatement(PsiReturnStatement statement) {
+        LOG.debug("Enter: visitCodeBlock: " + statement);
+        zenDsl.comment(statement.getText());
+    }
+
+
     public String getDsl() {
         return zenDsl.getDsl();
     }
@@ -189,14 +207,14 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         return Arrays.stream(children).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
     }
 
-    private String getCondition(PsiStatement statement) {
-        return getChildrenWithinParenthesis(statement)
+    private String getCondition(PsiElement[] children) {
+        return getChildrenWithinParenthesis(children)
                 .map(PsiElement::getText)
-                .reduce((s1, s2) -> s1 + s2).blockingGet();
+                .reduce("", (s1, s2) -> s1 + s2).blockingGet();
     }
 
-    private Observable<PsiElement> getChildrenWithinParenthesis(PsiStatement statement) {
-        return Observable.fromArray(statement.getChildren())
+    private Observable<PsiElement> getChildrenWithinParenthesis(PsiElement[] children) {
+        return Observable.fromArray(children)
                 .skipWhile(psiElement -> !isLparenth(psiElement))
                 .skip(1) // skip `(`
                 .takeWhile(psiElement -> !isRparenth(psiElement));
