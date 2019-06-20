@@ -3,6 +3,7 @@ package com.zenuml.dsl;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
 import io.reactivex.Observable;
+import org.intellij.sequencer.util.PsiUtil;
 
 import java.util.Arrays;
 
@@ -26,7 +27,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         if (methodStack.contains(method)) {
             LOG.debug("Exit (loop detected): visitMethod: " + method);
-            zenDsl.changeLine();
+            zenDsl.comment("Method re-entered");
             return;
         }
 
@@ -34,6 +35,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         zenDsl.append(methodCall);
         processChildren(method);
+        // TODO: Not covered in test
+        if (PsiUtil.isInJarFileSystem(method) || PsiUtil.isInClassFile(method)) {
+            zenDsl.closeExpressionAndNewLine();
+        }
 
         LOG.debug("Exit: visitMethod: " + method);
     }
