@@ -68,24 +68,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         return methodPrefix + method.getName();
     }
 
-//    public void visitParameterList(PsiParameterList list) {
-//        LOG.debug("Enter: visitParameterList: " + list);
-//        zenDsl.openParenthesis();
-//        super.visitParameterList(list);
-//        zenDsl.closeParenthesis();
-//        LOG.debug("Exit: visitParameterList: " + list);
-//    }
-
-    public void visitDeclarationStatement(PsiDeclarationStatement statement) {
-        LOG.debug("Enter: visitDeclarationStatement: " + statement);
-        super.visitDeclarationStatement(statement);
-    }
-
-    public void visitExpressionStatement(PsiExpressionStatement statement) {
-        LOG.debug("Enter: visitExpressionStatement: " + statement);
-        super.visitExpressionStatement(statement);
-    }
-
     // case 1: String s;
     // case 2: String s = clientMethod();
     public void visitLocalVariable(PsiLocalVariable variable) {
