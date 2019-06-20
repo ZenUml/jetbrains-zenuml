@@ -92,11 +92,16 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Enter: visitMethodCallExpression: " + expression);
 
         super.visitMethodCallExpression(expression);
-
+        // An expression can be resolved to a method when IDE can find the method in the provided classpath.
+        // In our test, if we use System.out.println(), IDE cannot resolve it, because JDK is not in the
+        // classpath. If for any reason, in production, it cannot be resolved, we should append it as text.
         PsiMethod method = expression.resolveMethod();
         if (method != null) {
             LOG.debug("Method resolved from expression:" + method);
             visitMethod(method);
+        } else {
+            LOG.debug("Method not resolved from expression, appending the expression directly");
+            zenDsl.append(expression.getText()).changeLine();
         }
     }
 
