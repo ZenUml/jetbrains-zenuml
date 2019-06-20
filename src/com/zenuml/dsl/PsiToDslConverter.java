@@ -95,7 +95,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             // If we delegate it to visit method, we lose the parameters.
             zenDsl.append(getMethodCall(method))
                     .openParenthesis()
-                    .append(getCondition(expression.getArgumentList().getChildren()))
+                    .append(getConditionOrArguments(expression.getArgumentList().getChildren()))
                     .closeParenthesis();
             processChildren(method);
         } else {
@@ -111,7 +111,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         zenDsl.append("while")
                 .openParenthesis()
-                .append(getCondition(statement.getChildren()))
+                .append(getConditionOrArguments(statement.getChildren()))
                 .closeParenthesis();
 
         processBody(statement);
@@ -129,7 +129,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         zenDsl.ensureIndent()
                 .append("if")
                 .openParenthesis()
-                .append(getCondition(statement.getChildren()))
+                .append(getConditionOrArguments(statement.getChildren()))
                 .closeParenthesis();
 
         processBody(statement);
@@ -192,7 +192,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         return Arrays.stream(children).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
     }
 
-    private String getCondition(PsiElement[] children) {
+    // An array of elements of which we know there is a pair of parenthesis.
+    private String getConditionOrArguments(PsiElement[] children) {
         return getChildrenWithinParenthesis(children)
                 .map(PsiElement::getText)
                 .reduce("", (s1, s2) -> s1 + s2).blockingGet();
