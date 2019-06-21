@@ -105,29 +105,23 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitWhileStatement(PsiWhileStatement statement) {
         LOG.debug("Enter: visitWhileStatement: " + statement);
-        visitCondition(statement);
-
+        statement.getCondition().accept(this);
         zenDsl.append("while")
                 .openParenthesis()
-                .append(getCondition(statement.getChildren()))
+                .append(statement.getCondition().getText())
                 .closeParenthesis();
 
         processBody(statement);
     }
 
-    private void visitCondition(PsiStatement statement) {
-        getChildrenWithinParenthesis(statement.getChildren()).subscribe(element -> element.accept(this));
-    }
-
     @Override
     public void visitIfStatement(PsiIfStatement statement) {
         LOG.debug("Enter: visitIfStatement: " + statement);
-        visitCondition(statement);
-
+        statement.getCondition().accept(this);
         zenDsl.ensureIndent()
                 .append("if")
                 .openParenthesis()
-                .append(getCondition(statement.getChildren()))
+                .append(statement.getCondition().getText())
                 .closeParenthesis();
 
         processBody(statement);
@@ -188,24 +182,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     private boolean hasFollowingBraces(PsiElement[] children) {
         return Arrays.stream(children).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
-    }
-
-    // condition for if or while
-    private String getCondition(PsiElement[] children) {
-        return getChildrenWithinParenthesis(children)
-                .map(PsiElement::getText)
-                .reduce("", (s1, s2) -> s1 + s2).blockingGet();
-    }
-
-    private Observable<PsiElement> getChildrenWithinParenthesis(PsiElement[] children) {
-        return Observable.fromArray(children)
-                .skipWhile(psiElement -> !isLparenth(psiElement))
-                .skip(1) // skip `(`
-                .takeWhile(psiElement -> !isRparenth(psiElement));
-    }
-
-    private boolean isLparenth(PsiElement child) {
-        return isParenth(child, "LPARENTH");
     }
 
     private boolean isRparenth(PsiElement child) {
