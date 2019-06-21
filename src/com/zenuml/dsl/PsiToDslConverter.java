@@ -38,15 +38,16 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             .openParenthesis()
             .closeParenthesis();
         processChildren(method);
-        // TODO: Not covered in test
-        if (PsiUtil.isInJarFileSystem(method) || PsiUtil.isInClassFile(method)) {
-            zenDsl.closeExpressionAndNewLine();
-        }
 
         LOG.debug("Exit: visitMethod: " + method);
     }
 
     private void processChildren(PsiMethod method) {
+        // TODO: Not covered in test
+        if (PsiUtil.isInJarFileSystem(method) || PsiUtil.isInClassFile(method)) {
+            zenDsl.closeExpressionAndNewLine();
+        }
+
         if (methodStack.contains(method)) {
             LOG.debug("Exit (loop detected): visitMethod: " + method);
             zenDsl.comment("Method re-entered");
@@ -102,18 +103,15 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             zenDsl.append(expression.getMethodExpression().getText())
                     .openParenthesis()
                     .append(getArgs(expression.getArgumentList()))
-                    .closeParenthesis().changeLine();
+                    .closeParenthesis()
+                    .closeExpressionAndNewLine();
         }
     }
 
     private String getArgs(PsiExpressionList argumentList) {
         return Observable.fromArray(argumentList.getExpressions())
-                .map( e -> {
-                    if (e instanceof PsiLambdaExpression) {
-                        return "λ";
-                    }
-                    return e.getText();
-                }).reduce("", ((s1, s2) -> s1 + s2)).blockingGet();
+                .map( e -> e instanceof PsiLambdaExpression ? "λ" : e.getText())
+                .reduce("", ((s1, s2) -> s1 + s2)).blockingGet();
     }
 
     @Override
