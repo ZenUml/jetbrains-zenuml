@@ -43,7 +43,7 @@ public class LoopMessageTest extends BaseDslConversionTest {
     public void test_methodWithChainedMethodCalls() {
         testDslConversion(
                 "methodWithChainedMethodCalls",
-                "LoopMessage.methodWithChainedMethodCalls() {\n\tnew Foo();\n\tFoo.getBar() {\n\t\tnew Bar();\n\t}\n\tBar.isBar() {\n\t}\n\twhile(new Foo().getBar().isBar()) {\n\t\tfoo();\n\t}\n}\n");
+                "LoopMessage.methodWithChainedMethodCalls() {\n\tnew Foo();\n\tFoo.getBar() {\n\t\t// return new Bar();\n\t\tnew Bar();\n\t}\n\tBar.isBar() {\n\t\t// return true;\n\t}\n\twhile(new Foo().getBar().isBar()) {\n\t\tfoo();\n\t}\n}\n");
     }
 
     @NotNull

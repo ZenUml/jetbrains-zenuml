@@ -17,11 +17,22 @@ public class SimpleMessage {
         clientMethod();
     }
 
+    public void nestedMethod_method_in_parameter() {
+        processInt(getCount());
+    }
+
     public void nestedMethod_unresolvable_method_call() {
         println();
     }
 
     public void nestedMethod_with_assignment() {
         String s = clientMethod();
+    }
+
+    private void processInt(int i) {
+
+    }
+    private int getCount() {
+        return 0;
     }
 }

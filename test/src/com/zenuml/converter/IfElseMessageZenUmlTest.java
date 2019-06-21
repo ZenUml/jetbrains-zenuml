@@ -26,7 +26,7 @@ public class IfElseMessageZenUmlTest extends BaseDslConversionTest {
     }
 
     public void test_convert_to_dsl_ifMessage_with_chained_method_calls() {
-        testDslConversion("methodWithChainedMethodCalls", "IfMessage.methodWithChainedMethodCalls() {\n\tnew Foo();\n\tFoo.getBar() {\n\t\tnew Bar();\n\t}\n\tBar.isBar() {\n\t}\n\tif(new Foo().getBar().isBar()) {\n\t\tfoo();\n\t}\n}\n");
+        testDslConversion("methodWithChainedMethodCalls", "IfMessage.methodWithChainedMethodCalls() {\n\tnew Foo();\n\tFoo.getBar() {\n\t\t// return new Bar();\n\t\tnew Bar();\n\t}\n\tBar.isBar() {\n\t\t// return true;\n\t}\n\tif(new Foo().getBar().isBar()) {\n\t\tfoo();\n\t}\n}\n");
     }
 
     @NotNull
