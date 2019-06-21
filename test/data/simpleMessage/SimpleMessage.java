@@ -14,7 +14,7 @@ public class SimpleMessage {
     }
 
     public void nestedMethod() {
-        clientMethod();
+        clientMethod(() -> {});
     }
 
     public void nestedMethod_method_in_parameter() {
