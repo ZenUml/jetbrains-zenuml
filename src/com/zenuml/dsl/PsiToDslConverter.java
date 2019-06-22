@@ -2,6 +2,7 @@ package com.zenuml.dsl;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
+import com.intellij.psi.impl.java.stubs.LambdaExpressionElementType;
 import io.reactivex.Observable;
 import org.intellij.sequencer.util.PsiUtil;
 
@@ -37,15 +38,16 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             .openParenthesis()
             .closeParenthesis();
         processChildren(method);
-        // TODO: Not covered in test
-        if (PsiUtil.isInJarFileSystem(method) || PsiUtil.isInClassFile(method)) {
-            zenDsl.closeExpressionAndNewLine();
-        }
 
         LOG.debug("Exit: visitMethod: " + method);
     }
 
     private void processChildren(PsiMethod method) {
+        // TODO: Not covered in test
+        if (PsiUtil.isInJarFileSystem(method) || PsiUtil.isInClassFile(method)) {
+            zenDsl.closeExpressionAndNewLine();
+        }
+
         if (methodStack.contains(method)) {
             LOG.debug("Exit (loop detected): visitMethod: " + method);
             zenDsl.comment("Method re-entered");
@@ -98,8 +100,18 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             processChildren(method);
         } else {
             LOG.debug("Method not resolved from expression, appending the expression directly");
-            zenDsl.append(expression.getText()).changeLine();
+            zenDsl.append(expression.getMethodExpression().getText())
+                    .openParenthesis()
+                    .append(getArgs(expression.getArgumentList()))
+                    .closeParenthesis()
+                    .closeExpressionAndNewLine();
         }
+    }
+
+    private String getArgs(PsiExpressionList argumentList) {
+        return Observable.fromArray(argumentList.getExpressions())
+                .map( e -> e instanceof PsiLambdaExpression ? "λ" : e.getText())
+                .reduce("", ((s1, s2) -> s1 + s2)).blockingGet();
     }
 
     @Override
@@ -157,9 +169,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitCodeBlock(PsiCodeBlock block) {
-        LOG.debug("Enter: visitCodeBlock: " + block);
-        if (block.getStatements().length == 0) {
-            zenDsl.closeExpressionAndNewLine();
+        LOG.debug("Enter: visitCodeBlock: " + block.getText());
+        if (block.getParent() instanceof PsiLambdaExpression) {
+//            zenDsl.closeExpressionAndNewLine();
             return;
         }
         zenDsl.startBlock();
