@@ -29,6 +29,14 @@ public class IfElseMessageZenUmlTest extends BaseDslConversionTest {
         testDslConversion("methodWithChainedMethodCalls", "IfMessage.methodWithChainedMethodCalls() {\n\tnew Foo();\n\tFoo.getBar() {\n\t\t// return new Bar();\n\t\tnew Bar();\n\t}\n\tBar.isBar() {\n\t\t// return true;\n\t}\n\tif(new Foo().getBar().isBar()) {\n\t\tfoo() {\n\t\t}\n\t}\n}\n");
     }
 
+    public void test_methodWithElse() {
+        testDslConversion("methodWithElse", "IfMessage.methodWithElse() {\n\tif(true) {\n\t\tfoo() {\n\t\t}\n\t}\n\telse {\n\t\tfoo() {\n\t\t}\n\t}\n}\n");
+    }
+
+    public void test_methodWithElseIf() {
+        testDslConversion("methodWithElseIf", "IfMessage.methodWithElseIf() {\n\tif(true) {\n\t\tfoo() {\n\t\t}\n\t}\n\telse if(2 > 1) {\n\t\tfoo2();\n\t}\n\telse {\n\t\tfoo3();\n\t}\n}\n");
+    }
+
     @NotNull
     @Override
     protected String getClassName() {

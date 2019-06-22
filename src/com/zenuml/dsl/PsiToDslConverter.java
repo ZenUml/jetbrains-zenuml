@@ -131,12 +131,21 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Enter: visitIfStatement: " + statement);
         statement.getCondition().accept(this);
         zenDsl.ensureIndent()
+                .ensureSpace()
                 .append("if")
                 .openParenthesis()
                 .append(statement.getCondition().getText())
                 .closeParenthesis();
 
         processBody(statement);
+    }
+
+    @Override
+    public void visitKeyword(PsiKeyword keyword) {
+        if ("else".equals(keyword.getText())) {
+            zenDsl.append(keyword.getText());
+        }
+        super.visitKeyword(keyword);
     }
 
     private void processBody(PsiStatement statement) {

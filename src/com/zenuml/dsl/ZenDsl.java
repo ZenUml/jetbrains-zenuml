@@ -38,6 +38,13 @@ public class ZenDsl {
         return this;
     }
 
+    ZenDsl ensureSpace() {
+        if(dsl.toString().endsWith("else")) {
+            dsl.append(' ');
+        }
+        return this;
+    }
+
     private void levelIncrease() {
         level++;
     }
