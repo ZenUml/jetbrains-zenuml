@@ -2,7 +2,6 @@ package com.zenuml.dsl;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
-import com.intellij.psi.impl.java.stubs.LambdaExpressionElementType;
 import io.reactivex.Observable;
 import org.intellij.sequencer.util.PsiUtil;
 
@@ -87,7 +86,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitMethodCallExpression(PsiMethodCallExpression expression) {
         LOG.debug("Enter: visitMethodCallExpression: " + expression);
 
-        super.visitMethodCallExpression(expression);
         // An expression can be resolved to a method when IDE can find the method in the provided classpath.
         // In our test, if we use System.out.println(), IDE cannot resolve it, because JDK is not in the
         // classpath. If for any reason, in production, it cannot be resolved, we should append it as text.
@@ -96,7 +94,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             LOG.debug("Method resolved from expression:" + method);
             // If we delegate it to visit method, we lose the parameters.
             zenDsl.append(getMethodCall(method))
-                    .append(expression.getArgumentList().getText());
+                    .openParenthesis()
+                    .append(getArgs(expression.getArgumentList()))
+                    .closeParenthesis();
             processChildren(method);
         } else {
             LOG.debug("Method not resolved from expression, appending the expression directly");
@@ -111,13 +111,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private String getArgs(PsiExpressionList argumentList) {
         return Observable.fromArray(argumentList.getExpressions())
                 .map( e -> e instanceof PsiLambdaExpression ? "λ" : e.getText())
-                .reduce("", ((s1, s2) -> s1 + s2)).blockingGet();
+                .reduce("", ((s1, s2) -> s1 + (s1.length() > 0 ? ", " : "") + s2)).blockingGet();
     }
 
     @Override
     public void visitWhileStatement(PsiWhileStatement statement) {
         LOG.debug("Enter: visitWhileStatement: " + statement);
-        statement.getCondition().accept(this);
         zenDsl.append("while")
                 .openParenthesis()
                 .append(statement.getCondition().getText())
@@ -129,9 +128,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitIfStatement(PsiIfStatement statement) {
         LOG.debug("Enter: visitIfStatement: " + statement);
-        statement.getCondition().accept(this);
         zenDsl.ensureIndent()
-                .ensureSpace()
                 .append("if")
                 .openParenthesis()
                 .append(statement.getCondition().getText())
@@ -143,7 +140,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitKeyword(PsiKeyword keyword) {
         if ("else".equals(keyword.getText())) {
-            zenDsl.append(keyword.getText());
+            zenDsl.append(keyword.getText()).append(" ");
         }
         super.visitKeyword(keyword);
     }
