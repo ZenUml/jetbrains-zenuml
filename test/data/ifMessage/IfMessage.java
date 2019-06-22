@@ -56,6 +56,24 @@ public class IfMessage {
             foo();
         }
     }
+
+    void methodWithElse() {
+        if (true) {
+            foo();
+        } else {
+            foo();
+        }
+    }
+
+    void methodWithElseIf() {
+        if (true) {
+            foo();
+        } else if(2 > 1) {
+            foo2();
+        } else {
+            foo3();
+        }
+    }
 }
 
 class Foo {
