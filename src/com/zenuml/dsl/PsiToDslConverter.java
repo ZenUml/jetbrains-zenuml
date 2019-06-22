@@ -2,7 +2,6 @@ package com.zenuml.dsl;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
-import com.intellij.psi.impl.java.stubs.LambdaExpressionElementType;
 import io.reactivex.Observable;
 import org.intellij.sequencer.util.PsiUtil;
 
@@ -131,7 +130,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Enter: visitIfStatement: " + statement);
         statement.getCondition().accept(this);
         zenDsl.ensureIndent()
-                .ensureSpace()
                 .append("if")
                 .openParenthesis()
                 .append(statement.getCondition().getText())
@@ -143,7 +141,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitKeyword(PsiKeyword keyword) {
         if ("else".equals(keyword.getText())) {
-            zenDsl.append(keyword.getText());
+            zenDsl.append(keyword.getText()).append(" ");
         }
         super.visitKeyword(keyword);
     }
