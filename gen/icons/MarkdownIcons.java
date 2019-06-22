@@ -23,6 +23,7 @@ public final class MarkdownIcons {
     /** 16x16 */ public static final Icon Italic = load("/icons/editor_actions/Italic.svg");
     /** 16x16 */ public static final Icon Link = load("/icons/editor_actions/Link.svg");
     /** 16x16 */ public static final Icon Strike_through = load("/icons/editor_actions/Strike_through.svg");
+    /** 16x16 */ public static final Icon Help = load("/icons/editor_actions/help.svg");
 
   }
   /** 16x16 */ public static final Icon MarkdownPlugin = load("/icons/MarkdownPlugin.svg");

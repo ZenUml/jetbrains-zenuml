@@ -115,6 +115,13 @@ Includes the following features:</p>
 
   <actions>
     <group id="ZenUml.Toolbar.Left" class="com.intellij.openapi.actionSystem.DefaultActionGroup" text="Markdown editor actions">
+
+      <action class="com.zenuml.sequence.plugins.jetbrains.actions.DocumentationAction"
+              id="com.zenuml.sequence.plugins.jetbrains.actions.DocumentationAction"
+              text="Documentation"
+              description="Open documentation"
+              icon="MarkdownIcons.EditorActions.Help">
+      </action>
     </group>
 
 
