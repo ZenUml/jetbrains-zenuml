@@ -20,7 +20,7 @@ public class SimpleMessageZenUmlTest extends BaseDslConversionTest {
     }
 
     public void test_convert_to_dsl_nestedMessage() {
-        testDslConversion("nestedMethod", "SimpleMessage.nestedMethod() {\n\tclientMethod(λ) {\n\t}\n}\n");
+        testDslConversion("nestedMethod", "SimpleMessage.nestedMethod() {\n\tclientMethod(lambda) {\n\t}\n}\n");
     }
 
     public void test_convert_to_dsl_nestedMessage_method_in_parameter() {
