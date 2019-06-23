@@ -190,7 +190,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitReturnStatement(PsiReturnStatement statement) {
         LOG.debug("Enter: visitCodeBlock: " + statement);
         zenDsl.comment(statement.getText());
-        super.visitReturnStatement(statement);
     }
 
 

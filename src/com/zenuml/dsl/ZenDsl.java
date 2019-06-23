@@ -2,6 +2,8 @@ package com.zenuml.dsl;
 
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class ZenDsl {
@@ -60,24 +62,26 @@ public class ZenDsl {
         .whiteSpace();
     }
 
-    void startBlock() {
+    ZenDsl startBlock() {
         whiteSpace()
         .append("{")
         .changeLine();
         levelIncrease();
         LOG.debug("StartBlock");
+        return this;
     }
 
     private ZenDsl whiteSpace() {
         return append(" ");
     }
 
-    void closeBlock() {
+    ZenDsl closeBlock() {
         levelDecrease();
         ensureIndent()
         .append("}")
         .changeLine();
         LOG.debug("CloseBlock");
+        return this;
     }
 
     @NotNull
@@ -90,11 +94,15 @@ public class ZenDsl {
         return append(")");
     }
 
-    ZenDsl changeLine() {
+    private ZenDsl changeLine() {
         return append("\n");
     }
 
+    // This method take care of the end change-line.
     public ZenDsl comment(String text) {
-        return append("// ").append(text).changeLine();
+        Arrays.stream(text.split("\n"))
+                .map(line -> "// " + line)
+                .forEach(line -> append(line).changeLine());
+        return this;
     }
 }

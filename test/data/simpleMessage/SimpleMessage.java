@@ -12,6 +12,14 @@ public class SimpleMessage {
     public String declareVariable() {
         String s;
     }
+    public String returnConstant() {
+        return 0;
+    }
+
+    public String return_multiple_line_expression() {
+        return someInstance.getAll()
+                .first();
+    }
 
     public void nestedMethod() {
         clientMethod(() -> {});
