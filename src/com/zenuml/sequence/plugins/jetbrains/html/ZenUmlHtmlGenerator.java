@@ -15,9 +15,7 @@ public class ZenUmlHtmlGenerator {
         try {
             String previewHtml = readFromInputStream(inputStream);
             Escaper escaper = Escapers.builder()
-                    .addEscape('\n', "\\n")
-                    .addEscape('\r', "\\r")
-                    .addEscape('`', "\\`")
+                    .addEscape('\\', "\\\\")
                     .build();
 
             return previewHtml.replace("$DSL_CODE", escaper.escape(dsl));
