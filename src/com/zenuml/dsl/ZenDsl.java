@@ -49,8 +49,7 @@ public class ZenDsl {
 
     ZenDsl closeBlock() {
         levelDecrease();
-        ensureIndent()
-        .append("}")
+        append("}")
         .changeLine();
         LOG.debug("CloseBlock");
         return this;
