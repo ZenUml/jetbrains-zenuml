@@ -12,14 +12,7 @@ public class ZenDsl {
     private StringBuffer dsl = new StringBuffer();
     private int level = 0;
 
-    String getIndent() {
-        return IntStream.range(0, level)
-                .mapToObj(i -> "\t")
-                .reduce((s1, s2) -> s1 + s2)
-                .orElse("");
-    }
-
-    public String getDsl() {
+    String getDsl() {
         return dsl.toString();
     }
 
@@ -29,23 +22,6 @@ public class ZenDsl {
         dsl.append(s);
         LOG.debug(dsl.toString());
         return this;
-    }
-
-    ZenDsl ensureIndent() {
-        if(!dsl.toString().endsWith("\n")) {
-            return this;
-        }
-        String indent = getIndent();
-        dsl.append(indent);
-        return this;
-    }
-
-    private void levelIncrease() {
-        level++;
-    }
-
-    private void levelDecrease() {
-        level--;
     }
 
     @NotNull
@@ -71,10 +47,6 @@ public class ZenDsl {
         return this;
     }
 
-    private ZenDsl whiteSpace() {
-        return append(" ");
-    }
-
     ZenDsl closeBlock() {
         levelDecrease();
         ensureIndent()
@@ -94,15 +66,43 @@ public class ZenDsl {
         return append(")");
     }
 
+    // This method take care of the end change-line.
+    ZenDsl comment(String text) {
+        Arrays.stream(text.split("\n"))
+                .map(line -> "// " + line)
+                .forEach(line -> append(line).changeLine());
+        return this;
+    }
+
+    private String getIndent() {
+        return IntStream.range(0, level)
+                .mapToObj(i -> "\t")
+                .reduce((s1, s2) -> s1 + s2)
+                .orElse("");
+    }
+
     private ZenDsl changeLine() {
         return append("\n");
     }
 
-    // This method take care of the end change-line.
-    public ZenDsl comment(String text) {
-        Arrays.stream(text.split("\n"))
-                .map(line -> "// " + line)
-                .forEach(line -> append(line).changeLine());
+    private ZenDsl whiteSpace() {
+        return append(" ");
+    }
+
+    private void levelIncrease() {
+        level++;
+    }
+
+    private void levelDecrease() {
+        level--;
+    }
+
+    private ZenDsl ensureIndent() {
+        if(!dsl.toString().endsWith("\n")) {
+            return this;
+        }
+        String indent = getIndent();
+        dsl.append(indent);
         return this;
     }
 }
