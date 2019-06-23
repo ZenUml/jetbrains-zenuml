@@ -110,7 +110,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     private String getArgs(PsiExpressionList argumentList) {
         return Observable.fromArray(argumentList.getExpressions())
-                .map( e -> e instanceof PsiLambdaExpression ? "λ" : e.getText())
+                .map( e -> e instanceof PsiLambdaExpression ? "lambda" : e.getText())
                 .reduce("", ((s1, s2) -> s1 + (s1.length() > 0 ? ", " : "") + s2)).blockingGet();
     }
 
