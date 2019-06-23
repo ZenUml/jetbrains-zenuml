@@ -85,7 +85,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitMethodCallExpression(PsiMethodCallExpression expression) {
         LOG.debug("Enter: visitMethodCallExpression: " + expression);
-
+        zenDsl.append(expression.getMethodExpression().getText())
+                .openParenthesis()
+                .append(getArgs(expression.getArgumentList()))
+                .closeParenthesis();
         // An expression can be resolved to a method when IDE can find the method in the provided classpath.
         // In our test, if we use System.out.println(), IDE cannot resolve it, because JDK is not in the
         // classpath. If for any reason, in production, it cannot be resolved, we should append it as text.
@@ -93,25 +96,19 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if (method != null) {
             LOG.debug("Method resolved from expression:" + method);
             // If we delegate it to visit method, we lose the parameters.
-            zenDsl.append(getMethodCall(method))
-                    .openParenthesis()
-                    .append(getArgs(expression.getArgumentList()))
-                    .closeParenthesis();
+            // If the expression is a chain (e.g. A.m1().m2()), only m2 is resolved in the method.
             processChildren(method);
         } else {
             LOG.debug("Method not resolved from expression, appending the expression directly");
-            zenDsl.append(expression.getMethodExpression().getText())
-                    .openParenthesis()
-                    .append(getArgs(expression.getArgumentList()))
-                    .closeParenthesis()
-                    .closeExpressionAndNewLine();
+            zenDsl.closeExpressionAndNewLine();
         }
     }
 
     private String getArgs(PsiExpressionList argumentList) {
-        return Observable.fromArray(argumentList.getExpressions())
-                .map( e -> e instanceof PsiLambdaExpression ? "lambda" : e.getText())
-                .reduce("", ((s1, s2) -> s1 + (s1.length() > 0 ? ", " : "") + s2)).blockingGet();
+        String[] objects = Arrays.stream(argumentList.getExpressions())
+                .map(e -> e instanceof PsiLambdaExpression ? "lambda" : e.getText())
+                .toArray(String[]::new);
+        return String.join(", ", objects );
     }
 
     @Override
