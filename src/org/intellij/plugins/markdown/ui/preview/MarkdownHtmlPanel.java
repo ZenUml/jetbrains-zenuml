@@ -14,7 +14,7 @@ import javax.swing.*;
 import java.util.List;
 
 public interface MarkdownHtmlPanel extends Disposable {
-  List<String> SCRIPTS = ContainerUtil.immutableList("processLinks.js", "scrollToElement.js", "vue-sequence-bundle.js");
+  List<String> SCRIPTS = ContainerUtil.immutableList("vue-sequence-bundle.js");
 
   List<String> STYLES = ContainerUtil.immutableList("default.css", "darcula.css", PreviewStaticServer.INLINE_CSS_FILENAME);
 

@@ -174,17 +174,6 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
 
     @Override
     public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
-      if (newValue == State.RUNNING) {
-        final Object result =
-          getWebViewGuaranteed().getEngine().executeScript("document.documentElement.scrollTop || document.body.scrollTop");
-        if (result instanceof Number) {
-          myScrollY = ((Number)result).intValue();
-        }
-      }
-      else if (newValue == State.SUCCEEDED) {
-        getWebViewGuaranteed().getEngine()
-          .executeScript("document.documentElement.scrollTop = ({} || document.body).scrollTop = " + myScrollY);
-      }
     }
   }
 }
