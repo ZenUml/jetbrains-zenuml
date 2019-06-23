@@ -25,6 +25,14 @@ public class SimpleMessage {
         clientMethod(() -> {});
     }
 
+    public void nestedMethod_arguments() {
+        clientMethod(1, 2);
+    }
+
+    public void nestedMethod_chain() {
+        clientMethod().isEmpty();
+    }
+
     public void nestedMethod_method_in_parameter() {
         processInt(getCount());
     }
