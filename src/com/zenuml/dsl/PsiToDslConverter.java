@@ -110,7 +110,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     private String getArgs(PsiExpressionList argumentList) {
         return Observable.fromArray(argumentList.getExpressions())
-                .map( e -> e instanceof PsiLambdaExpression ? "λ" : e.getText())
+                .map( e -> e instanceof PsiLambdaExpression ? "lambda" : e.getText())
                 .reduce("", ((s1, s2) -> s1 + (s1.length() > 0 ? ", " : "") + s2)).blockingGet();
     }
 
@@ -128,8 +128,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitIfStatement(PsiIfStatement statement) {
         LOG.debug("Enter: visitIfStatement: " + statement);
-        zenDsl.ensureIndent()
-                .append("if")
+        zenDsl.append("if")
                 .openParenthesis()
                 .append(statement.getCondition().getText())
                 .closeParenthesis();
@@ -190,7 +189,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     public void visitReturnStatement(PsiReturnStatement statement) {
         LOG.debug("Enter: visitCodeBlock: " + statement);
         zenDsl.comment(statement.getText());
-        super.visitReturnStatement(statement);
     }
 
 
