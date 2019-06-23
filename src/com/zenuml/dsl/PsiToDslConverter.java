@@ -73,6 +73,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     // case 2: String s = clientMethod();
     public void visitLocalVariable(PsiLocalVariable variable) {
         LOG.debug("Enter: visitLocalVariable: " + variable);
+        if(isWithinForStatement(variable)) return;
+
         if (variable.hasInitializer()) {
             zenDsl.appendAssignment(variable.getTypeElement().getText(), variable.getName());
         } else {
@@ -80,6 +82,11 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         }
         super.visitLocalVariable(variable);
         LOG.debug("Exit: visitLocalVariable: " + variable);
+    }
+
+    private boolean isWithinForStatement(PsiElement element) {
+        if(element == null) return false;
+        return element.getParent() instanceof PsiForStatement || isWithinForStatement(element.getParent());
     }
 
     @Override
@@ -120,6 +127,15 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 .closeParenthesis();
 
         processBody(statement);
+    }
+
+    @Override
+    public void visitForStatement(PsiForStatement statement) {
+        zenDsl.append("for")
+                .openParenthesis()
+                .append(statement.getCondition().getText())
+                .closeParenthesis();
+        super.visitForStatement(statement);
     }
 
     @Override
