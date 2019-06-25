@@ -6,8 +6,9 @@ The ZenUML plugin running on the JetBrains IDEs.
 2. `./gradlew runIde` to start another instance of IDEA with our plugin installed.
 
 # Github Release
-1. add new tag to the commit id on **master** branch, format: `release-******`
-1. push tag to remote
+1. `git checkout master`
+1. `git tag -a release-2019.x.x -m 'release comment msg'`
+1. `git push origin release-2019.x.x`
 1. travis will release zenuml.zip to github
 
 # Publish
