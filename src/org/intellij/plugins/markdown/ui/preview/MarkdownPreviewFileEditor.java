@@ -21,9 +21,10 @@ import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.ui.UIUtil;
 import com.zenuml.sequence.plugins.jetbrains.html.ZenUmlHtmlGenerator;
 import org.intellij.markdown.html.HtmlGenerator;
-import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 import org.intellij.plugins.markdown.settings.MarkdownCssSettings;
 import org.intellij.plugins.markdown.settings.MarkdownPreviewSettings;
+import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
+import org.intellij.plugins.markdown.ui.preview.javafx.MarkdownJavaFxHtmlPanel;
 import org.intellij.plugins.markdown.ui.split.SplitFileEditor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -36,6 +37,7 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 
 public class MarkdownPreviewFileEditor extends UserDataHolderBase implements FileEditor {
   private final static long PARSING_CALL_TIMEOUT_MS = 50L;
@@ -263,6 +265,11 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
       return;
     }
     Disposer.dispose(myPanel);
+  }
+
+  public File writeHtmlToTempFile() {
+    if(this.myPanel == null) return null;
+    return ((MarkdownJavaFxHtmlPanel) this.myPanel).writeHtmlToTempFile();
   }
 
   @NotNull

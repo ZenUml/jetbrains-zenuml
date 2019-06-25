@@ -1,8 +1,8 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>0.0.5</version>
-  <idea-version since-build="182.3911.6"/>
+  <version>1.0.1</version>
+  <idea-version since-build="191.6707.31"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
   <depends>com.intellij.modules.lang</depends>
@@ -14,6 +14,7 @@
 </br>
 Includes the following features:</p>
 <ul>
+<li>Generate diagrams from Java via context menu.</li>
 <li>Instant rendering - nothing needs to be sent to the backend.</li>
 <li>Developer friendly syntax - e.g. Service.getBook(id).</li>
 <li>Syntax highlighting - coming soon.</li>
@@ -115,6 +116,13 @@ Includes the following features:</p>
 
   <actions>
     <group id="ZenUml.Toolbar.Left" class="com.intellij.openapi.actionSystem.DefaultActionGroup" text="Markdown editor actions">
+
+      <action class="com.zenuml.sequence.plugins.jetbrains.actions.DocumentationAction"
+              id="com.zenuml.sequence.plugins.jetbrains.actions.DocumentationAction"
+              text="Documentation"
+              description="Open documentation"
+              icon="MarkdownIcons.EditorActions.Help">
+      </action>
     </group>
 
 
@@ -144,6 +152,13 @@ Includes the following features:</p>
               text="Show preview only"
               description="Sets markdown editor layout to show preview only"
               icon="AllIcons.General.LayoutPreviewOnly">
+      </action>
+
+      <action class="com.zenuml.sequence.plugins.jetbrains.actions.OpenInBrowserAction"
+              id="com.zenuml.sequence.plugins.jetbrains.actions.OpenInBrowserAction"
+              text="Open in browser"
+              description="Open in browser"
+              icon="AllIcons.General.Web">
       </action>
     </group>
 

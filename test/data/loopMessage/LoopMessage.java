@@ -45,6 +45,12 @@ public class LoopMessage {
         }
     }
 
+    void methodWithFor() {
+        for (int i = 0; i < 10; i++) {
+            foo();
+        }
+    }
+
     void foo() {
     }
 

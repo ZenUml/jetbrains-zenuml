@@ -3,6 +3,7 @@ package com.zenuml.dsl;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
 import io.reactivex.Observable;
+import org.intellij.sequencer.util.PsiUtil;
 
 import java.util.Arrays;
 
@@ -26,19 +27,31 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         if (methodStack.contains(method)) {
             LOG.debug("Exit (loop detected): visitMethod: " + method);
-            zenDsl.changeLine();
+            zenDsl.comment("Method re-entered");
             return;
         }
 
         String methodCall = getMethodCall(method);
 
-        zenDsl.append(methodCall);
+        zenDsl.append(methodCall)
+            .openParenthesis()
+            .closeParenthesis();
         processChildren(method);
 
         LOG.debug("Exit: visitMethod: " + method);
     }
 
     private void processChildren(PsiMethod method) {
+        // TODO: Not covered in test
+        if (PsiUtil.isInJarFileSystem(method) || PsiUtil.isInClassFile(method)) {
+            zenDsl.closeExpressionAndNewLine();
+        }
+
+        if (methodStack.contains(method)) {
+            LOG.debug("Exit (loop detected): visitMethod: " + method);
+            zenDsl.comment("Method re-entered");
+            return;
+        }
         methodStack.push(method);
         super.visitMethod(method);
         methodStack.pop();
@@ -56,74 +69,92 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         return methodPrefix + method.getName();
     }
 
-    public void visitParameterList(PsiParameterList list) {
-        LOG.debug("Enter: visitParameterList: " + list);
-        zenDsl.openParenthesis();
-        super.visitParameterList(list);
-        zenDsl.closeParenthesis();
-        LOG.debug("Exit: visitParameterList: " + list);
-    }
-
-    public void visitDeclarationStatement(PsiDeclarationStatement statement) {
-        LOG.debug("Enter: visitDeclarationStatement: " + statement);
-        super.visitDeclarationStatement(statement);
-    }
-
-    public void visitExpressionStatement(PsiExpressionStatement statement) {
-        LOG.debug("Enter: visitExpressionStatement: " + statement);
-        super.visitExpressionStatement(statement);
-    }
-
-    // variable: String s = clientMethod();
+    // case 1: String s;
+    // case 2: String s = clientMethod();
     public void visitLocalVariable(PsiLocalVariable variable) {
         LOG.debug("Enter: visitLocalVariable: " + variable);
-        zenDsl.appendAssignment(variable.getTypeElement().getText(), variable.getName());
+        if(isWithinForStatement(variable)) return;
+
+        if (variable.hasInitializer()) {
+            zenDsl.appendAssignment(variable.getTypeElement().getText(), variable.getName());
+        } else {
+            zenDsl.comment(variable.getText());
+        }
         super.visitLocalVariable(variable);
         LOG.debug("Exit: visitLocalVariable: " + variable);
+    }
+
+    private boolean isWithinForStatement(PsiElement element) {
+        if(element == null) return false;
+        return element.getParent() instanceof PsiForStatement || isWithinForStatement(element.getParent());
     }
 
     @Override
     public void visitMethodCallExpression(PsiMethodCallExpression expression) {
         LOG.debug("Enter: visitMethodCallExpression: " + expression);
-
-        super.visitMethodCallExpression(expression);
-
+        zenDsl.append(expression.getMethodExpression().getText())
+                .openParenthesis()
+                .append(getArgs(expression.getArgumentList()))
+                .closeParenthesis();
+        // An expression can be resolved to a method when IDE can find the method in the provided classpath.
+        // In our test, if we use System.out.println(), IDE cannot resolve it, because JDK is not in the
+        // classpath. If for any reason, in production, it cannot be resolved, we should append it as text.
         PsiMethod method = expression.resolveMethod();
         if (method != null) {
             LOG.debug("Method resolved from expression:" + method);
-            visitMethod(method);
+            // If we delegate it to visit method, we lose the parameters.
+            // If the expression is a chain (e.g. A.m1().m2()), only m2 is resolved in the method.
+            processChildren(method);
+        } else {
+            LOG.debug("Method not resolved from expression, appending the expression directly");
+            zenDsl.closeExpressionAndNewLine();
         }
+    }
+
+    private String getArgs(PsiExpressionList argumentList) {
+        String[] objects = Arrays.stream(argumentList.getExpressions())
+                .map(e -> e instanceof PsiLambdaExpression ? "lambda" : e.getText())
+                .toArray(String[]::new);
+        return String.join(", ", objects );
     }
 
     @Override
     public void visitWhileStatement(PsiWhileStatement statement) {
         LOG.debug("Enter: visitWhileStatement: " + statement);
-        visitCondition(statement);
-
         zenDsl.append("while")
                 .openParenthesis()
-                .append(getCondition(statement))
+                .append(statement.getCondition().getText())
                 .closeParenthesis();
 
         processBody(statement);
     }
 
-    private void visitCondition(PsiStatement statement) {
-        getChildrenWithinParenthesis(statement).subscribe(element -> element.accept(this));
+    @Override
+    public void visitForStatement(PsiForStatement statement) {
+        zenDsl.append("for")
+                .openParenthesis()
+                .append(statement.getCondition().getText())
+                .closeParenthesis();
+        super.visitForStatement(statement);
     }
 
     @Override
     public void visitIfStatement(PsiIfStatement statement) {
         LOG.debug("Enter: visitIfStatement: " + statement);
-        visitCondition(statement);
-
-        zenDsl.ensureIndent()
-                .append("if")
+        zenDsl.append("if")
                 .openParenthesis()
-                .append(getCondition(statement))
+                .append(statement.getCondition().getText())
                 .closeParenthesis();
 
         processBody(statement);
+    }
+
+    @Override
+    public void visitKeyword(PsiKeyword keyword) {
+        if ("else".equals(keyword.getText())) {
+            zenDsl.append(keyword.getText()).append(" ");
+        }
+        super.visitKeyword(keyword);
     }
 
     private void processBody(PsiStatement statement) {
@@ -146,7 +177,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Exit: processBody");
     }
 
-    // A a = B.method() seems not triggering this method
+    // A a = B.method() seems triggering declaration
+    // a = B.method() is trigger this.
     // Only simple `i = 1` does.
     @Override
     public void visitAssignmentExpression(PsiAssignmentExpression expression) {
@@ -155,9 +187,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitCodeBlock(PsiCodeBlock block) {
-        LOG.debug("Enter: visitCodeBlock: " + block);
-        if (block.getStatements().length == 0) {
-            zenDsl.closeExpressionAndNewLine();
+        LOG.debug("Enter: visitCodeBlock: " + block.getText());
+        if (block.getParent() instanceof PsiLambdaExpression) {
+//            zenDsl.closeExpressionAndNewLine();
             return;
         }
         zenDsl.startBlock();
@@ -165,29 +197,20 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         zenDsl.closeBlock();
     }
 
+    // TODO: this method trigger a class inspection warning.
+    @Override
+    public void visitReturnStatement(PsiReturnStatement statement) {
+        LOG.debug("Enter: visitCodeBlock: " + statement);
+        zenDsl.comment(statement.getText());
+    }
+
+
     public String getDsl() {
         return zenDsl.getDsl();
     }
 
     private boolean hasFollowingBraces(PsiElement[] children) {
         return Arrays.stream(children).anyMatch(c -> PsiBlockStatement.class.isAssignableFrom(c.getClass()));
-    }
-
-    private String getCondition(PsiStatement statement) {
-        return getChildrenWithinParenthesis(statement)
-                .map(PsiElement::getText)
-                .reduce((s1, s2) -> s1 + s2).blockingGet();
-    }
-
-    private Observable<PsiElement> getChildrenWithinParenthesis(PsiStatement statement) {
-        return Observable.fromArray(statement.getChildren())
-                .skipWhile(psiElement -> !isLparenth(psiElement))
-                .skip(1) // skip `(`
-                .takeWhile(psiElement -> !isRparenth(psiElement));
-    }
-
-    private boolean isLparenth(PsiElement child) {
-        return isParenth(child, "LPARENTH");
     }
 
     private boolean isRparenth(PsiElement child) {
