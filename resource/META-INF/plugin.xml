@@ -152,6 +152,13 @@ Includes the following features:</p>
               description="Sets markdown editor layout to show preview only"
               icon="AllIcons.General.LayoutPreviewOnly">
       </action>
+
+      <action class="com.zenuml.sequence.plugins.jetbrains.actions.OpenInBrowserAction"
+              id="com.zenuml.sequence.plugins.jetbrains.actions.OpenInBrowserAction"
+              text="Open in browser"
+              description="Open in browser"
+              icon="AllIcons.General.Web">
+      </action>
     </group>
 
     <action id="SequencePlugin.ShowZenUMLScratch" class="org.intellij.sequencer.ShowZenUMLScratchAction"
