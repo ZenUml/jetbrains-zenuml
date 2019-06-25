@@ -268,6 +268,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
   }
 
   public File writeHtmlToTempFile() {
+    if(this.myPanel == null) return null;
     return ((MarkdownJavaFxHtmlPanel) this.myPanel).writeHtmlToTempFile();
   }
 

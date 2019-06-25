@@ -22,7 +22,9 @@ public class OpenInBrowserAction extends AnAction {
         SplitFileEditor splitEditor = MarkdownActionUtil.findSplitEditor(anActionEvent);
         MarkdownPreviewFileEditor markdownPreviewFileEditor = (MarkdownPreviewFileEditor) splitEditor.getSecondEditor();
         File file = markdownPreviewFileEditor.writeHtmlToTempFile();
-        BrowserUtil.browse(file);
+        if (file != null) {
+            BrowserUtil.browse(file);
+        }
     }
 
     public void update(@NotNull AnActionEvent e) {
