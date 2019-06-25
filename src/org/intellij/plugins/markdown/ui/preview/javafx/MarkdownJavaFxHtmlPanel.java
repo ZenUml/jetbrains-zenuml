@@ -117,6 +117,8 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
   @NotNull
   @Override
   protected String prepareHtml(@NotNull String html) {
+    if(html.length() == 0) return html;
+    
     this.myLastHtmlWithCss = html
             .replace("<head>", "<head>"
                     + MarkdownHtmlPanel.getCssLines(null, myCssUris) + "\n" + getScriptingLines());

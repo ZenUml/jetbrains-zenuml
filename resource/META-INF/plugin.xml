@@ -156,7 +156,8 @@ Includes the following features:</p>
       <action class="com.zenuml.sequence.plugins.jetbrains.actions.OpenInBrowserAction"
               id="com.zenuml.sequence.plugins.jetbrains.actions.OpenInBrowserAction"
               text="Open in browser"
-              description="Open in browser">
+              description="Open in browser"
+              icon="AllIcons.General.Web">
       </action>
     </group>
 
