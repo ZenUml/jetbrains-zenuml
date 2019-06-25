@@ -13,7 +13,7 @@ The ZenUML plugin running on the JetBrains IDEs.
 1. `git checkout master && git pull --reb`
 1. `git tag -a release-2019.1.1 -m 'release tag msg'`
 1. `git push origin release-2019.1.1`
-1. travis will release zenuml.zip to github
+1. travis will release zenuml.zip to github in a few minutes
 
 # Publish
 1. Log on to Market place.
