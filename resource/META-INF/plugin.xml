@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <idea-version since-build="191.6707.31"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
@@ -14,6 +14,7 @@
 </br>
 Includes the following features:</p>
 <ul>
+<li>Generate diagrams from Java via context menu.</li>
 <li>Instant rendering - nothing needs to be sent to the backend.</li>
 <li>Developer friendly syntax - e.g. Service.getBook(id).</li>
 <li>Syntax highlighting - coming soon.</li>
