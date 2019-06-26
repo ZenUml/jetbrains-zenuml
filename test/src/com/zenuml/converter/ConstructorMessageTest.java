@@ -5,7 +5,11 @@ import org.jetbrains.annotations.NotNull;
 public class ConstructorMessageTest extends BaseDslConversionTest {
 
     public void test_convert_to_dsl_constructor() {
-        testDslConversion("clientMethod", "Constructor.clientMethod() {\n\tConstructor c = new Constructor();\n}\n");
+        testDslConversion(
+                "clientMethod",
+                "Constructor.clientMethod() {\n\tConstructor c = new Constructor(){methodCallInConstructor()};\n}\n"
+
+        );
     }
 
     @NotNull
