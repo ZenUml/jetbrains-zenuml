@@ -16,12 +16,16 @@ import javafx.scene.text.FontSmoothingType;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import netscape.javascript.JSObject;
+import org.apache.commons.io.FileUtils;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
 import org.intellij.plugins.markdown.ui.preview.PreviewStaticServer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements MarkdownHtmlPanel {
 
@@ -43,6 +47,8 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
   @NotNull
   private String myLastRawHtml = "";
   @NotNull
+  private String myLastHtmlWithCss = "";
+  @NotNull
   private final ScrollPreservingListener myScrollPreservingListener = new ScrollPreservingListener();
   @NotNull
   private final BridgeSettingListener myBridgeSettingListener = new BridgeSettingListener();
@@ -56,6 +62,16 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
     });
 
     subscribeForGrayscaleSetting();
+  }
+
+  public File writeHtmlToTempFile() {
+    try {
+      File file = File.createTempFile("zenuml", ".html");
+      FileUtils.writeStringToFile(file, this.myLastHtmlWithCss, "UTF-8");
+      return file;
+    } catch (IOException e) {
+      throw new RuntimeException("Failed to create temp file");
+    }
   }
 
   @Override
@@ -101,10 +117,12 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
   @NotNull
   @Override
   protected String prepareHtml(@NotNull String html) {
-    String htmlWithCss = html
+    if(html.length() == 0) return html;
+    
+    this.myLastHtmlWithCss = html
             .replace("<head>", "<head>"
                     + MarkdownHtmlPanel.getCssLines(null, myCssUris) + "\n" + getScriptingLines());
-    return htmlWithCss;
+    return this.myLastHtmlWithCss;
   }
 
   @Override

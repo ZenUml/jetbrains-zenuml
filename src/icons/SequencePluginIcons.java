@@ -9,7 +9,7 @@ import javax.swing.*;
  * Created by van on 10/12/2016.
  */
 public interface SequencePluginIcons {
-    Icon SEQUENCE_ICON_13 = icon("/icons/sequence-13x13.png");
+    Icon SEQUENCE_ICON_13 = icon("/icons/sequence-16x16.png");
     Icon SEQUENCE_ICON = icon("/icons/sequence-16x16.png");
     Icon CLOSE_ICON = icon("/icons/close-16x16.png");
     Icon EXPORT_ICON = icon("/icons/export-16x16.png");

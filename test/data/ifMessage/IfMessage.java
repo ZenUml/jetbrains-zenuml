@@ -50,4 +50,40 @@ public class IfMessage {
             clientMethod();
         }
     }
+
+    void methodWithChainedMethodCalls() {
+        if (new Foo().getBar().isBar()) {
+            foo();
+        }
+    }
+
+    void methodWithElse() {
+        if (true) {
+            foo();
+        } else {
+            foo();
+        }
+    }
+
+    void methodWithElseIf() {
+        if (true) {
+            foo();
+        } else if(2 > 1) {
+            foo2();
+        } else {
+            foo3();
+        }
+    }
+}
+
+class Foo {
+    Bar getBar() {
+        return new Bar();
+    }
+}
+
+class Bar {
+    boolean isBar() {
+        return true;
+    }
 }
