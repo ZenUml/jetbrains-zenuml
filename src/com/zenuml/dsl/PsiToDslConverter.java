@@ -26,6 +26,7 @@ import org.intellij.sequencer.util.PsiUtil;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private static final Logger LOG = Logger.getInstance(PsiToDslConverter.class);
@@ -53,9 +54,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
         String methodCall = getMethodCall(method);
 
-        String parameterNames = Arrays.stream(method.getParameterList().getParameters())
-                .map(PsiNamedElement::getName)
-                .collect(Collectors.joining(", "));
+        String parameterNames = Stream.of(method.getParameterList().getParameters())
+            .map(PsiNamedElement::getName)
+            .collect(Collectors.joining(", "));
 
         zenDsl.append(methodCall)
             .openParenthesis()
