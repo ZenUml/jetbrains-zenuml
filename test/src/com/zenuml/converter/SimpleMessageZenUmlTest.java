@@ -42,6 +42,18 @@ public class SimpleMessageZenUmlTest extends BaseDslConversionTest {
         testDslConversion("nestedMethod_with_assignment", "SimpleMessage.nestedMethod_with_assignment() {\n\tString s = clientMethod() {\n\t}\n}\n");
     }
 
+    public void test_method_with_generic_type() {
+        testDslConversion("method_with_generic_type", "SimpleMessage.method_with_generic_type() {\n\tList s = clientMethod() {\n\t}\n}\n");
+    }
+
+    public void test_method_with_generic_type_in_new_expression() {
+        testDslConversion("method_with_generic_type_in_new_expression", "SimpleMessage.method_with_generic_type_in_new_expression() {\n\tArrayList a = new ArrayList();\n}\n");
+    }
+
+    public void test_method_with_generic_type_in_method_param() {
+        testDslConversion("method_with_generic_type_in_method_param", "SimpleMessage.method_with_generic_type_in_method_param() {\n\tfoo(new ArrayList());\n}\n");
+    }
+
     @NotNull
     @Override
     protected String getClassName() {

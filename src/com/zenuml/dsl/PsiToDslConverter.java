@@ -33,11 +33,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     private final MethodStack methodStack = new MethodStack();
     private final ZenDsl zenDsl = new ZenDsl();
+    private static final String TYPE_PARAMETER_PATTERN = "<[^<>]*>";
 
     // TODO: we are not following the implementation of constructor. The behaviour is NOT defined.
     public void visitNewExpression(PsiNewExpression expression) {
         LOG.debug("Enter: visitNewExpression: " + expression);
-        zenDsl.append(expression.getText()).closeExpressionAndNewLine();
+        zenDsl.append(withoutTypeParameter(expression.getText())).closeExpressionAndNewLine();
         super.visitNewExpression(expression);
         LOG.debug("Exit: visitNewExpression: " + expression);
     }
@@ -102,12 +103,16 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if(isWithinForStatement(variable)) return;
 
         if (variable.hasInitializer()) {
-            zenDsl.appendAssignment(variable.getTypeElement().getText(), variable.getName());
+            zenDsl.appendAssignment(withoutTypeParameter(variable.getTypeElement().getText()), variable.getName());
         } else {
             zenDsl.comment(variable.getText());
         }
         super.visitLocalVariable(variable);
         LOG.debug("Exit: visitLocalVariable: " + variable);
+    }
+
+    private String withoutTypeParameter(String text) {
+        return text.replaceAll(TYPE_PARAMETER_PATTERN, "");
     }
 
     private boolean isWithinForStatement(PsiElement element) {
@@ -139,7 +144,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     private String getArgs(PsiExpressionList argumentList) {
         String[] objects = Arrays.stream(argumentList.getExpressions())
-                .map(e -> e instanceof PsiLambdaExpression ? "lambda" : e.getText())
+                .map(e -> e instanceof PsiLambdaExpression ? "lambda" : withoutTypeParameter(e.getText()))
                 .toArray(String[]::new);
         return String.join(", ", objects );
     }
