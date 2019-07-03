@@ -4,6 +4,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.JavaRecursiveElementVisitor;
 import com.intellij.psi.PsiAssignmentExpression;
 import com.intellij.psi.PsiBlockStatement;
+import com.intellij.psi.PsiCallExpression;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiCodeBlock;
 import com.intellij.psi.PsiElement;
@@ -119,19 +120,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 .openParenthesis()
                 .append(getArgs(expression.getArgumentList()))
                 .closeParenthesis();
-        // An expression can be resolved to a method when IDE can find the method in the provided classpath.
-        // In our test, if we use System.out.println(), IDE cannot resolve it, because JDK is not in the
-        // classpath. If for any reason, in production, it cannot be resolved, we should append it as text.
-        PsiMethod method = expression.resolveMethod();
-        if (method != null) {
-            LOG.debug("Method resolved from expression:" + method);
-            // If we delegate it to visit method, we lose the parameters.
-            // If the expression is a chain (e.g. A.m1().m2()), only m2 is resolved in the method.
-            processChildren(method);
-        } else {
-            LOG.debug("Method not resolved from expression, appending the expression directly");
-            zenDsl.closeExpressionAndNewLine();
-        }
+        processMethodCall(expression);
     }
 
     @Override
@@ -143,10 +132,14 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             .openParenthesis()
             .append(getArgs(expression.getArgumentList()))
             .closeParenthesis();
+        processMethodCall(expression);
+    }
+
+    private void processMethodCall(PsiCallExpression callExpression) {
         // An expression can be resolved to a method when IDE can find the method in the provided classpath.
         // In our test, if we use System.out.println(), IDE cannot resolve it, because JDK is not in the
         // classpath. If for any reason, in production, it cannot be resolved, we should append it as text.
-        PsiMethod method = expression.resolveMethod();
+        PsiMethod method = callExpression.resolveMethod();
         if (method != null) {
             LOG.debug("Method resolved from expression:" + method);
             // If we delegate it to visit method, we lose the parameters.
