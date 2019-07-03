@@ -24,6 +24,9 @@ Includes the following features:</p>
 
   <change-notes><![CDATA[
   Resolved toolbar and unnecessary settings.
+<ul>
+<li>Java to DSL: Add missing parameters on root method</li>
+</ul>
     ]]>
   </change-notes>
 

@@ -5,10 +5,15 @@ The ZenUML plugin running on the JetBrains IDEs.
 1. `./gradlew`
 2. `./gradlew runIde` to start another instance of IDEA with our plugin installed.
 
-# Github Release
-1. add new tag to the commit id on **master** branch, format: `release-******`
-1. push tag to remote
-1. travis will release zenuml.zip to github
+# Release
+1. determine release version number in the format of YYYY.R.N, 2019.1.1 for example. N can be omitted for the first release of a major version.
+1. `git checkout release-cadidate-YYYY.R.N`
+1. File `resource/META-INF/plugin.xml` line 4, update plugin version in `<idea-plugin>.<version>` with YYYY.R.N
+1. Push release candidate branch -> Pull request -> Merge to master
+1. `git checkout master && git pull --reb`
+1. `git tag -a release-YYYY.R.N -m 'release tag msg'`
+1. `git push origin release-YYYY.R.N`
+1. travis will release zenuml.zip to github in a few minutes
 
 # Publish
 1. Log on to Market place.
