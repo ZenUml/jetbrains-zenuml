@@ -1,6 +1,11 @@
 package com.zenuml.converter;
 
+import com.intellij.psi.PsiMethod;
+import com.zenuml.testFramework.fixture.ZenUmlTestCase;
 import org.jetbrains.annotations.NotNull;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 public class IfElseMessageZenUmlTest extends BaseDslConversionTest {
 
@@ -17,7 +22,7 @@ public class IfElseMessageZenUmlTest extends BaseDslConversionTest {
     }
 
     public void test_convert_to_dsl_ifMessage_binary_expression_as_condition() {
-        testDslConversion("nestedMethod3", "IfMessage.nestedMethod3() {\n\tList list = new ArrayList<>();\n\tif(list.size() == 2) {\n\t\tclientMethod() {\n\t\t\tfoo() {\n\t\t\t}\n\t\t}\n\t\tclientMethod() {\n\t\t\tfoo() {\n\t\t\t}\n\t\t}\n\t}\n}\n");
+        testDslConversion("nestedMethod3", "IfMessage.nestedMethod3() {\n\tList list = new ArrayList();\n\tif(list.size() == 2) {\n\t\tclientMethod() {\n\t\t\tfoo() {\n\t\t\t}\n\t\t}\n\t\tclientMethod() {\n\t\t\tfoo() {\n\t\t\t}\n\t\t}\n\t}\n}\n");
     }
 
     public void test_convert_to_dsl_ifMessage_with_chained_method_calls() {
