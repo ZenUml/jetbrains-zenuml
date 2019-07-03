@@ -7,7 +7,7 @@ public class ConstructorMessageTest extends BaseDslConversionTest {
     public void test_convert_to_dsl_constructor() {
         testDslConversion(
                 "clientMethod",
-                "Constructor.clientMethod() {\n\tConstructor c = new Constructor(){methodCallInConstructor()};\n}\n"
+                "Constructor.clientMethod() {\n\tConstructor c = new Constructor() {\n\t\tmethodCallInConstructor() {\n\t\t}\n\t}\n}\n"
 
         );
     }
