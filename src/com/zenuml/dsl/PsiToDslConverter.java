@@ -4,6 +4,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.JavaRecursiveElementVisitor;
 import com.intellij.psi.PsiAssignmentExpression;
 import com.intellij.psi.PsiBlockStatement;
+import com.intellij.psi.PsiCallExpression;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiCodeBlock;
 import com.intellij.psi.PsiElement;
@@ -34,14 +35,6 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private final MethodStack methodStack = new MethodStack();
     private final ZenDsl zenDsl = new ZenDsl();
     private static final String TYPE_PARAMETER_PATTERN = "<[^<>]*>";
-
-    // TODO: we are not following the implementation of constructor. The behaviour is NOT defined.
-    public void visitNewExpression(PsiNewExpression expression) {
-        LOG.debug("Enter: visitNewExpression: " + expression);
-        zenDsl.append(withoutTypeParameter(expression.getText())).closeExpressionAndNewLine();
-        super.visitNewExpression(expression);
-        LOG.debug("Exit: visitNewExpression: " + expression);
-    }
 
     @Override
     public void visitMethod(PsiMethod method) {
@@ -127,10 +120,27 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 .openParenthesis()
                 .append(getArgs(expression.getArgumentList()))
                 .closeParenthesis();
+        super.visitMethodCallExpression(expression);
+    }
+
+    @Override
+    public void visitNewExpression(PsiNewExpression expression) {
+        LOG.debug("Enter: visitNewExpression: " + expression);
+        zenDsl
+            .append("new ")
+            .append(expression.getClassReference().getReferenceName())
+            .openParenthesis()
+            .append(getArgs(expression.getArgumentList()))
+            .closeParenthesis();
+        super.visitNewExpression(expression);
+    }
+
+    @Override
+    public void visitCallExpression(PsiCallExpression callExpression) {
         // An expression can be resolved to a method when IDE can find the method in the provided classpath.
         // In our test, if we use System.out.println(), IDE cannot resolve it, because JDK is not in the
         // classpath. If for any reason, in production, it cannot be resolved, we should append it as text.
-        PsiMethod method = expression.resolveMethod();
+        PsiMethod method = callExpression.resolveMethod();
         if (method != null) {
             LOG.debug("Method resolved from expression:" + method);
             // If we delegate it to visit method, we lose the parameters.
