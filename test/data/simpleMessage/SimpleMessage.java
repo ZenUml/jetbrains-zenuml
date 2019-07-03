@@ -45,6 +45,18 @@ public class SimpleMessage {
         String s = clientMethod();
     }
 
+    public void method_with_generic_type() {
+        List<Long> s = clientMethod();
+    }
+
+    public void method_with_generic_type_in_new_expression() {
+        ArrayList<Long> a = new ArrayList<Long>();
+    }
+
+    public void method_with_generic_type_in_method_param() {
+        foo(new ArrayList<String>());
+    }
+
     private void processInt(int i) {
 
     }
