@@ -1,27 +1,7 @@
 package com.zenuml.dsl;
 
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.psi.JavaRecursiveElementVisitor;
-import com.intellij.psi.PsiAssignmentExpression;
-import com.intellij.psi.PsiBlockStatement;
-import com.intellij.psi.PsiCallExpression;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiCodeBlock;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiExpressionList;
-import com.intellij.psi.PsiForStatement;
-import com.intellij.psi.PsiIfStatement;
-import com.intellij.psi.PsiJavaToken;
-import com.intellij.psi.PsiKeyword;
-import com.intellij.psi.PsiLambdaExpression;
-import com.intellij.psi.PsiLocalVariable;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiMethodCallExpression;
-import com.intellij.psi.PsiNamedElement;
-import com.intellij.psi.PsiNewExpression;
-import com.intellij.psi.PsiReturnStatement;
-import com.intellij.psi.PsiStatement;
-import com.intellij.psi.PsiWhileStatement;
+import com.intellij.psi.*;
 import io.reactivex.Observable;
 import org.intellij.sequencer.util.PsiUtil;
 
@@ -245,6 +225,28 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         zenDsl.comment(statement.getText());
     }
 
+    @Override
+    public void visitTryStatement(PsiTryStatement statement) {
+        zenDsl.append("try");
+        statement.getTryBlock().accept(this);
+        Arrays.stream(statement.getCatchSections()).forEach(s -> s.accept(this));
+        if (statement.getFinallyBlock() != null) {
+            zenDsl.append("finally");
+            statement.getFinallyBlock().accept(this);
+        }
+    }
+
+    @Override
+    public void visitCatchSection(PsiCatchSection section) {
+        String parameter = section.getParameter().getText();
+        zenDsl.append(String.format("catch(%s)", parameter.replace('|', ','))); //Parser doesn't support the pipe(|) character
+        super.visitCatchSection(section);
+    }
+
+    @Override
+    public void visitThrowStatement(PsiThrowStatement statement) {
+        zenDsl.append(String.format("throw(%s)", withoutTypeParameter(statement.getException().getText()))).closeExpressionAndNewLine();
+    }
 
     public String getDsl() {
         return zenDsl.getDsl();
