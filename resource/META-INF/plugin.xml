@@ -27,7 +27,10 @@ Includes the following features:</p>
   <li>
     Java Converter
     <ul>
-      <li>Support parameters of root method.</li>
+      <li>
+      	Support parameters of root method:
+        <pre> Java: method(int i) => DSL: method(i)</pre>
+      </li>
       <li>Support parameters of a constructor method.</li>
       <li>Support statements in a constructor method.</li>
       <li>Support try/catch syntax.</li>
@@ -35,7 +38,7 @@ Includes the following features:</p>
     </ul>
   </li>
   <li>
-    ZenUML DSL
+    DSL Preview
     <ul>
       <li>Support new statement as method parameter.</li>
       <li>support method call as method parameter.</li>
