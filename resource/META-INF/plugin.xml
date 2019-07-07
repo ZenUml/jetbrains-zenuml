@@ -37,7 +37,8 @@ Includes the following features:</p>
   <li>
     ZenUML DSL
     <ul>
-      <li>Fix issue when creating new instance or calling method within method parameters.</li>
+      <li>Support new statement as method parameter.</li>
+      <li>support method call as method parameter.</li>
     </ul>
   </li>
 </ul>
