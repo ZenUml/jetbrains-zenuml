@@ -27,6 +27,9 @@ Includes the following features:</p>
 <ul>
 <li>Java to DSL: Add parameters on root method</li>
 <li>Java to DSL: Add statements within Constructor method and Constructor parameters</li>
+<li>Java to DSL: Get rid of generic type parameter</li>
+<li>Java to DSL: Support try/catch</li>
+<li>Renderer: Support creating new instance and calling method within method parameters</li>
 </ul>
     ]]>
   </change-notes>
