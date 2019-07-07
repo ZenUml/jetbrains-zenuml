@@ -31,8 +31,14 @@ Includes the following features:</p>
       	Support parameters of root method:
         <pre> Java: method(int i) => DSL: method(i)</pre>
       </li>
-      <li>Support parameters of a constructor method.</li>
-      <li>Support statements in a constructor method.</li>
+      <li>
+        Support parameters of a constructor method:
+        <pre> Java: public Constructor(int i) => DSL: new Constructor(i)</pre>
+      </li>
+      <li>
+        Support statements in a constructor method.
+        <pre> Java: Constructor() { impl() } => DSL: new Constructor() { impl() }</pre>
+      </li>
       <li>Support try/catch syntax.</li>
       <li>Ignore generic type parameter in java. (Generic type is not supported in ZenUML DSL)</li>
     </ul>
@@ -40,8 +46,14 @@ Includes the following features:</p>
   <li>
     DSL Preview
     <ul>
-      <li>Support new statement as method parameter.</li>
-      <li>support method call as method parameter.</li>
+      <li>
+        Allow 'new' keyword in a method's parameters:
+        <pre>method( new X() )</pre>
+      </li>
+      <li>
+        Allow calling method in a methods' parameters:
+        <pre>method( A.anotherMethod() )</pre>
+      </li>
     </ul>
   </li>
 </ul>
