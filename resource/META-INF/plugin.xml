@@ -36,7 +36,7 @@ Includes the following features:</p>
         <pre> Java: public Constructor(int i) => DSL: new Constructor(i)</pre>
       </li>
       <li>
-        Support statements in a constructor method.
+        Support statements in a constructor method:
         <pre> Java: Constructor() { impl() } => DSL: new Constructor() { impl() }</pre>
       </li>
       <li>Support try/catch syntax.</li>
