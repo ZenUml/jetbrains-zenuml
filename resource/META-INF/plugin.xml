@@ -28,9 +28,9 @@ Includes the following features:</p>
     Java Converter
     <ul>
       <li>Support parameters of root method.</li>
-      <li>Support parameters of a constructor.</li>
+      <li>Support parameters of a constructor method.</li>
       <li>Support statements in a constructor method.</li>
-      <li>Support try/catch.</li>
+      <li>Support try/catch syntax.</li>
       <li>Get rid of generic type parameter.</li>
     </ul>
   </li>
