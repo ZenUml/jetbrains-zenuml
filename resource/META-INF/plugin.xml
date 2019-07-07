@@ -39,8 +39,14 @@ Includes the following features:</p>
         Support statements in a constructor method:
         <pre> Java: Constructor() { impl() } => DSL: new Constructor() { impl() }</pre>
       </li>
-      <li>Support try/catch syntax.</li>
-      <li>Ignore generic type parameter in java. (Generic type is not supported in ZenUML DSL)</li>
+      <li>
+        Support try/catch syntax:
+        <pre>example</pre>
+      </li>
+      <li>
+        Ignore generic type parameter in java. (Generic type is not supported in ZenUML DSL)
+        <pre>example</pre>
+       </li>
     </ul>
   </li>
   <li>
