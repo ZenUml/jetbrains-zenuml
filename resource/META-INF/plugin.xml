@@ -24,11 +24,21 @@ Includes the following features:</p>
 
   <change-notes><![CDATA[
 <ul>
-<li>Java to DSL: Support parameters of root method.</li>
-<li>Java to DSL: Support parameters of a constructor and statements within a constructor method.</li>
-<li>Java to DSL: Get rid of generic type parameter</li>
-<li>Java to DSL: Support try/catch</li>
-<li>DSL: Fix issue when creating new instance or calling method within method parameters</li>
+  <li>
+    Java Converter
+    <ul>
+      <li>Support parameters of root method.</li>
+      <li>Support parameters of a constructor and statements within a constructor method.</li>
+      <li>Support try/catch.</li>
+      <li>Get rid of generic type parameter.</li>
+    </ul>
+  </li>
+  <li>
+    ZenUML DSL
+    <ul>
+      <li>Fix issue when creating new instance or calling method within method parameters.</li>
+    </ul>
+  </li>
 </ul>
     ]]>
   </change-notes>
