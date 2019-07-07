@@ -57,6 +57,34 @@ public class SimpleMessage {
         foo(new ArrayList<String>());
     }
 
+    public void method_with_try_catch() {
+        try {
+            foo();
+        } catch (Exception e) {
+            bar();
+        }
+    }
+
+    public void method_with_try_catch_throw() {
+        try {
+            foo();
+        } catch (Exception e) {
+            throw new MyException<A>();
+        }
+    }
+
+    public void method_with_try_catch_finally() {
+        try {
+            foo();
+        } catch (Exception1 e) {
+            handleException1();
+        } catch (Exception2 | Exception3 e) {
+            handleExceptions();
+        } finally {
+            cleanup();
+        }
+    }
+
     private void processInt(int i) {
 
     }
