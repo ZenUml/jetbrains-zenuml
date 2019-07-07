@@ -31,7 +31,7 @@ Includes the following features:</p>
       <li>Support parameters of a constructor method.</li>
       <li>Support statements in a constructor method.</li>
       <li>Support try/catch syntax.</li>
-      <li>Get rid of generic type parameter.</li>
+      <li>Ignore generic type parameter in java. (Generic type is not supported in ZenUML DSL)</li>
     </ul>
   </li>
   <li>
