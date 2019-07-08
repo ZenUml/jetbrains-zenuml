@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>1.0.1</version>
+  <version>2019.1.0</version>
   <idea-version since-build="191.6707.31"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
@@ -23,13 +23,45 @@ Includes the following features:</p>
 ]]></description>
 
   <change-notes><![CDATA[
-  Resolved toolbar and unnecessary settings.
 <ul>
-<li>Java to DSL: Add parameters on root method</li>
-<li>Java to DSL: Add statements within Constructor method and Constructor parameters</li>
-<li>Java to DSL: Get rid of generic type parameter</li>
-<li>Java to DSL: Support try/catch</li>
-<li>Renderer: Support creating new instance and calling method within method parameters</li>
+  <li>
+    <strong>Java Converter</strong>
+    <ul>
+      <li>
+      	<strong>Support parameters of root method:</strong>
+        <pre><em> Java: method(int i) => DSL: method(i)</em></pre>
+      </li>
+      <li>
+        <strong>Support parameters of a constructor method:</strong>
+        <pre><em> Java: public Constructor(int i) => DSL: new Constructor(i)</em></pre>
+      </li>
+      <li>
+        <strong>Support statements in a constructor method:</strong>
+        <pre><em> Java: Constructor() { impl() } => DSL: new Constructor() { impl() }</em></pre>
+      </li>
+      <li>
+        <strong>Support try/catch in Java:</strong>
+        <pre><em> try { ... } catch (Exception e) { ... }</em></pre>
+      </li>
+      <li>
+        <strong>Ignore generic type parameter in java. (Generic type is not supported in ZenUML DSL)</strong>
+        <pre><em> Java: ArrayList&lt;Integer&gt; integers = new ArrayList&lt;&gt;(); => DSL: ArrayList integers = new ArrayList();</em></pre>
+       </li>
+    </ul>
+  </li>
+  <li>
+    <strong>DSL Preview</strong>
+    <ul>
+      <li>
+        <strong>Allow 'new' keyword in a method's parameters:</strong>
+        <pre><em> method( new X() )</em></pre>
+      </li>
+      <li>
+        <strong>Allow calling method in a methods' parameters:</strong>
+        <pre><em> method( A.anotherMethod() )</em></pre>
+      </li>
+    </ul>
+  </li>
 </ul>
     ]]>
   </change-notes>
