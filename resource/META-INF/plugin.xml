@@ -25,40 +25,40 @@ Includes the following features:</p>
   <change-notes><![CDATA[
 <ul>
   <li>
-    Java Converter
+    <strong>Java Converter</strong>
     <ul>
       <li>
-      	Support parameters of root method:
-        <pre> Java: method(int i) => DSL: method(i)</pre>
+      	<strong>Support parameters of root method:</strong>
+        <pre><em> Java: method(int i) => DSL: method(i)</em></pre>
       </li>
       <li>
-        Support parameters of a constructor method:
-        <pre> Java: public Constructor(int i) => DSL: new Constructor(i)</pre>
+        <strong>Support parameters of a constructor method:</strong>
+        <pre><em> Java: public Constructor(int i) => DSL: new Constructor(i)</em></pre>
       </li>
       <li>
-        Support statements in a constructor method:
-        <pre> Java: Constructor() { impl() } => DSL: new Constructor() { impl() }</pre>
+        <strong>Support statements in a constructor method:</strong>
+        <pre><em> Java: Constructor() { impl() } => DSL: new Constructor() { impl() }</em></pre>
       </li>
       <li>
-        Support try/catch in Java:
-        <pre> try { ... } catch (Exception e) { ... }</pre>
+        <strong>Support try/catch in Java:</strong>
+        <pre><em> try { ... } catch (Exception e) { ... }</em></pre>
       </li>
       <li>
-        Ignore generic type parameter in java. (Generic type is not supported in ZenUML DSL)
-        <pre>ArrayList &lt;Integer&gt; integers</pre>
+        <strong>Ignore generic type parameter in java. (Generic type is not supported in ZenUML DSL)</strong>
+        <pre><em> Java: ArrayList&lt;Integer&gt; integers = new ArrayList&lt;&gt;(); => DSL: ArrayList integers = new ArrayList();</em></pre>
        </li>
     </ul>
   </li>
   <li>
-    DSL Preview
+    <strong>DSL Preview</strong>
     <ul>
       <li>
-        Allow 'new' keyword in a method's parameters:
-        <pre>method( new X() )</pre>
+        <strong>Allow 'new' keyword in a method's parameters:</strong>
+        <pre><em> method( new X() )</em></pre>
       </li>
       <li>
-        Allow calling method in a methods' parameters:
-        <pre>method( A.anotherMethod() )</pre>
+        <strong>Allow calling method in a methods' parameters:</strong>
+        <pre><em> method( A.anotherMethod() )</em></pre>
       </li>
     </ul>
   </li>
