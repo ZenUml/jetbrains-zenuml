@@ -40,12 +40,12 @@ Includes the following features:</p>
         <pre> Java: Constructor() { impl() } => DSL: new Constructor() { impl() }</pre>
       </li>
       <li>
-        Support try/catch syntax:
-        <pre>example</pre>
+        Support try/catch in Java:
+        <pre> try { ... } catch (Exception e) { ... }</pre>
       </li>
       <li>
         Ignore generic type parameter in java. (Generic type is not supported in ZenUML DSL)
-        <pre>example</pre>
+        <pre>ArrayList &lt;Integer&gt; integers</pre>
        </li>
     </ul>
   </li>
