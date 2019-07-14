@@ -1,5 +1,6 @@
 package simpleMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static jdk.nashorn.internal.objects.Global.println;
@@ -82,6 +83,23 @@ public class SimpleMessage {
             handleExceptions();
         } finally {
             cleanup();
+        }
+    }
+
+    public void method_with_anonymous_object_and_initialization() {
+        ArrayList<Long> numbers = new ArrayList<Long>() {
+            {
+                add(1L);
+            }
+        };
+    }
+
+    public void method_with_anonymous_object() {
+        new Runnable(){
+            @Override
+            public void run() {
+
+            }
         }
     }
 

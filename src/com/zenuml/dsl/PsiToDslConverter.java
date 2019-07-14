@@ -108,7 +108,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Enter: visitNewExpression: " + expression);
         zenDsl
             .append("new ")
-            .append(expression.getClassReference().getReferenceName())
+            .append(withoutTypeParameter(expression.getType().getCanonicalText()))
             .openParenthesis()
             .append(getArgs(expression.getArgumentList()))
             .closeParenthesis();
