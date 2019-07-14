@@ -4,6 +4,7 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
 import io.reactivex.Observable;
 import org.intellij.sequencer.util.PsiUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -108,11 +109,19 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Enter: visitNewExpression: " + expression);
         zenDsl
             .append("new ")
-            .append(withoutTypeParameter(expression.getType().getCanonicalText()))
+            .append(getClassName(expression))
             .openParenthesis()
             .append(getArgs(expression.getArgumentList()))
             .closeParenthesis();
         super.visitNewExpression(expression);
+    }
+
+    @NotNull
+    private String getClassName(PsiNewExpression expression) {
+        if (expression.getClassReference() != null) {
+            return expression.getClassReference().getReferenceName();
+        }
+        return withoutTypeParameter(expression.getType().getCanonicalText());
     }
 
     @Override
