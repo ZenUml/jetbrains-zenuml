@@ -16,6 +16,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private final MethodStack methodStack = new MethodStack();
     private final ZenDsl zenDsl = new ZenDsl();
     private static final String TYPE_PARAMETER_PATTERN = "<[^<>]*>";
+    private static final String ARRAY_PATTERN = "\\[\\d*\\]";
 
     @Override
     public void visitMethod(PsiMethod method) {
@@ -77,9 +78,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if(isWithinForStatement(variable)) return;
 
         if (variable.hasInitializer()) {
-            zenDsl.appendAssignment(withoutTypeParameter(variable.getTypeElement().getText()), variable.getName());
+            zenDsl.appendAssignment(replaceArray(withoutTypeParameter(variable.getTypeElement().getText())), variable.getName());
         } else {
-            zenDsl.comment(variable.getText());
+            zenDsl.comment(replaceArray(variable.getText()));
         }
         super.visitLocalVariable(variable);
         LOG.debug("Exit: visitLocalVariable: " + variable);
@@ -87,6 +88,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     private String withoutTypeParameter(String text) {
         return text.replaceAll(TYPE_PARAMETER_PATTERN, "");
+    }
+
+    private String replaceArray(String text) {
+        return text.replaceAll(ARRAY_PATTERN, "_array");
     }
 
     private boolean isWithinForStatement(PsiElement element) {
@@ -121,7 +126,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if (expression.getClassReference() != null) {
             return expression.getClassReference().getReferenceName();
         }
-        return withoutTypeParameter(expression.getType().getCanonicalText());
+        return replaceArray(withoutTypeParameter(expression.getType().getCanonicalText()));
     }
 
     @Override
@@ -142,6 +147,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     private String getArgs(PsiExpressionList argumentList) {
+        if(argumentList == null) return "";
+
         String[] objects = Arrays.stream(argumentList.getExpressions())
                 .map(e -> e instanceof PsiLambdaExpression ? "lambda" : withoutTypeParameter(e.getText()))
                 .toArray(String[]::new);

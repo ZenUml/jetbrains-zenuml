@@ -94,6 +94,10 @@ public class SimpleMessage {
         };
     }
 
+    public void method_with_new_int_array() {
+        int[] numbers = new int[1] { 1 };
+    }
+
     public void method_with_anonymous_object() {
         new Runnable(){
             @Override

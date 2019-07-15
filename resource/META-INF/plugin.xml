@@ -31,6 +31,10 @@ Includes the following features:</p>
       	<strong>Fix issue on creating anonymous object:</strong>
         <pre><em> Java: new Runnable() { ... } => DSL: new Runnable()</em></pre>
       </li>
+      <li>
+      	<strong>Fix array conversion:</strong>
+        <pre><em> Java: new int[] { ... } => DSL: new int_array()</em></pre>
+      </li>
     </ul>
   </li>
   <li>
