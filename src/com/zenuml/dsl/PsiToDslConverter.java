@@ -27,6 +27,7 @@ import com.intellij.psi.PsiThrowStatement;
 import com.intellij.psi.PsiTryStatement;
 import com.intellij.psi.PsiWhileStatement;
 import com.intellij.psi.impl.source.PsiClassReferenceType;
+import com.intellij.psi.impl.source.PsiImmediateClassType;
 import io.reactivex.Observable;
 import org.intellij.sequencer.util.PsiUtil;
 import org.jetbrains.annotations.NotNull;
@@ -154,8 +155,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if(expression.getType() instanceof PsiArrayType){
             return ((PsiArrayType) expression.getType()).getComponentType().getCanonicalText().concat("_array");
         }
-
-        return expression.getAnonymousClass().getBaseClassReference().getReferenceName();
+        if(expression.getType() instanceof PsiImmediateClassType){
+            return expression.getAnonymousClass().getBaseClassReference().getReferenceName();
+        }
+        return expression.getText();
     }
 
     @Override
