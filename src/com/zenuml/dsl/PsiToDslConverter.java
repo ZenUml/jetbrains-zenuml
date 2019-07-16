@@ -2,7 +2,6 @@ package com.zenuml.dsl;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.JavaRecursiveElementVisitor;
-import com.intellij.psi.PsiArrayType;
 import com.intellij.psi.PsiAssignmentExpression;
 import com.intellij.psi.PsiBlockStatement;
 import com.intellij.psi.PsiCallExpression;
@@ -26,11 +25,8 @@ import com.intellij.psi.PsiStatement;
 import com.intellij.psi.PsiThrowStatement;
 import com.intellij.psi.PsiTryStatement;
 import com.intellij.psi.PsiWhileStatement;
-import com.intellij.psi.impl.source.PsiClassReferenceType;
-import com.intellij.psi.impl.source.PsiImmediateClassType;
 import io.reactivex.Observable;
 import org.intellij.sequencer.util.PsiUtil;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -140,25 +136,11 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Enter: visitNewExpression: " + expression);
         zenDsl
             .append("new ")
-            .append(getClassName(expression))
+            .append(PsiNewExpressionKt.getClassName(expression))
             .openParenthesis()
             .append(getArgs(expression.getArgumentList()))
             .closeParenthesis();
         super.visitNewExpression(expression);
-    }
-
-    @NotNull
-    private String getClassName(PsiNewExpression expression) {
-        if (expression.getType() instanceof PsiClassReferenceType) {
-            return expression.getClassOrAnonymousClassReference().getReferenceName();
-        }
-        if(expression.getType() instanceof PsiImmediateClassType){
-            return expression.getClassOrAnonymousClassReference().getReferenceName();
-        }
-        if(expression.getType() instanceof PsiArrayType){
-            return ((PsiArrayType) expression.getType()).getComponentType().getCanonicalText().concat("_array");
-        }
-        return expression.getText();
     }
 
     @Override
