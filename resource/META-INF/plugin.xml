@@ -28,38 +28,18 @@ Includes the following features:</p>
     <strong>Java Converter</strong>
     <ul>
       <li>
-      	<strong>Support parameters of root method:</strong>
-        <pre><em> Java: method(int i) => DSL: method(i)</em></pre>
+      	<strong>Fix issue on creating anonymous object:</strong>
+        <pre><em> Java: new Runnable() { ... } => DSL: new Runnable()</em></pre>
       </li>
       <li>
-        <strong>Support parameters of a constructor method:</strong>
-        <pre><em> Java: public Constructor(int i) => DSL: new Constructor(i)</em></pre>
+      	<strong>Fix array conversion:</strong>
+        <pre><em> Java: new int[] { ... } => DSL: new int_array()</em></pre>
       </li>
-      <li>
-        <strong>Support statements in a constructor method:</strong>
-        <pre><em> Java: Constructor() { impl() } => DSL: new Constructor() { impl() }</em></pre>
-      </li>
-      <li>
-        <strong>Support try/catch in Java:</strong>
-        <pre><em> try { ... } catch (Exception e) { ... }</em></pre>
-      </li>
-      <li>
-        <strong>Ignore generic type parameter in java. (Generic type is not supported in ZenUML DSL)</strong>
-        <pre><em> Java: ArrayList&lt;Integer&gt; integers = new ArrayList&lt;&gt;(); => DSL: ArrayList integers = new ArrayList();</em></pre>
-       </li>
     </ul>
   </li>
   <li>
     <strong>DSL Preview</strong>
     <ul>
-      <li>
-        <strong>Allow 'new' keyword in a method's parameters:</strong>
-        <pre><em> method( new X() )</em></pre>
-      </li>
-      <li>
-        <strong>Allow calling method in a methods' parameters:</strong>
-        <pre><em> method( A.anotherMethod() )</em></pre>
-      </li>
     </ul>
   </li>
 </ul>

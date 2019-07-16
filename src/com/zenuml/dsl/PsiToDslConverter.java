@@ -1,7 +1,30 @@
 package com.zenuml.dsl;
 
 import com.intellij.openapi.diagnostic.Logger;
-import com.intellij.psi.*;
+import com.intellij.psi.JavaRecursiveElementVisitor;
+import com.intellij.psi.PsiAssignmentExpression;
+import com.intellij.psi.PsiBlockStatement;
+import com.intellij.psi.PsiCallExpression;
+import com.intellij.psi.PsiCatchSection;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiCodeBlock;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiExpressionList;
+import com.intellij.psi.PsiForStatement;
+import com.intellij.psi.PsiIfStatement;
+import com.intellij.psi.PsiJavaToken;
+import com.intellij.psi.PsiKeyword;
+import com.intellij.psi.PsiLambdaExpression;
+import com.intellij.psi.PsiLocalVariable;
+import com.intellij.psi.PsiMethod;
+import com.intellij.psi.PsiMethodCallExpression;
+import com.intellij.psi.PsiNamedElement;
+import com.intellij.psi.PsiNewExpression;
+import com.intellij.psi.PsiReturnStatement;
+import com.intellij.psi.PsiStatement;
+import com.intellij.psi.PsiThrowStatement;
+import com.intellij.psi.PsiTryStatement;
+import com.intellij.psi.PsiWhileStatement;
 import io.reactivex.Observable;
 import org.intellij.sequencer.util.PsiUtil;
 
@@ -15,6 +38,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private final MethodStack methodStack = new MethodStack();
     private final ZenDsl zenDsl = new ZenDsl();
     private static final String TYPE_PARAMETER_PATTERN = "<[^<>]*>";
+    private static final String ARRAY_PATTERN = "\\[\\d*\\]";
 
     @Override
     public void visitMethod(PsiMethod method) {
@@ -76,9 +100,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if(isWithinForStatement(variable)) return;
 
         if (variable.hasInitializer()) {
-            zenDsl.appendAssignment(withoutTypeParameter(variable.getTypeElement().getText()), variable.getName());
+            zenDsl.appendAssignment(replaceArray(withoutTypeParameter(variable.getTypeElement().getText())), variable.getName());
         } else {
-            zenDsl.comment(variable.getText());
+            zenDsl.comment(replaceArray(variable.getText()));
         }
         super.visitLocalVariable(variable);
         LOG.debug("Exit: visitLocalVariable: " + variable);
@@ -86,6 +110,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     private String withoutTypeParameter(String text) {
         return text.replaceAll(TYPE_PARAMETER_PATTERN, "");
+    }
+
+    private String replaceArray(String text) {
+        return text.replaceAll(ARRAY_PATTERN, "_array");
     }
 
     private boolean isWithinForStatement(PsiElement element) {
@@ -108,7 +136,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         LOG.debug("Enter: visitNewExpression: " + expression);
         zenDsl
             .append("new ")
-            .append(expression.getClassReference().getReferenceName())
+            .append(PsiNewExpressionKt.getClassName(expression))
             .openParenthesis()
             .append(getArgs(expression.getArgumentList()))
             .closeParenthesis();
@@ -133,6 +161,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     private String getArgs(PsiExpressionList argumentList) {
+        if(argumentList == null) return "";
+
         String[] objects = Arrays.stream(argumentList.getExpressions())
                 .map(e -> e instanceof PsiLambdaExpression ? "lambda" : withoutTypeParameter(e.getText()))
                 .toArray(String[]::new);

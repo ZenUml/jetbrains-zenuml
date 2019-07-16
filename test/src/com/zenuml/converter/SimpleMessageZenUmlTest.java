@@ -66,6 +66,18 @@ public class SimpleMessageZenUmlTest extends BaseDslConversionTest {
         testDslConversion("method_with_try_catch_finally", "SimpleMessage.method_with_try_catch_finally() {\n\ttry {\n\t\tfoo();\n\t}\n\tcatch(Exception1 e) {\n\t\thandleException1();\n\t}\n\tcatch(Exception2 , Exception3 e) {\n\t\thandleExceptions();\n\t}\n\tfinally {\n\t\tcleanup();\n\t}\n}\n");
     }
 
+    public void test_method_with_anonymous_object() {
+        testDslConversion("method_with_anonymous_object", "SimpleMessage.method_with_anonymous_object() {\n\tnew Runnable();\n}\n");
+    }
+
+    public void test_method_with_anonymous_object_and_initialization() {
+        testDslConversion("method_with_anonymous_object_and_initialization", "SimpleMessage.method_with_anonymous_object_and_initialization() {\n\tArrayList numbers = new ArrayList();\n}\n");
+    }
+
+    public void test_method_with_new_int_array() {
+        testDslConversion("method_with_new_int_array", "SimpleMessage.method_with_new_int_array() {\n\tint_array numbers = new int_array();\n\t {\n\t}\n}\n");
+    }
+
     @NotNull
     @Override
     protected String getClassName() {
