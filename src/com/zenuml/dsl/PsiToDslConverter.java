@@ -150,13 +150,13 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @NotNull
     private String getClassName(PsiNewExpression expression) {
         if (expression.getType() instanceof PsiClassReferenceType) {
-            return expression.getClassReference().getReferenceName();
+            return expression.getClassOrAnonymousClassReference().getReferenceName();
+        }
+        if(expression.getType() instanceof PsiImmediateClassType){
+            return expression.getClassOrAnonymousClassReference().getReferenceName();
         }
         if(expression.getType() instanceof PsiArrayType){
             return ((PsiArrayType) expression.getType()).getComponentType().getCanonicalText().concat("_array");
-        }
-        if(expression.getType() instanceof PsiImmediateClassType){
-            return expression.getAnonymousClass().getBaseClassReference().getReferenceName();
         }
         return expression.getText();
     }
