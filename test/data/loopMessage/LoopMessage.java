@@ -51,6 +51,12 @@ public class LoopMessage {
         }
     }
 
+    void methodWithForOnConsignments() {
+        for (Integer i : new Integer[]{1, 2, 3, 4}) {
+            foo();
+        }
+    }
+
     void foo() {
     }
 
