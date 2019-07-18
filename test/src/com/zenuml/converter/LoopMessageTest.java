@@ -55,7 +55,7 @@ public class LoopMessageTest extends BaseDslConversionTest {
     public void test_methodWithForOnConsignments() {
         testDslConversion(
                 "methodWithForOnConsignments",
-                "LoopMessage.methodWithFor() {\n\tfor(i < 10) {\n\t\tfoo() {\n\t\t}\n\t}\n}\n");
+                "LoopMessage.methodWithForOnConsignments() {\n\tforEach(integers) {\n\t\tfoo() {\n\t\t}\n\t}\n}\n");
     }
 
     @NotNull

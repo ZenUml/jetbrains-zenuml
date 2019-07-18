@@ -11,6 +11,7 @@ import com.intellij.psi.PsiCodeBlock;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiExpressionList;
 import com.intellij.psi.PsiForStatement;
+import com.intellij.psi.PsiForeachStatement;
 import com.intellij.psi.PsiIfStatement;
 import com.intellij.psi.PsiJavaToken;
 import com.intellij.psi.PsiKeyword;
@@ -187,6 +188,15 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                 .append(statement.getCondition().getText())
                 .closeParenthesis();
         super.visitForStatement(statement);
+    }
+
+    @Override
+    public void visitForeachStatement(PsiForeachStatement statement) {
+        zenDsl.append("forEach")
+                .openParenthesis()
+                .append(statement.getIteratedValue().getText())
+                .closeParenthesis();
+        super.visitForeachStatement(statement);
     }
 
     @Override
