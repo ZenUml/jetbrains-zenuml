@@ -2,6 +2,7 @@ package loopMessage;
 
 public class LoopMessage {
     boolean isFoo;
+    private Integer[] integers = new Integer[]{1, 2, 3, 4};
 
     void method1() {
         while (true) {
@@ -52,7 +53,7 @@ public class LoopMessage {
     }
 
     void methodWithForOnConsignments() {
-        for (Integer i : new Integer[]{1, 2, 3, 4}) {
+        for (Integer i : integers) {
             foo();
         }
     }

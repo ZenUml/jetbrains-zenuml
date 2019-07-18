@@ -52,6 +52,12 @@ public class LoopMessageTest extends BaseDslConversionTest {
                 "LoopMessage.methodWithFor() {\n\tfor(i < 10) {\n\t\tfoo() {\n\t\t}\n\t}\n}\n");
     }
 
+    public void test_methodWithForOnConsignments() {
+        testDslConversion(
+                "methodWithForOnConsignments",
+                "LoopMessage.methodWithFor() {\n\tfor(i < 10) {\n\t\tfoo() {\n\t\t}\n\t}\n}\n");
+    }
+
     @NotNull
     @Override
     protected String getClassName() {
