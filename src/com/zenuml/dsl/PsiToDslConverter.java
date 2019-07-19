@@ -192,10 +192,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitForeachStatement(PsiForeachStatement statement) {
-        zenDsl.append("forEach")
-                .openParenthesis()
-                .append(statement.getIteratedValue().getText())
-                .closeParenthesis();
+        zenDsl.append(PsiForeachStatementKt.toDsl(statement));
         super.visitForeachStatement(statement);
     }
 
