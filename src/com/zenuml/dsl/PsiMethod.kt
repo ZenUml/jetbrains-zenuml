@@ -4,6 +4,6 @@ import com.intellij.psi.PsiMethod
 
 
 fun PsiMethod.convertThrows(): ZenDsl = when {
-    throwsTypes.isNotEmpty() -> ZenDsl().comment("This method throws " + throwsTypes.map { it.name }.joinToString())
+    throwsTypes.isNotEmpty() -> ZenDsl().comment("This method throws " + throwsTypes.joinToString { it.name })
     else -> ZenDsl()
 }
