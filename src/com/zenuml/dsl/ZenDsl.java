@@ -24,6 +24,13 @@ public class ZenDsl {
     }
 
     @NotNull
+    ZenDsl append(ZenDsl zenDsl) {
+        ensureIndent();
+        dsl.append(zenDsl.getDsl());
+        return this;
+    }
+
+    @NotNull
     ZenDsl closeExpressionAndNewLine() {
         return append(";").changeLine();
     }
