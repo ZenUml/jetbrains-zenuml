@@ -51,7 +51,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             return;
         }
 
-        zenDsl.append(PsiMethodKt.convert_throws(method));
+        zenDsl.append(PsiMethodKt.convertThrows(method));
 
         String methodCall = getMethodCall(method);
 
