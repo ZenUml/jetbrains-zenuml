@@ -103,6 +103,10 @@ public class SimpleMessage {
         int[] numbers = new int[1] { 1 };
     }
 
+    public void method_with_array_literal() {
+        int[] numbers = { 1 };
+    }
+
     public void method_with_anonymous_object() {
         new Runnable(){
             @Override
