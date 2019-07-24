@@ -86,6 +86,11 @@ public class SimpleMessage {
         }
     }
 
+    public void method_that_throws_exceptions() throws IOException, IndexOutOfBoundsException  {
+        foo();
+    }
+
+
     public void method_with_anonymous_object_and_initialization() {
         ArrayList<Long> numbers = new ArrayList<Long>() {
             {
