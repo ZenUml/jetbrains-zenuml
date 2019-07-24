@@ -39,6 +39,14 @@ Includes the following features:</p>
       	<strong>Support ForEach Syntax:</strong>
         <pre><em> Java: for(Type i: items) { ... } => DSL: forEach(items) { ... }</em></pre>
       </li>
+      <li>
+      	<strong>Support throws Syntax:</strong>
+        <pre><em> Java: public void someMethod() throws Exception {} </em></pre>
+        <pre><em> => </em></pre>
+        <pre><em> DSL: // This method throws Exception
+      Participant.someMethod() {}
+        </em></pre>
+      </li>
     </ul>
   </li>
 <!--  <li>-->

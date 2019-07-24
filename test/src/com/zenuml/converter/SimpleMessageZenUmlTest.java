@@ -66,6 +66,10 @@ public class SimpleMessageZenUmlTest extends BaseDslConversionTest {
         testDslConversion("method_with_try_catch_finally", "SimpleMessage.method_with_try_catch_finally() {\n\ttry {\n\t\tfoo();\n\t}\n\tcatch(Exception1 e) {\n\t\thandleException1();\n\t}\n\tcatch(Exception2 , Exception3 e) {\n\t\thandleExceptions();\n\t}\n\tfinally {\n\t\tcleanup();\n\t}\n}\n");
     }
 
+    public void test_method_that_throws_exceptions() {
+        testDslConversion("method_that_throws_exceptions", "// This method throws IOException, IndexOutOfBoundsException\nSimpleMessage.method_that_throws_exceptions() {\n\tfoo();\n}\n");
+    }
+
     public void test_method_with_anonymous_object() {
         testDslConversion("method_with_anonymous_object", "SimpleMessage.method_with_anonymous_object() {\n\tnew Runnable();\n}\n");
     }
