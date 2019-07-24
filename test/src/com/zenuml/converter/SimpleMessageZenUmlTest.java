@@ -78,6 +78,10 @@ public class SimpleMessageZenUmlTest extends BaseDslConversionTest {
         testDslConversion("method_with_new_int_array", "SimpleMessage.method_with_new_int_array() {\n\tint_array numbers = new int_array();\n\t {\n\t}\n}\n");
     }
 
+    public void test_method_with_array_literal() {
+        testDslConversion("method_with_array_literal", "SimpleMessage.method_with_array_literal() {\n\t// int_array numbers = { 1 };\n}\n");
+    }
+
     @NotNull
     @Override
     protected String getClassName() {
