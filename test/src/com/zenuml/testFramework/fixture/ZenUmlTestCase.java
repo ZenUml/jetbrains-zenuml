@@ -38,6 +38,7 @@ public abstract class ZenUmlTestCase extends LightCodeInsightFixtureTestCase {
     @NotNull
     private String getFolder() {
         String className = getClassName();
-        return className.substring(0, className.lastIndexOf('.'));
+        String packageName = className.substring(0, className.lastIndexOf('.'));
+        return packageName.replace('.', '/');
     }
 }

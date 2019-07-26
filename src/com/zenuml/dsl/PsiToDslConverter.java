@@ -143,7 +143,17 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if(argumentList == null) return "";
 
         String[] objects = Arrays.stream(argumentList.getExpressions())
-                .map(e -> e instanceof PsiLambdaExpression ? "lambda" : withoutTypeParameter(e.getText()))
+                .map(e -> {
+                    if (e instanceof PsiLambdaExpression) {
+                        return "lambda";
+                    }
+                    if (e instanceof PsiNewExpression) {
+                        // This implementation will not output the parameters of the constructor.
+                        // someMethod(new ArrayList<Long>() {{ add(1) }}) -> someMethod(new ArrayList())
+                        return "new" + " " + withoutTypeParameter(e.getType().getCanonicalText() + "()");
+                    }
+                    return withoutTypeParameter(e.getText());
+                })
                 .toArray(String[]::new);
         return String.join(", ", objects );
     }
