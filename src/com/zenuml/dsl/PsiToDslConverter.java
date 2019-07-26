@@ -21,12 +21,9 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitMethod(PsiMethod method) {
         LOG.debug("Enter: visitMethod: " + method);
-        if (detectReEntry(method)) return;
-
         appendThrows(method);
         appendMethod(method);
         processChildren(method);
-
         LOG.debug("Exit: visitMethod: " + method);
     }
 
@@ -61,7 +58,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         Optional<PsiClass> headClass = methodStack.peekContainingClass();
         Optional<PsiClass> optionalParticipant = Optional.ofNullable(containingClass);
 
-        optionalParticipant.filter(cls -> !headClass.isPresent() || !cls.equals(headClass.get()))
+        optionalParticipant.filter(cls -> !cls.equals(headClass.orElse(null)))
                 .ifPresent(cls -> zenDsl.appendParticipant(cls.getName()));
     }
 

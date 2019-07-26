@@ -6,6 +6,10 @@ public class CallLoop {
         Bar bar = new Bar();
         foo.method1(bar);
     }
+
+    public void internalMethod() {
+        internalMethod();
+    }
 }
 
 class Foo {
