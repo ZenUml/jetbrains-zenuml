@@ -150,7 +150,8 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
                     if (e instanceof PsiNewExpression) {
                         // This implementation will not output the parameters of the constructor.
                         // someMethod(new ArrayList<Long>() {{ add(1) }}) -> someMethod(new ArrayList())
-                        return "new" + " " + withoutTypeParameter(e.getType().getCanonicalText() + "()");
+                        // Note: getCanonicalText will return java.utils.ArrayList. Not covered in UT.
+                        return "new" + " " + withoutTypeParameter(e.getType().getPresentableText() + "()");
                     }
                     return withoutTypeParameter(e.getText());
                 })
