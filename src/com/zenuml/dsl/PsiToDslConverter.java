@@ -1,6 +1,5 @@
 package com.zenuml.dsl;
 
-import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
 import io.reactivex.Observable;
@@ -45,23 +44,24 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     }
 
     private void appendMethod(PsiMethod method) {
-        appendParticipant(method);
+        appendParticipant(method.getContainingClass());
         zenDsl.append(method.getName());
-        appendParameters(method);
+        appendParameters(method.getParameterList().getParameters());
     }
 
-    private void appendParameters(PsiMethod method) {
-        String parameterNames = Stream.of(method.getParameterList().getParameters())
+    private void appendParameters(PsiParameter[] parameters) {
+        String parameterNames = Stream.of(parameters)
             .map(PsiNamedElement::getName)
             .collect(Collectors.joining(", "));
 
         zenDsl.appendParams(parameterNames);
     }
 
-    private void appendParticipant(PsiMethod method) {
-        PsiClass containingClass = method.getContainingClass();
+    private void appendParticipant(PsiClass containingClass) {
         Optional<PsiClass> headClass = methodStack.peekContainingClass();
-        Optional.ofNullable(containingClass).filter(cls -> !headClass.isPresent() || !cls.equals(headClass.get()))
+        Optional<PsiClass> optionalParticipant = Optional.ofNullable(containingClass);
+
+        optionalParticipant.filter(cls -> !headClass.isPresent() || !cls.equals(headClass.get()))
                 .ifPresent(cls -> zenDsl.appendParticipant(cls.getName()));
     }
 
