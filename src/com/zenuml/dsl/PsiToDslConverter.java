@@ -1,11 +1,13 @@
 package com.zenuml.dsl;
 
+import com.intellij.navigation.NavigationItem;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.psi.*;
 import io.reactivex.Observable;
 import org.intellij.sequencer.util.PsiUtil;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,28 +22,47 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitMethod(PsiMethod method) {
         LOG.debug("Enter: visitMethod: " + method);
+        if (detectReEntry(method)) return;
 
+        appendThrows(method);
+        appendMethod(method);
+        processChildren(method);
+
+        LOG.debug("Exit: visitMethod: " + method);
+    }
+
+    private void appendThrows(PsiMethod method) {
+        zenDsl.append(PsiMethodKt.convertThrows(method));
+    }
+
+    private boolean detectReEntry(PsiMethod method) {
         if (methodStack.contains(method)) {
             LOG.debug("Exit (loop detected): visitMethod: " + method);
             zenDsl.comment("Method re-entered");
-            return;
+            return true;
         }
+        return false;
+    }
 
-        zenDsl.append(PsiMethodKt.convertThrows(method));
+    private void appendMethod(PsiMethod method) {
+        appendParticipant(method);
+        zenDsl.append(method.getName());
+        appendParameters(method);
+    }
 
-        String methodCall = getMethodCall(method);
-
+    private void appendParameters(PsiMethod method) {
         String parameterNames = Stream.of(method.getParameterList().getParameters())
             .map(PsiNamedElement::getName)
             .collect(Collectors.joining(", "));
 
-        zenDsl.append(methodCall)
-            .openParenthesis()
-            .append(parameterNames)
-            .closeParenthesis();
-        processChildren(method);
+        zenDsl.appendParams(parameterNames);
+    }
 
-        LOG.debug("Exit: visitMethod: " + method);
+    private void appendParticipant(PsiMethod method) {
+        PsiClass containingClass = method.getContainingClass();
+        Optional<PsiClass> headClass = methodStack.peekContainingClass();
+        Optional.ofNullable(containingClass).filter(cls -> !headClass.isPresent() || !cls.equals(headClass.get()))
+                .ifPresent(cls -> zenDsl.appendParticipant(cls.getName()));
     }
 
     private void processChildren(PsiMethod method) {
@@ -50,26 +71,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             zenDsl.closeExpressionAndNewLine();
         }
 
-        if (methodStack.contains(method)) {
-            LOG.debug("Exit (loop detected): visitMethod: " + method);
-            zenDsl.comment("Method re-entered");
-            return;
-        }
+        if (detectReEntry(method)) return;
         methodStack.push(method);
         super.visitMethod(method);
         methodStack.pop();
-    }
-
-    private String getMethodCall(PsiMethod method) {
-        PsiClass containingClass = method.getContainingClass();
-        // prefix is : `ClassName.`
-        String methodPrefix = methodStack
-                .peekContainingClass()
-                .filter(cls -> cls.equals(containingClass))
-                .map(cls -> "")
-                .orElse(containingClass.getName() + ".");
-
-        return methodPrefix + method.getName();
     }
 
     // case 1: String s;
