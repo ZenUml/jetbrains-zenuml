@@ -1,8 +1,12 @@
 dist: bionic
 language: java
 jdk:
-  - oraclejdk9
   - oraclejdk11
+  - openjdk8
+  - openjdk9
+  - openjdk10
+  - openjdk11
+  - openjdk12
 #jobs:
 #  include:
 #  - if: type = pull_request
