@@ -3,6 +3,7 @@ plugins {
   id 'idea'
   id 'org.jetbrains.intellij' version '0.4.8'
   id 'org.jetbrains.kotlin.jvm' version '1.3.21'
+  id 'org.openjfx.javafxplugin' version '0.0.7'
 }
 
 repositories {
@@ -70,6 +71,10 @@ idea {
   module {
     generatedSourceDirs += file('gen')
   }
+}
+
+javafx {
+  version = "12.0.1"
 }
 
 
