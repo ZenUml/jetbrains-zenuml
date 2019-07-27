@@ -1,17 +1,4 @@
-dist: bionic
 language: java
-jdk:
-  - oraclejdk11
-  - oraclejdk12
-  - openjdk11
-  - openjdk12
-#jobs:
-#  include:
-#  - if: type = pull_request
-#    jdk: oraclejdk8
-#  - if: type = pull_request
-#    jdk: oraclejdk9
-#  - if: type = push
 install: "./gradlew assemble"
 script: "./gradlew check"
 before_cache:
