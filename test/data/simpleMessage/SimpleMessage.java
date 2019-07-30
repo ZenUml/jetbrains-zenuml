@@ -116,6 +116,10 @@ public class SimpleMessage {
         }
     }
 
+    public void method_with_double_stash_as_string_parameter("\\") {
+        doSth();
+    }
+
     private void processInt(int i) {
 
     }
