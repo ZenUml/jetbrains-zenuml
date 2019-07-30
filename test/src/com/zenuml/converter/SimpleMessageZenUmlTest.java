@@ -87,7 +87,7 @@ public class SimpleMessageZenUmlTest extends BaseDslConversionTest {
     }
 
     public void test_method_with_double_stash_as_string_parameter() {
-        testDslConversion("method_with_array_literal", "SimpleMessage.method_with_double_stash_as_string_parameter() {\n\t// doSth();\n}\n");
+        testDslConversion("method_with_double_stash_as_string_parameter", "SimpleMessage.method_with_double_stash_as_string_parameter() {\n\tdoSth();\n}\n");
     }
 
     @NotNull
