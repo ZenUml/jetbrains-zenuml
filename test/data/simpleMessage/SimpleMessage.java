@@ -117,11 +117,15 @@ public class SimpleMessage {
     }
 
     public void method_with_double_stash_as_string_parameter("\\") {
-        doSth();
+        processString("\\");
     }
 
     private void processInt(int i) {
 
+    }
+
+    private String processString(String s) {
+        return s;
     }
     private int getCount() {
         return 0;
