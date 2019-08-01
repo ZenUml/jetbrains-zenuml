@@ -124,8 +124,8 @@ public class SimpleMessage {
 
     }
 
-    private String processString(String s) {
-        return s;
+    private void processString(String s) {
+        process(s);
     }
     private int getCount() {
         return 0;
