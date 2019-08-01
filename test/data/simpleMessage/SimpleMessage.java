@@ -116,7 +116,7 @@ public class SimpleMessage {
         }
     }
 
-    public void method_with_double_stash_as_string_parameter("\\") {
+    public void method_with_double_stash_as_string_parameter() {
         processString("\\");
     }
 
