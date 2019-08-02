@@ -59,7 +59,7 @@ intellij {
   pluginName 'zenuml'
   downloadSources false
   updateSinceUntilBuild false
-  plugins = ['IntelliLang']
+  plugins = ['IntelliLang', 'java']
 }
 
 //buildSearchableOptions {
