@@ -55,11 +55,11 @@ sourceSets {
 }
 
 intellij {
-  version 'IC-2019.1.4'
+  version 'IC-2019.2'
   pluginName 'zenuml'
   downloadSources false
   updateSinceUntilBuild false
-  plugins = ['IntelliLang'/*, 'java'*/]
+  plugins = ['IntelliLang', 'java']
 }
 
 //buildSearchableOptions {
