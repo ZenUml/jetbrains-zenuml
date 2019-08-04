@@ -116,8 +116,16 @@ public class SimpleMessage {
         }
     }
 
+    public void method_with_double_stash_as_string_parameter() {
+        processString("\\");
+    }
+
     private void processInt(int i) {
 
+    }
+
+    private void processString(String s) {
+        process(s);
     }
     private int getCount() {
         return 0;
