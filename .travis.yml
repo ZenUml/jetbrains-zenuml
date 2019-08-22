@@ -1,14 +1,6 @@
 dist: trusty
 language: java
-jdk:
-  - oraclejdk9
-#jobs:
-#  include:
-#  - if: type = pull_request
-#    jdk: oraclejdk8
-#  - if: type = pull_request
-#    jdk: oraclejdk9
-#  - if: type = push
+
 install: "./gradlew assemble"
 script: "./gradlew check"
 before_cache:
