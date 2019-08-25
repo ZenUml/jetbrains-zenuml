@@ -1,5 +1,6 @@
 dist: trusty
 language: java
+
 install: "./gradlew assemble"
 script: "./gradlew check"
 before_cache:
