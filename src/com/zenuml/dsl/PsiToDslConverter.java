@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 import org.intellij.sequencer.util.PsiUtil;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,28 +21,45 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitMethod(PsiMethod method) {
         LOG.debug("Enter: visitMethod: " + method);
+        appendThrows(method);
+        appendMethod(method);
+        processChildren(method);
+        LOG.debug("Exit: visitMethod: " + method);
+    }
 
+    private void appendThrows(PsiMethod method) {
+        zenDsl.append(PsiMethodKt.convertThrows(method));
+    }
+
+    private boolean detectReEntry(PsiMethod method) {
         if (methodStack.contains(method)) {
             LOG.debug("Exit (loop detected): visitMethod: " + method);
             zenDsl.comment("Method re-entered");
-            return;
+            return true;
         }
+        return false;
+    }
 
-        zenDsl.append(PsiMethodKt.convertThrows(method));
+    private void appendMethod(PsiMethod method) {
+        appendParticipant(method.getContainingClass());
+        zenDsl.append(method.getName());
+        appendParameters(method.getParameterList().getParameters());
+    }
 
-        String methodCall = getMethodCall(method);
-
-        String parameterNames = Stream.of(method.getParameterList().getParameters())
+    private void appendParameters(PsiParameter[] parameters) {
+        String parameterNames = Stream.of(parameters)
             .map(PsiNamedElement::getName)
             .collect(Collectors.joining(", "));
 
-        zenDsl.append(methodCall)
-            .openParenthesis()
-            .append(parameterNames)
-            .closeParenthesis();
-        processChildren(method);
+        zenDsl.appendParams(parameterNames);
+    }
 
-        LOG.debug("Exit: visitMethod: " + method);
+    private void appendParticipant(PsiClass containingClass) {
+        Optional<PsiClass> headClass = methodStack.peekContainingClass();
+        Optional<PsiClass> optionalParticipant = Optional.ofNullable(containingClass);
+
+        optionalParticipant.filter(cls -> !cls.equals(headClass.orElse(null)))
+                .ifPresent(cls -> zenDsl.appendParticipant(cls.getName()));
     }
 
     private void processChildren(PsiMethod method) {
@@ -50,26 +68,10 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
             zenDsl.closeExpressionAndNewLine();
         }
 
-        if (methodStack.contains(method)) {
-            LOG.debug("Exit (loop detected): visitMethod: " + method);
-            zenDsl.comment("Method re-entered");
-            return;
-        }
+        if (detectReEntry(method)) return;
         methodStack.push(method);
         super.visitMethod(method);
         methodStack.pop();
-    }
-
-    private String getMethodCall(PsiMethod method) {
-        PsiClass containingClass = method.getContainingClass();
-        // prefix is : `ClassName.`
-        String methodPrefix = methodStack
-                .peekContainingClass()
-                .filter(cls -> cls.equals(containingClass))
-                .map(cls -> "")
-                .orElse(containingClass.getName() + ".");
-
-        return methodPrefix + method.getName();
     }
 
     // case 1: String s;
@@ -143,7 +145,18 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
         if(argumentList == null) return "";
 
         String[] objects = Arrays.stream(argumentList.getExpressions())
-                .map(e -> e instanceof PsiLambdaExpression ? "lambda" : withoutTypeParameter(e.getText()))
+                .map(e -> {
+                    if (e instanceof PsiLambdaExpression) {
+                        return "lambda";
+                    }
+                    if (e instanceof PsiNewExpression) {
+                        // This implementation will not output the parameters of the constructor.
+                        // someMethod(new ArrayList<Long>() {{ add(1) }}) -> someMethod(new ArrayList())
+                        // Note: getCanonicalText will return java.utils.ArrayList. Not covered in UT.
+                        return "new" + " " + withoutTypeParameter(e.getType().getPresentableText() + "()");
+                    }
+                    return withoutTypeParameter(e.getText());
+                })
                 .toArray(String[]::new);
         return String.join(", ", objects );
     }
