@@ -92,4 +92,15 @@ public class ZenDsl {
         dsl.append(indent);
         return this;
     }
+
+    ZenDsl appendParticipant(String participant) {
+        dsl.append(participant).append(".");
+        return this;
+    }
+
+    ZenDsl appendParams(String params) {
+        return openParenthesis()
+                .append(params)
+                .closeParenthesis();
+    }
 }
