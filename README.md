@@ -4,6 +4,12 @@ The ZenUML plugin running on the JetBrains IDEs.
 # Development
 1. `./gradlew`
 2. `./gradlew runIde` to start another instance of IDEA with our plugin installed.
+    ## Using Gradle In IntelliJ
+    If you get an error like this:
+    > Cause: org/openjfx/gradle/JavaFXPlugin has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0
+
+    you need to change `Gradle JVM` to version 11 or highter.
+
 
 # Release
 1. determine release version number in the format of YYYY.R.N, 2019.1.1 for example. N can be omitted for the first release of a major version.
