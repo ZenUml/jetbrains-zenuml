@@ -2,20 +2,20 @@
 The ZenUML plugin running on the JetBrains IDEs.
 
 # Development
+1. Java version: OpenJDK 11 or higher.
 1. `./gradlew`
-2. `./gradlew runIde` to start another instance of IDEA with our plugin installed.
+1. `./gradlew runIde` to start another instance of IDEA with our plugin installed.
     ## Using Gradle In IntelliJ
     If you get an error like this:
     > Cause: org/openjfx/gradle/JavaFXPlugin has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0
 
-    you need to change `Gradle JVM` to version 11 or highter.
+    you need to change `Build Tools > Gradle > Gradle JVM` to version 11 or higher.
 
 
 # Release
 1. determine release version number in the format of YYYY.R.N, 2019.1.1 for example. N can be omitted for the first release of a major version.
-1. `git checkout release-cadidate-YYYY.R.N`
 1. File `resource/META-INF/plugin.xml` line 4, update plugin version in `<idea-plugin>.<version>` with YYYY.R.N
-1. Push release candidate branch -> Pull request -> Merge to master
+1. Pull request -> Merge to master
 1. `git checkout master && git pull --reb`
 1. `git tag -a release-YYYY.R.N -m 'release tag msg'`
 1. `git push origin release-YYYY.R.N`
