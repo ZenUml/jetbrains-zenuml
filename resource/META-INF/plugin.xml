@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>2019.1.3</version>
+  <version>2019.1.4</version>
   <idea-version since-build="191.6707.31"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
@@ -25,36 +25,24 @@ Includes the following features:</p>
 
   <change-notes><![CDATA[
 <ul>
+<!--  <li>-->
+<!--    <strong>Java Converter</strong>-->
+<!--    <ul>-->
+<!--      <li>-->
+<!--      	<strong>Fix issue on creating anonymous object:</strong>-->
+<!--        <pre><em> Java: new Runnable() { ... } => DSL: new Runnable()</em></pre>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </li>-->
   <li>
-    <strong>Java Converter</strong>
+    <strong>DSL Preview</strong>
     <ul>
       <li>
-      	<strong>Fix issue on creating anonymous object:</strong>
-        <pre><em> Java: new Runnable() { ... } => DSL: new Runnable()</em></pre>
-      </li>
-      <li>
-      	<strong>Fix array conversion:</strong>
-        <pre><em> Java: new int[] { ... } => DSL: new int_array()</em></pre>
-      </li>
-      <li>
-      	<strong>Support ForEach Syntax:</strong>
-        <pre><em> Java: for(Type i: items) { ... } => DSL: forEach(items) { ... }</em></pre>
-      </li>
-      <li>
-      	<strong>Support throws Syntax:</strong>
-        <pre><em> Java: public void someMethod() throws Exception {} </em></pre>
-        <pre><em> => </em></pre>
-        <pre><em> DSL: // This method throws Exception
-      Participant.someMethod() {}
-        </em></pre>
+      	<strong>New preview appearance for darcula theme</strong>
+<!--        <pre><em> Java: new Runnable() { ... } => DSL: new Runnable()</em></pre>-->
       </li>
     </ul>
   </li>
-<!--  <li>-->
-<!--    <strong>DSL Preview</strong>-->
-<!--    <ul>-->
-<!--    </ul>-->
-<!--  </li>-->
 </ul>
     ]]>
   </change-notes>
