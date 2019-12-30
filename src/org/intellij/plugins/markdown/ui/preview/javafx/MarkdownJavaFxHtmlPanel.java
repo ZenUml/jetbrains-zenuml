@@ -110,6 +110,8 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
   @Override
   public void setHtml(@NotNull String html) {
     html = html.replace("$VUE_SEQUENCE_BUNDLE_JS", PreviewStaticServer.getScriptUrl("vue-sequence-bundle.js"));
+    html = html.replace("$VUE_SEQUENCE_EXT_CSS", PreviewStaticServer.getStyleUrl("vue-sequence-ext.css"));
+    html = html.replace("$FONT_AWESOME_MIN_CSS", PreviewStaticServer.getScriptUrl("font-awesome.min.css"));
     myLastRawHtml = html;
     super.setHtml(html);
   }

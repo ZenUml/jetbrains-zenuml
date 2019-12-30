@@ -2,20 +2,20 @@
 The ZenUML plugin running on the JetBrains IDEs.
 
 # Development
+1. Java version: OpenJDK 11 or higher.
 1. `./gradlew`
-2. `./gradlew runIde` to start another instance of IDEA with our plugin installed.
+1. `./gradlew runIde` to start another instance of IDEA with our plugin installed.
     ## Using Gradle In IntelliJ
     If you get an error like this:
     > Cause: org/openjfx/gradle/JavaFXPlugin has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0
 
-    you need to change `Gradle JVM` to version 11 or highter.
+    you need to change `Build Tools > Gradle > Gradle JVM` to version 11 or higher.
 
 
 # Release
 1. determine release version number in the format of YYYY.R.N, 2019.1.1 for example. N can be omitted for the first release of a major version.
-1. `git checkout release-cadidate-YYYY.R.N`
 1. File `resource/META-INF/plugin.xml` line 4, update plugin version in `<idea-plugin>.<version>` with YYYY.R.N
-1. Push release candidate branch -> Pull request -> Merge to master
+1. Pull request -> Merge to master
 1. `git checkout master && git pull --reb`
 1. `git tag -a release-YYYY.R.N -m 'release tag msg'`
 1. `git push origin release-YYYY.R.N`
@@ -26,26 +26,19 @@ The ZenUML plugin running on the JetBrains IDEs.
 1. Use github release file to upload.
 
 # Installation
-### Alpha Versions
-#### Inside Jetbrains IDE 
-1. Add `https://plugins.jetbrains.com/plugins/alpha/list` as plugin repository
-1. Search for `ZenUml`, click install button then follow instructions to restart IDE 
+* ### Inside Jetbrains IDE
+    * (Skip this for prod version) To install Alpha Versions 
+        
+      Add `https://plugins.jetbrains.com/plugins/alpha/list` as plugin repository
+       
+    * Search for `ZenUml`, click install button then follow instructions to restart IDE 
+    
+* ### Install via plugin file
+    1. Preferences > Plugins > setting > Install Plugin from disk.
+    1. Choose the file to install.
 
-# Jetbrains Market Place Demo
-## Terminology
-1. Account: the account you register on plugin.jetbrains.com
-1. Credential: An email & password pair. (To access Demo instance) 
-## Process
-1. Use @Xiaopeng's account to login into https://intellij-support.jetbrains.com/hc/en-us
-1. Find `Marketplace EAP` section and related documentations. https://intellij-support.jetbrains.com/hc/en-us/categories/115000066390-Marketplace-EAP
-1. Contact Jetbrains to set up credential for accessing `Market Place Demo Instance` https://marketplace.demo.plugins.aws.intellij.net 
-1. Use@Xiaopeng's account to login into `Demo Instance`. Then click `My Profile` in right top corner dropdown. Then `Zenuml Plugin` will be in the dashboard.
-1. Login Out any Account ( No marketplace accout is needed for buying plugin) on `Demo Instance` https://marketplace.demo.plugins.aws.intellij.net, then go to https://marketplace.demo.plugins.aws.intellij.net/plugin/12437-zenuml-support# to buy zenuml plugin.
-1. You may be asked for password by https://entrance.auth.eu-west-1.amazoncognito.com . Enter the credential for `Market Place Demo` in Step 3.
-1. Follow documentations NO.6 https://intellij-support.jetbrains.com/hc/en-us/articles/360000464820-6-Test-the-plugin-licensing-on-the-demo-instance in step 2 for usage and testing.
-
-!!! @xiaopeng's account is used for access `Market Place EAP docs` and Publish Plugin in `Demo Instance`.
-
+# Jetbrains Market Place 
+* https://plugins.jetbrains.com/marketplace
 
 ### [Enabling Internal Mode Of IntelliJ IDEA.](http://www.jetbrains.org/intellij/sdk/docs/reference_guide/internal_actions/enabling_internal.html)
 Not Sure how to use it for  now, But might need it at a later time.
