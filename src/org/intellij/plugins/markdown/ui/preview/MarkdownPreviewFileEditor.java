@@ -399,6 +399,11 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
 
   private class MyUpdatePanelOnSettingsChangedListener implements ZenUmlApplicationSettings.SettingsChangedListener {
     @Override
+    public void beforeSettingsChanged(@NotNull ZenUmlApplicationSettings settings) {
+      updatePanelCssSettings(myPanel, settings.getMarkdownCssSettings());
+    }
+
+    @Override
     public void settingsChanged(@NotNull ZenUmlApplicationSettings settings) {
       mySwingAlarm.addRequest(() -> {
         if (settings.getMarkdownPreviewSettings().getSplitEditorLayout() != SplitFileEditor.SplitEditorLayout.FIRST) {
