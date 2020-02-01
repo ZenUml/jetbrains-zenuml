@@ -14,7 +14,7 @@ public class CheckLicense {
   /**
    * PRODUCT_CODE must be the same specified in plugin.xml inside the <product-descriptor> tag
    */
-  private static final String PRODUCT_CODE = "SMPL";
+  private static final String PRODUCT_CODE = "PZENUML";
   private static final String KEY_PREFIX = "key:";
   private static final String STAMP_PREFIX = "stamp:";
   private static final String EVAL_PREFIX = "eval:";
