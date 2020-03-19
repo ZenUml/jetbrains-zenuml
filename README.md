@@ -38,7 +38,10 @@ The ZenUML plugin running on the JetBrains IDEs.
     1. Choose the file to install.
 
 # Jetbrains Market Place 
+* Ask admin for market place access.
 * https://plugins.jetbrains.com/marketplace
+* Jetbrains organization: [ZenUML](https://plugins.jetbrains.com/organization/ZenUML)
+* Plugin Page : [ZenUML support](https://plugins.jetbrains.com/plugin/12437-zenuml-support)
 
 ### [Enabling Internal Mode Of IntelliJ IDEA.](http://www.jetbrains.org/intellij/sdk/docs/reference_guide/internal_actions/enabling_internal.html)
 Not Sure how to use it for  now, But might need it at a later time.
