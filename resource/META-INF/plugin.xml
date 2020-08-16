@@ -1,12 +1,13 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>2019.1.4</version>
+  <version>2020.2</version>
   <idea-version since-build="191.6707.31"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
   <depends>com.intellij.modules.lang</depends>
   <depends>com.intellij.modules.java</depends>
+  <depends>com.intellij.javafx</depends>
   <depends optional="true" config-file="plugin-intelliLang.xml">org.intellij.intelliLang</depends>
 
   <description><![CDATA[
