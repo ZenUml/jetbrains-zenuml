@@ -1,9 +1,8 @@
 plugins {
   id 'java'
   id 'idea'
-  id 'org.jetbrains.intellij' version '0.4.9'
+  id 'org.jetbrains.intellij' version '0.4.21'
   id 'org.jetbrains.kotlin.jvm' version '1.3.21'
-  id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 repositories {
@@ -55,11 +54,11 @@ sourceSets {
 }
 
 intellij {
-  version 'IC-2019.2'
+  version 'IC-2020.2'
   pluginName 'zenuml'
   downloadSources false
   updateSinceUntilBuild false
-  plugins = ['IntelliLang', 'java']
+  plugins = ['IntelliLang', 'java', 'com.intellij.javafx:1.0.2']
 }
 
 //buildSearchableOptions {
@@ -76,11 +75,4 @@ idea {
     generatedSourceDirs += file('gen')
   }
 }
-
-javafx {
-  version = "12.0.1"
-  modules = [ 'javafx.controls', 'javafx.web']
-  configuration = 'compileOnly'
-}
-
 

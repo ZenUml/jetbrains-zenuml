@@ -5,7 +5,9 @@ import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCa
 import org.intellij.plugins.markdown.MarkdownTestingUtil;
 import org.intellij.plugins.markdown.ui.preview.MarkdownUtil;
 import org.jetbrains.annotations.NotNull;
+import org.junit.Ignore;
 
+@Ignore
 public class MarkdownHtmlGenerationTest extends LightPlatformCodeInsightFixtureTestCase {
   @NotNull
   @Override
