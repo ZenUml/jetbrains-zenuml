@@ -2,7 +2,7 @@
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
   <version>2020.2</version>
-  <idea-version since-build="191.6707.31"/>
+  <idea-version since-build="202.6397.94"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
   <depends>com.intellij.modules.lang</depends>
