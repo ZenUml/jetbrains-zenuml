@@ -15,7 +15,7 @@ dependencies {
   // https://mvnrepository.com/artifact/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer
   compile group: 'com.googlecode.owasp-java-html-sanitizer', name: 'owasp-java-html-sanitizer'
   compile "org.jetbrains:markdown:${markdownParserVersion}"
-  compile "org.jetbrains.kotlin:kotlin-reflect:1.3.21"
+  compile "org.jetbrains.kotlin:kotlin-reflect:1.4.21"
   compile "org.jetbrains.kotlin:kotlin-stdlib:1.3.21"
   compile "io.reactivex.rxjava2:rxjava:2.2.9"
 
