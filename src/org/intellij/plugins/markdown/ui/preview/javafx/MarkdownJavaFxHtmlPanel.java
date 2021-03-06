@@ -7,9 +7,6 @@ import com.intellij.openapi.wm.ToolWindowId;
 import com.intellij.ui.jcef.JCEFHtmlPanel;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.ContainerUtil;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker.State;
 import org.apache.commons.io.FileUtils;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
@@ -36,15 +33,9 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
   @NotNull
   private String[] myCssUris = ArrayUtil.EMPTY_STRING_ARRAY;
   @NotNull
-  private String myCSP = "";
-  @NotNull
   private String myLastRawHtml = "";
   @NotNull
   private String myLastHtmlWithCss = "";
-  @NotNull
-  private final ScrollPreservingListener myScrollPreservingListener = new ScrollPreservingListener();
-  @NotNull
-  private final BridgeSettingListener myBridgeSettingListener = new BridgeSettingListener();
 
   public MarkdownJavaFxHtmlPanel() {
     super(null);
@@ -86,11 +77,11 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
     myCssUris = inlineCss == null ? fileUris
                                   : ArrayUtil
                   .mergeArrays(fileUris, PreviewStaticServer.getStyleUrl(PreviewStaticServer.INLINE_CSS_FILENAME));
-    myCSP = PreviewStaticServer.createCSP(ContainerUtil.map(SCRIPTS, s -> PreviewStaticServer.getScriptUrl(s)),
-                                          ContainerUtil.concat(
-                                            ContainerUtil.map(STYLES, s -> PreviewStaticServer.getStyleUrl(s)),
-                                            ContainerUtil.filter(fileUris, s -> s.startsWith("http://") || s.startsWith("https://"))
-                                          ));
+    PreviewStaticServer.createCSP(ContainerUtil.map(SCRIPTS, PreviewStaticServer::getScriptUrl),
+            ContainerUtil.concat(
+                    ContainerUtil.map(STYLES, PreviewStaticServer::getStyleUrl),
+                    ContainerUtil.filter(fileUris, s -> s.startsWith("http://") || s.startsWith("https://"))
+            ));
     setHtml(myLastRawHtml);
   }
 
@@ -124,17 +115,4 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
     }
   }
 
-  private class BridgeSettingListener implements ChangeListener<State> {
-    @Override
-    public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
-    }
-  }
-
-  private class ScrollPreservingListener implements ChangeListener<State> {
-    volatile int myScrollY = 0;
-
-    @Override
-    public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
-    }
-  }
 }
