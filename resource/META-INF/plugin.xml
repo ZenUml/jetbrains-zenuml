@@ -7,7 +7,6 @@
 
   <depends>com.intellij.modules.lang</depends>
   <depends>com.intellij.modules.java</depends>
-  <depends>com.intellij.javafx</depends>
   <depends optional="true" config-file="plugin-intelliLang.xml">org.intellij.intelliLang</depends>
 
   <description><![CDATA[
