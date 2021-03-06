@@ -1,24 +1,17 @@
 package org.intellij.plugins.markdown.ui.preview.javafx;
 
 import com.intellij.notification.NotificationGroup;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.NotNullLazyValue;
 import com.intellij.openapi.wm.ToolWindowId;
-import com.intellij.ui.javafx.JavaFxHtmlPanel;
+import com.intellij.ui.jcef.JCEFHtmlPanel;
 import com.intellij.util.ArrayUtil;
 import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.messages.MessageBusConnection;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
-import javafx.scene.text.FontSmoothingType;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
-import netscape.javascript.JSObject;
 import org.apache.commons.io.FileUtils;
 import org.intellij.plugins.markdown.MarkdownBundle;
-import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
 import org.intellij.plugins.markdown.ui.preview.PreviewStaticServer;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 
-public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements MarkdownHtmlPanel {
+public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHtmlPanel {
 
   private static final NotNullLazyValue<String> MY_SCRIPTING_LINES = new NotNullLazyValue<String>() {
     @NotNull
@@ -54,14 +47,7 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
   private final BridgeSettingListener myBridgeSettingListener = new BridgeSettingListener();
 
   public MarkdownJavaFxHtmlPanel() {
-    super();
-    runInPlatformWhenAvailable(() -> {
-      if (myWebView != null) {
-        updateFontSmoothingType(myWebView, ZenUmlApplicationSettings.getInstance().getMarkdownPreviewSettings().isUseGrayscaleRendering());
-      }
-    });
-
-    subscribeForGrayscaleSetting();
+    super(null);
   }
 
   public File writeHtmlToTempFile() {
@@ -72,39 +58,6 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
     } catch (IOException e) {
       throw new RuntimeException("Failed to create temp file");
     }
-  }
-
-  @Override
-  protected void registerListeners(@NotNull WebEngine engine) {
-    engine.getLoadWorker().stateProperty().addListener(myBridgeSettingListener);
-    engine.getLoadWorker().stateProperty().addListener(myScrollPreservingListener);
-  }
-
-  private void subscribeForGrayscaleSetting() {
-    MessageBusConnection settingsConnection = ApplicationManager.getApplication().getMessageBus().connect(this);
-    ZenUmlApplicationSettings.SettingsChangedListener settingsChangedListener =
-      new ZenUmlApplicationSettings.SettingsChangedListener() {
-        @Override
-        public void beforeSettingsChanged(@NotNull final ZenUmlApplicationSettings settings) {
-          runInPlatformWhenAvailable(() -> {
-            if (myWebView != null) {
-              updateFontSmoothingType(myWebView, settings.getMarkdownPreviewSettings().isUseGrayscaleRendering());
-            }
-          });
-        }
-      };
-    settingsConnection.subscribe(ZenUmlApplicationSettings.SettingsChangedListener.TOPIC, settingsChangedListener);
-  }
-
-  private static void updateFontSmoothingType(@NotNull WebView view, boolean isGrayscale) {
-    final FontSmoothingType typeToSet;
-    if (isGrayscale) {
-      typeToSet = FontSmoothingType.GRAY;
-    }
-    else {
-      typeToSet = FontSmoothingType.LCD;
-    }
-    view.fontSmoothingTypeProperty().setValue(typeToSet);
   }
 
   @Override
@@ -142,22 +95,13 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
   }
 
   @Override
-  public void scrollToMarkdownSrcOffset(final int offset) {
-    runInPlatformWhenAvailable(() -> {
-      final Object result = getWebViewGuaranteed().getEngine().executeScript(
-        "document.documentElement.scrollTop || (document.body && document.body.scrollTop)");
-      if (result instanceof Number) {
-        myScrollPreservingListener.myScrollY = ((Number)result).intValue();
-      }
-    });
+  public void render() {
+
   }
 
   @Override
-  public void dispose() {
-    runInPlatformWhenAvailable(() -> {
-      getWebViewGuaranteed().getEngine().getLoadWorker().stateProperty().removeListener(myScrollPreservingListener);
-      getWebViewGuaranteed().getEngine().getLoadWorker().stateProperty().removeListener(myBridgeSettingListener);
-    });
+  public void scrollToMarkdownSrcOffset(int offset) {
+
   }
 
   @NotNull
@@ -183,9 +127,6 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
   private class BridgeSettingListener implements ChangeListener<State> {
     @Override
     public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
-        JSObject win
-          = (JSObject)getWebViewGuaranteed().getEngine().executeScript("window");
-        win.setMember("JavaPanelBridge", JavaPanelBridge.INSTANCE);
     }
   }
 
@@ -194,17 +135,6 @@ public class MarkdownJavaFxHtmlPanel extends JavaFxHtmlPanel implements Markdown
 
     @Override
     public void changed(ObservableValue<? extends State> observable, State oldValue, State newValue) {
-      if (newValue == State.RUNNING) {
-        final Object result =
-          getWebViewGuaranteed().getEngine().executeScript("document.documentElement.scrollTop || document.body.scrollTop");
-        if (result instanceof Number) {
-          myScrollY = ((Number)result).intValue();
-        }
-      }
-      else if (newValue == State.SUCCEEDED) {
-        getWebViewGuaranteed().getEngine()
-          .executeScript("document.documentElement.scrollTop = ({} || document.body).scrollTop = " + myScrollY);
-      }
     }
   }
 }
