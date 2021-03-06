@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>2020.2</version>
+  <version>2021.3</version>
   <idea-version since-build="202.6397.94"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
