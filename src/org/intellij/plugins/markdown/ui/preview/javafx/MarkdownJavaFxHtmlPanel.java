@@ -10,7 +10,7 @@ import com.intellij.util.containers.ContainerUtil;
 import org.apache.commons.io.FileUtils;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
-import org.intellij.plugins.markdown.ui.preview.PreviewStaticServer;
+import org.intellij.plugins.markdown.ui.preview.PreviewStaticServer2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +24,7 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
     @Override
     protected String compute() {
       return SCRIPTS.stream()
-        .map(s -> "<script src=\"" + PreviewStaticServer.getScriptUrl(s) + "\"></script>")
+        .map(s -> "<script src=\"" + PreviewStaticServer2.getScriptUrl(s) + "\"></script>")
         .reduce((s, s2) -> s + "\n" + s2)
         .orElseGet(String::new);
     }
@@ -53,9 +53,9 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
 
   @Override
   public void setHtml(@NotNull String html) {
-    html = html.replace("$VUE_SEQUENCE_BUNDLE_JS", PreviewStaticServer.getScriptUrl("vue-sequence-bundle.js"));
-    html = html.replace("$VUE_SEQUENCE_EXT_CSS", PreviewStaticServer.getStyleUrl("vue-sequence-ext.css"));
-    html = html.replace("$FONT_AWESOME_MIN_CSS", PreviewStaticServer.getScriptUrl("font-awesome.min.css"));
+    html = html.replace("$VUE_SEQUENCE_BUNDLE_JS", PreviewStaticServer2.getScriptUrl("vue-sequence-bundle.js"));
+    html = html.replace("$VUE_SEQUENCE_EXT_CSS", PreviewStaticServer2.getStyleUrl("vue-sequence-ext.css"));
+    html = html.replace("$FONT_AWESOME_MIN_CSS", PreviewStaticServer2.getScriptUrl("font-awesome.min.css"));
     myLastRawHtml = html;
     super.setHtml(html);
   }
@@ -73,13 +73,13 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
 
   @Override
   public void setCSS(@Nullable String inlineCss, @NotNull String... fileUris) {
-    PreviewStaticServer.getInstance().setInlineStyle(inlineCss);
+    PreviewStaticServer2.getInstance().setInlineStyle(inlineCss);
     myCssUris = inlineCss == null ? fileUris
                                   : ArrayUtil
-                  .mergeArrays(fileUris, PreviewStaticServer.getStyleUrl(PreviewStaticServer.INLINE_CSS_FILENAME));
-    PreviewStaticServer.createCSP(ContainerUtil.map(SCRIPTS, PreviewStaticServer::getScriptUrl),
+                  .mergeArrays(fileUris, PreviewStaticServer2.getStyleUrl(PreviewStaticServer2.INLINE_CSS_FILENAME));
+    PreviewStaticServer2.createCSP(ContainerUtil.map(SCRIPTS, PreviewStaticServer2::getScriptUrl),
             ContainerUtil.concat(
-                    ContainerUtil.map(STYLES, PreviewStaticServer::getStyleUrl),
+                    ContainerUtil.map(STYLES, PreviewStaticServer2::getStyleUrl),
                     ContainerUtil.filter(fileUris, s -> s.startsWith("http://") || s.startsWith("https://"))
             ));
     setHtml(myLastRawHtml);

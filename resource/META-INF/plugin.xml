@@ -110,7 +110,7 @@ Includes the following features:</p>
                                   implementationClass="org.intellij.plugins.markdown.structureView.MarkdownStructureViewFactory"/>
     <psi.referenceContributor implementation="org.intellij.plugins.markdown.lang.references.MarkdownReferenceProvider"/>
     <stripTrailingSpacesFilterFactory implementation="org.intellij.plugins.markdown.editor.MarkdownStripTrailingSpacesFilterFactory"/>
-    <httpRequestHandler implementation="org.intellij.plugins.markdown.ui.preview.PreviewStaticServer"/>
+    <httpRequestHandler implementation="org.intellij.plugins.markdown.ui.preview.PreviewStaticServer2"/>
 
     <localInspection shortName="ZenUmlUnresolvedFileReference" bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
                      key="zenuml.placeholder.inspection.name" groupKey="zenuml.inspection.group.ruby.name"
