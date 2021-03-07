@@ -8,7 +8,7 @@ import org.intellij.plugins.markdown.lang.psi.MarkdownPsiElement;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class MarkdownStubElementType<S extends MarkdownStubElement, T extends MarkdownPsiElement> extends IStubElementType<S, T> {
+public abstract class MarkdownStubElementType<S extends MarkdownStubElement<?>, T extends MarkdownPsiElement> extends IStubElementType<S, T> {
   public MarkdownStubElementType(@NotNull @NonNls String debugName) {
     super(debugName, MarkdownLanguage.INSTANCE);
   }

@@ -38,7 +38,7 @@ class MarkdownAnchorReferenceImpl internal constructor(private val myAnchor: Str
 
   override fun getVariants(): Array<Any> {
     val project = myPsiElement.project
-    val list = ContainerUtil.newArrayList<String>()
+    val list = ArrayList<String>()
 
     StubIndex.getInstance().getAllKeys(MarkdownHeadersIndex.KEY, project)
       .forEach { key ->
