@@ -54,7 +54,7 @@ sourceSets {
 }
 
 intellij {
-  version 'IC-2020.3'
+  version 'IC-2020.3.2'
   pluginName 'zenuml'
   downloadSources false
   updateSinceUntilBuild false
