@@ -39,7 +39,7 @@ public class MarkdownElementType extends IElementType {
     new HashMap<>();
 
   public MarkdownElementType(@NotNull @NonNls String debugName) {
-    super(debugName, MarkdownLanguage.INSTANCE);
+    super(debugName, ZenUmlLanguage.INSTANCE);
   }
 
   @Override

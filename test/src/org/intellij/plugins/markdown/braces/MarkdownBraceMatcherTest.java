@@ -3,7 +3,7 @@ package org.intellij.plugins.markdown.braces;
 
 import com.intellij.codeInsight.CodeInsightSettings;
 import com.intellij.testFramework.fixtures.LightPlatformCodeInsightFixtureTestCase;
-import org.intellij.plugins.markdown.lang.MarkdownFileType;
+import org.intellij.plugins.markdown.lang.ZenUmlFileType;
 import org.jetbrains.annotations.NotNull;
 import org.junit.Ignore;
 
@@ -40,7 +40,7 @@ public class MarkdownBraceMatcherTest extends LightPlatformCodeInsightFixtureTes
   }
 
   public void doTest(char braceToInsert, @NotNull String text, @NotNull String expectedText) {
-    myFixture.configureByText(MarkdownFileType.INSTANCE, text);
+    myFixture.configureByText(ZenUmlFileType.INSTANCE, text);
     myFixture.type(braceToInsert);
     myFixture.checkResult(expectedText);
   }

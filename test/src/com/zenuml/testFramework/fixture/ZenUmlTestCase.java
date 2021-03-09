@@ -3,12 +3,13 @@ package com.zenuml.testFramework.fixture;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiMethod;
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase;
+import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase;
 import com.zenuml.dsl.PsiToDslConverter;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Paths;
 
-public abstract class ZenUmlTestCase extends LightCodeInsightFixtureTestCase {
+public abstract class ZenUmlTestCase extends LightJavaCodeInsightFixtureTestCase {
 
     protected PsiToDslConverter psiToDslConverter;
 

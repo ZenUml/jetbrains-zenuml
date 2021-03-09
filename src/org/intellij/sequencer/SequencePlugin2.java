@@ -20,6 +20,7 @@ import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.searches.AllClassesSearch;
 import com.intellij.psi.search.searches.DefinitionsScopedSearch;
+import com.intellij.serviceContainer.AlreadyDisposedException;
 import com.intellij.ui.components.JBTabbedPane;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
@@ -78,7 +79,11 @@ public class SequencePlugin2 implements ProjectComponent {
     }
 
     public void projectClosed() {
-        getToolWindowManager().unregisterToolWindow(PLAGIN_NAME);
+        try{
+            getToolWindowManager().unregisterToolWindow(PLAGIN_NAME);
+        } catch (AlreadyDisposedException e) {
+
+        }
     }
 
     public String getComponentName() {

@@ -22,7 +22,6 @@ import java.util.Optional;
 
 public class MarkdownSettingsConfigurable implements SearchableConfigurable {
   static final String PLANT_UML_DIRECTORY = "plantUML";
-  static final String PLANTUML_JAR_URL = Registry.stringValue("markdown.plantuml.download.link");
   static final String PLANTUML_JAR = "plantuml.jar";
 
   private static final String DOWNLOAD_CACHE_DIRECTORY = "download-cache";

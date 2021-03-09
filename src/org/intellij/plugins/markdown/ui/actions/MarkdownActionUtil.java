@@ -16,7 +16,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.intellij.plugins.markdown.lang.MarkdownLanguage;
+import org.intellij.plugins.markdown.lang.ZenUmlLanguage;
 import org.intellij.plugins.markdown.ui.split.SplitFileEditor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +45,7 @@ public class MarkdownActionUtil {
       // This fallback is used primarily for testing
 
       final PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
-      if (psiFile != null && psiFile.getLanguage() == MarkdownLanguage.INSTANCE && ApplicationManager.getApplication().isUnitTestMode()) {
+      if (psiFile != null && psiFile.getLanguage() == ZenUmlLanguage.INSTANCE && ApplicationManager.getApplication().isUnitTestMode()) {
         return e.getData(CommonDataKeys.EDITOR);
       }
       else {

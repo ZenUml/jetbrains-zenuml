@@ -21,7 +21,7 @@ public interface MarkdownHtmlPanel extends Disposable {
           "darcula.css",
           "vue-sequence-ext.css",
           "font-awesome.min.css",
-          PreviewStaticServer.INLINE_CSS_FILENAME
+          PreviewStaticServer2.INLINE_CSS_FILENAME
   );
 
   @NotNull
@@ -67,10 +67,10 @@ public interface MarkdownHtmlPanel extends Disposable {
 
   static String migrateUriToHttp(@NotNull String uri) {
     if (uri.equals(MarkdownCssSettings.DEFAULT.getStylesheetUri())) {
-      return PreviewStaticServer.getStyleUrl("default.css");
+      return PreviewStaticServer2.getStyleUrl("default.css");
     }
     else if (uri.equals(MarkdownCssSettings.DARCULA.getStylesheetUri())) {
-      return PreviewStaticServer.getStyleUrl("darcula.css");
+      return PreviewStaticServer2.getStyleUrl("darcula.css");
     }
     else {
       return uri;

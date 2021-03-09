@@ -18,7 +18,7 @@ class MarkdownHeadersIndex : StringStubIndexExtension<MarkdownHeaderImpl>() {
     val KEY: StubIndexKey<String, MarkdownHeaderImpl> = StubIndexKey.createIndexKey<String, MarkdownHeaderImpl>("zenuml.header")
 
     fun collectFileHeaders(suggestHeaderRef: String, project: Project, psiFile: PsiFile?): Collection<PsiElement> {
-      val list = ContainerUtil.newArrayList<PsiElement>()
+      val list = ArrayList<PsiElement>()
       StubIndex.getInstance().processElements(MarkdownHeadersIndex.KEY, suggestHeaderRef, project,
                                               psiFile?.let { GlobalSearchScope.fileScope(it) },
                                               MarkdownHeaderImpl::class.java,

@@ -28,15 +28,7 @@ public class JavaFxHtmlPanelProvider extends MarkdownHtmlPanelProvider {
   @NotNull
   @Override
   public AvailabilityInfo isAvailable() {
-    try {
-      if (Class.forName("javafx.scene.web.WebView", false, getClass().getClassLoader()) != null) {
-        return AvailabilityInfo.AVAILABLE;
-      }
-    }
-    catch (ClassNotFoundException ignored) {
-    }
-
-    return AvailabilityInfo.UNAVAILABLE;
+    return AvailabilityInfo.AVAILABLE;
   }
 
   @NotNull

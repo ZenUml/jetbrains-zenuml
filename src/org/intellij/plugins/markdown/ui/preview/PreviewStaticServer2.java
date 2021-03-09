@@ -27,17 +27,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-public class PreviewStaticServer extends HttpRequestHandler {
+public class PreviewStaticServer2 extends HttpRequestHandler {
   public static final String INLINE_CSS_FILENAME = "inline.css";
-  private static final Logger LOG = Logger.getInstance(PreviewStaticServer.class);
+  private static final Logger LOG = Logger.getInstance(PreviewStaticServer2.class);
   private static final String PREFIX = "/api/markdown-preview/";
 
   @Nullable
   private byte[] myInlineStyleBytes = null;
   private long myInlineStyleTimestamp = 0;
 
-  public static PreviewStaticServer getInstance() {
-    return HttpRequestHandler.Companion.getEP_NAME().findExtension(PreviewStaticServer.class);
+  public static PreviewStaticServer2 getInstance() {
+    return HttpRequestHandler.Companion.getEP_NAME().findExtension(PreviewStaticServer2.class);
   }
 
   @NotNull

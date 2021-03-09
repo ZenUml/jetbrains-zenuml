@@ -43,7 +43,7 @@ object MarkdownUtil {
     val cacheCollector = MarkdownCodeFencePluginCacheCollector(file)
 
     val linkMap = LinkMap.buildLinkMap(parsedTree, text)
-    val map = ContainerUtil.newHashMap(MarkdownParserManager.FLAVOUR.createHtmlGeneratingProviders(linkMap, baseUri))
+    val map = HashMap(MarkdownParserManager.FLAVOUR.createHtmlGeneratingProviders(linkMap, baseUri))
     map.putAll(MarkdownParserManager.CODE_FENCE_PLUGIN_FLAVOUR.createHtmlGeneratingProviders(cacheCollector))
     if (project != null) {
       map[MarkdownElementTypes.IMAGE] = IntelliJImageGeneratingProvider(linkMap, baseUri, project)

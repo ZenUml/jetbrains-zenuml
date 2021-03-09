@@ -22,7 +22,7 @@ import com.intellij.psi.PsiFileFactory;
 import com.intellij.psi.impl.PsiFileFactoryImpl;
 import com.intellij.testFramework.LightVirtualFile;
 import com.intellij.util.ObjectUtils;
-import org.intellij.plugins.markdown.lang.MarkdownLanguage;
+import org.intellij.plugins.markdown.lang.ZenUmlLanguage;
 import org.intellij.plugins.markdown.lang.psi.impl.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,9 +32,9 @@ public class MarkdownPsiElementFactory {
 
   @NotNull
   public static MarkdownFile createFile(@NotNull Project project, @NotNull String text) {
-    final LightVirtualFile virtualFile = new LightVirtualFile("temp.rb", MarkdownLanguage.INSTANCE, text);
+    final LightVirtualFile virtualFile = new LightVirtualFile("temp.rb", ZenUmlLanguage.INSTANCE, text);
     PsiFile psiFile = ((PsiFileFactoryImpl)PsiFileFactory.getInstance(project))
-      .trySetupPsiForFile(virtualFile, MarkdownLanguage.INSTANCE, true, true);
+      .trySetupPsiForFile(virtualFile, ZenUmlLanguage.INSTANCE, true, true);
 
     if (!(psiFile instanceof MarkdownFile)) {
       throw new RuntimeException("Cannot create a new markdown file. Text: " + text);

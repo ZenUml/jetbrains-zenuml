@@ -1,13 +1,12 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>2020.2</version>
+  <version>2021.3</version>
   <idea-version since-build="202.6397.94"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
   <depends>com.intellij.modules.lang</depends>
   <depends>com.intellij.modules.java</depends>
-  <depends>com.intellij.javafx</depends>
   <depends optional="true" config-file="plugin-intelliLang.xml">org.intellij.intelliLang</depends>
 
   <description><![CDATA[
@@ -66,7 +65,8 @@ Includes the following features:</p>
   </extensionPoints>
 
   <extensions defaultExtensionNs="com.intellij">
-    <fileTypeFactory implementation="org.intellij.plugins.markdown.lang.MarkdownFileTypeFactory"/>
+    <fileType name="ZenUML" extensions="z;zen;zenuml" language="ZenUML"
+              implementationClass="org.intellij.plugins.markdown.lang.ZenUmlFileType" fieldName="INSTANCE"/>
     <lang.parserDefinition language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.parser.MarkdownParserDefinition"/>
     <lang.ast.factory language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.psi.MarkdownASTFactory"/>
 
@@ -111,7 +111,7 @@ Includes the following features:</p>
                                   implementationClass="org.intellij.plugins.markdown.structureView.MarkdownStructureViewFactory"/>
     <psi.referenceContributor implementation="org.intellij.plugins.markdown.lang.references.MarkdownReferenceProvider"/>
     <stripTrailingSpacesFilterFactory implementation="org.intellij.plugins.markdown.editor.MarkdownStripTrailingSpacesFilterFactory"/>
-    <httpRequestHandler implementation="org.intellij.plugins.markdown.ui.preview.PreviewStaticServer"/>
+    <httpRequestHandler implementation="org.intellij.plugins.markdown.ui.preview.PreviewStaticServer2"/>
 
     <localInspection shortName="ZenUmlUnresolvedFileReference" bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
                      key="zenuml.placeholder.inspection.name" groupKey="zenuml.inspection.group.ruby.name"
