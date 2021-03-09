@@ -20,14 +20,14 @@ import com.intellij.lang.BracePair;
 import com.intellij.lang.PairedBraceMatcher;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
-import org.intellij.plugins.markdown.lang.MarkdownLanguage;
+import org.intellij.plugins.markdown.lang.ZenUmlLanguage;
 import org.intellij.plugins.markdown.lang.MarkdownTokenTypes;
 import org.jetbrains.annotations.NotNull;
 
 public class MarkdownBraceMatcher extends PairedBraceMatcherAdapter {
 
   public MarkdownBraceMatcher() {
-    super(new MyPairedBraceMatcher(), MarkdownLanguage.INSTANCE);
+    super(new MyPairedBraceMatcher(), ZenUmlLanguage.INSTANCE);
   }
 
   private static class MyPairedBraceMatcher implements PairedBraceMatcher {

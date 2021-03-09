@@ -65,7 +65,8 @@ Includes the following features:</p>
   </extensionPoints>
 
   <extensions defaultExtensionNs="com.intellij">
-    <fileTypeFactory implementation="org.intellij.plugins.markdown.lang.MarkdownFileTypeFactory"/>
+    <fileType name="ZenUML" extensions="z;zen;zenuml" language="ZenUML"
+              implementationClass="org.intellij.plugins.markdown.lang.ZenUmlFileType" fieldName="INSTANCE"/>
     <lang.parserDefinition language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.parser.MarkdownParserDefinition"/>
     <lang.ast.factory language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.psi.MarkdownASTFactory"/>
 

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MarkdownLazyElementType extends ILazyParseableElementType {
   public MarkdownLazyElementType(@NotNull @NonNls String debugName) {
-    super(debugName, MarkdownLanguage.INSTANCE);
+    super(debugName, ZenUmlLanguage.INSTANCE);
   }
 
   @Override

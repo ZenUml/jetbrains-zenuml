@@ -23,11 +23,11 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 
-public class MarkdownFileType extends LanguageFileType {
-  public static final MarkdownFileType INSTANCE = new MarkdownFileType();
+public class ZenUmlFileType extends LanguageFileType {
+  public static final ZenUmlFileType INSTANCE = new ZenUmlFileType();
 
-  private MarkdownFileType() {
-    super(MarkdownLanguage.INSTANCE);
+  private ZenUmlFileType() {
+    super(ZenUmlLanguage.INSTANCE);
   }
 
   @NotNull
