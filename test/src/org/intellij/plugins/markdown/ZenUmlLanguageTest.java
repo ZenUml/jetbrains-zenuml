@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-@Ignore("Failing due to ZenUmlLanguage is initialised multiple times in different class loaders")
 public class ZenUmlLanguageTest {
   @Test
   public void should_return_correct_mime_types() {
