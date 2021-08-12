@@ -27,9 +27,9 @@ public class NewZenUmlBufferAction extends DumbAwareAction {
 
     static ScratchFileCreationHelper.Context createContext(@NotNull AnActionEvent event, @NotNull Project project) {
         try {
-            Method method = ScratchFileActions.class.getDeclaredMethod("createContext", AnActionEvent.class, Project.class);
+            Method method = ScratchFileActions.class.getDeclaredMethod("createContext", AnActionEvent.class);
             method.setAccessible(true);
-            return (ScratchFileCreationHelper.Context) method.invoke(null, event, project);
+            return (ScratchFileCreationHelper.Context) method.invoke(null, event);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("No such method: ScratchFileActions.createContext", e);
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -60,6 +60,7 @@ public class NewZenUmlBufferAction extends DumbAwareAction {
         Project project = e.getProject();
         if (project == null) return;
         ScratchFileCreationHelper.Context context = createContext(e, project);
+        context.text = e.getDataContext().getData("predefined.text.value").toString();
         context.filePrefix = "buffer";
         context.createOption = ScratchFileService.Option.create_if_missing;
         context.fileCounter = NewZenUmlBufferAction::nextBufferIndex;

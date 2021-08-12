@@ -100,19 +100,4 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
     return MY_SCRIPTING_LINES.getValue();
   }
 
-  @SuppressWarnings("unused")
-  public static class JavaPanelBridge {
-    static final JavaPanelBridge INSTANCE = new JavaPanelBridge();
-    private static final NotificationGroup MARKDOWN_NOTIFICATION_GROUP =
-      NotificationGroup.toolWindowGroup(MarkdownBundle.message("markdown.navigate.to.header.group"), ToolWindowId.MESSAGES_WINDOW);
-
-    public void openInExternalBrowser(@NotNull String link) {
-      SafeOpener.openLink(link);
-    }
-
-    public void log(@Nullable String text) {
-      Logger.getInstance(JavaPanelBridge.class).warn(text);
-    }
-  }
-
 }

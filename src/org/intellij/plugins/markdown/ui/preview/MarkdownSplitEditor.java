@@ -6,6 +6,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.event.CaretEvent;
 import com.intellij.openapi.editor.event.CaretListener;
 import com.intellij.openapi.fileEditor.TextEditor;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.pom.Navigatable;
 import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 import org.intellij.plugins.markdown.ui.split.SplitFileEditor;
@@ -63,6 +64,12 @@ public class MarkdownSplitEditor extends SplitFileEditor<TextEditor, MarkdownPre
   @Override
   public void navigateTo(@NotNull Navigatable navigatable) {
     getMainEditor().navigateTo(navigatable);
+  }
+
+  @Override
+  @NotNull
+  public VirtualFile getFile() {
+    return FILE_KEY.get(this);
   }
 
   public boolean isAutoScrollPreview() {

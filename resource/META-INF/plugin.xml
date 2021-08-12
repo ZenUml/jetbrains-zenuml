@@ -3,12 +3,10 @@
   <name>ZenUML support</name>
   <version>2021.3</version>
   <idea-version since-build="202.6397.94"/>
-  <vendor url="http://www.zenuml.com">ZenUML</vendor>
+  <vendor url="http://www.zenuml.com">ZenUML</vendor>MarkdownSplitEditor
 
   <depends>com.intellij.modules.lang</depends>
   <depends>com.intellij.modules.java</depends>
-  <depends optional="true" config-file="plugin-intelliLang.xml">org.intellij.intelliLang</depends>
-
   <description><![CDATA[
 <p>Provides the capability to generate sequence diagram from text within the IDE and see the rendered HTML in a live preview.
 </br>
@@ -51,7 +49,6 @@ Includes the following features:</p>
     <component>
       <implementation-class>org.intellij.sequencer.SequencePlugin2</implementation-class>
       <interface-class>org.intellij.sequencer.SequencePlugin2</interface-class>
-      <option name="workspace" value="true"/>
     </component>
   </project-components>
 
@@ -67,36 +64,36 @@ Includes the following features:</p>
   <extensions defaultExtensionNs="com.intellij">
     <fileType name="ZenUML" extensions="z;zen;zenuml" language="ZenUML"
               implementationClass="org.intellij.plugins.markdown.lang.ZenUmlFileType" fieldName="INSTANCE"/>
-    <lang.parserDefinition language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.parser.MarkdownParserDefinition"/>
-    <lang.ast.factory language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.psi.MarkdownASTFactory"/>
+<!--    <lang.parserDefinition language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.parser.MarkdownParserDefinition"/>-->
+<!--    <lang.ast.factory language="ZenUML" implementationClass="org.intellij.plugins.markdown.lang.psi.MarkdownASTFactory"/>-->
 
-    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlCodeFenceImpl"
-                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlCodeFenceImpl$Manipulator"/>
-    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlLinkDestinationImpl"
-                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlLinkDestinationImpl$Manipulator"/>
+<!--    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlCodeFenceImpl"-->
+<!--                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlCodeFenceImpl$Manipulator"/>-->
+<!--    <lang.elementManipulator forClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlLinkDestinationImpl"-->
+<!--                             implementationClass="org.intellij.plugins.markdown.lang.psi.impl.ZenUmlLinkDestinationImpl$Manipulator"/>-->
 
     <!--<colorSettingsPage implementation="org.intellij.plugins.markdown.highlighting.MarkdownColorSettingsPage"/>-->
     <!--<syntaxHighlighter key="ZenUML" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownSyntaxHighlighter"/>-->
     <additionalTextAttributes scheme="Default" file="colorSchemes/MarkdownDefault.xml"/>
     <additionalTextAttributes scheme="Darcula" file="colorSchemes/MarkdownDarcula.xml"/>
 
-    <braceMatcher filetype="ZenUML" implementationClass="org.intellij.plugins.markdown.braces.MarkdownBraceMatcher"/>
-    <quoteHandler fileType="ZenUML" className="org.intellij.plugins.markdown.braces.MarkdownQuoteHandler"/>
-    <typedHandler implementation="org.intellij.plugins.markdown.editor.MarkdownTypedHandler"/>
+<!--    <braceMatcher filetype="ZenUML" implementationClass="org.intellij.plugins.markdown.braces.MarkdownBraceMatcher"/>-->
+<!--    <quoteHandler fileType="ZenUML" className="org.intellij.plugins.markdown.braces.MarkdownQuoteHandler"/>-->
+<!--    <typedHandler implementation="org.intellij.plugins.markdown.editor.MarkdownTypedHandler"/>-->
 
-    <bidiRegionsSeparator language="ZenUML" implementationClass="org.intellij.plugins.markdown.editor.MarkdownBidiRegionsSeparator"/>
+<!--    <bidiRegionsSeparator language="ZenUML" implementationClass="org.intellij.plugins.markdown.editor.MarkdownBidiRegionsSeparator"/>-->
 
-    <annotator language="ZenUML" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownHighlightingAnnotator"/>
+<!--    <annotator language="ZenUML" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownHighlightingAnnotator"/>-->
 
-    <multiHostInjector implementation="org.intellij.plugins.markdown.injection.CodeFenceInjector"/>
+<!--    <multiHostInjector implementation="org.intellij.plugins.markdown.injection.CodeFenceInjector"/>-->
 
-    <completion.contributor language="ZenUML"
-                            implementationClass="org.intellij.plugins.markdown.injection.LanguageListCompletionContributor"/>
+<!--    <completion.contributor language="ZenUML"-->
+<!--                            implementationClass="org.intellij.plugins.markdown.injection.LanguageListCompletionContributor"/>-->
 
     <fileEditorProvider implementation="org.intellij.plugins.markdown.ui.preview.MarkdownSplitEditorProvider"/>
 
-    <spellchecker.support language="ZenUML"
-                          implementationClass="org.intellij.plugins.markdown.spellchecking.MarkdownSpellcheckingStrategy"/>
+<!--    <spellchecker.support language="ZenUML"-->
+<!--                          implementationClass="org.intellij.plugins.markdown.spellchecking.MarkdownSpellcheckingStrategy"/>-->
 
     <applicationConfigurable id="Settings.ZenUml"
                              bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
@@ -106,25 +103,25 @@ Includes the following features:</p>
                              instance="org.intellij.plugins.markdown.settings.MarkdownSettingsConfigurable">
     </applicationConfigurable>
     <applicationService serviceImplementation="org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings"/>
-    <applicationService serviceImplementation="org.intellij.plugins.markdown.ui.preview.ZenUmlCodeFencePluginCache"/>
-    <lang.psiStructureViewFactory language="ZenUML"
-                                  implementationClass="org.intellij.plugins.markdown.structureView.MarkdownStructureViewFactory"/>
-    <psi.referenceContributor implementation="org.intellij.plugins.markdown.lang.references.MarkdownReferenceProvider"/>
+<!--    <applicationService serviceImplementation="org.intellij.plugins.markdown.ui.preview.ZenUmlCodeFencePluginCache"/>-->
+<!--    <lang.psiStructureViewFactory language="ZenUML"-->
+<!--                                  implementationClass="org.intellij.plugins.markdown.structureView.MarkdownStructureViewFactory"/>-->
+<!--    <psi.referenceContributor implementation="org.intellij.plugins.markdown.lang.references.MarkdownReferenceProvider"/>-->
     <stripTrailingSpacesFilterFactory implementation="org.intellij.plugins.markdown.editor.MarkdownStripTrailingSpacesFilterFactory"/>
     <httpRequestHandler implementation="org.intellij.plugins.markdown.ui.preview.PreviewStaticServer2"/>
 
-    <localInspection shortName="ZenUmlUnresolvedFileReference" bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"
-                     key="zenuml.placeholder.inspection.name" groupKey="zenuml.inspection.group.ruby.name"
-                     enabledByDefault="true" level="WARNING"
-                     implementationClass="org.intellij.plugins.markdown.lang.references.ZenUmlUnresolvedFileReferenceInspection"/>
+<!--    <localInspection shortName="ZenUmlUnresolvedFileReference" bundle="org.intellij.plugins.markdown.bundle.MarkdownBundle"-->
+<!--                     key="zenuml.placeholder.inspection.name" groupKey="zenuml.inspection.group.ruby.name"-->
+<!--                     enabledByDefault="true" level="WARNING"-->
+<!--                     implementationClass="org.intellij.plugins.markdown.lang.references.ZenUmlUnresolvedFileReferenceInspection"/>-->
 
-    <lang.foldingBuilder language="ZenUML" implementationClass="org.intellij.plugins.markdown.folding.MarkdownFoldingBuilder"/>
-    <stubIndex implementation="org.intellij.plugins.markdown.lang.index.MarkdownHeadersIndex"/>
-    <anchorReferenceProvider implementation="org.intellij.plugins.markdown.lang.references.MarkdownAnchorPathReferenceProvider"/>
-    <todoIndexer filetype="ZenUML" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownTodoIndexer" />
-    <indexPatternBuilder implementation="org.intellij.plugins.markdown.highlighting.MarkdownIndexPatternBuilder" />
+<!--    <lang.foldingBuilder language="ZenUML" implementationClass="org.intellij.plugins.markdown.folding.MarkdownFoldingBuilder"/>-->
+<!--    <stubIndex implementation="org.intellij.plugins.markdown.lang.index.MarkdownHeadersIndex"/>-->
+<!--    <anchorReferenceProvider implementation="org.intellij.plugins.markdown.lang.references.MarkdownAnchorPathReferenceProvider"/>-->
+<!--    <todoIndexer filetype="ZenUML" implementationClass="org.intellij.plugins.markdown.highlighting.MarkdownTodoIndexer" />-->
+<!--    <indexPatternBuilder implementation="org.intellij.plugins.markdown.highlighting.MarkdownIndexPatternBuilder" />-->
     <langCodeStyleSettingsProvider implementation="org.intellij.plugins.markdown.lang.formatter.MarkdownLanguageCodeStyleSettingsProvider"/>
-    <enterHandlerDelegate implementation="org.intellij.plugins.markdown.editor.MarkdownEnterHandler"/>
+<!--    <enterHandlerDelegate implementation="org.intellij.plugins.markdown.editor.MarkdownEnterHandler"/>-->
 
     <applicationService serviceImplementation="org.intellij.sequencer.config.Configuration2"/>
   </extensions>
@@ -132,7 +129,7 @@ Includes the following features:</p>
   <extensions defaultExtensionNs="org.intellij.zenuml">
     <html.panel.provider implementation="org.intellij.plugins.markdown.ui.preview.javafx.JavaFxHtmlPanelProvider" />
     <fenceLanguageProvider implementation="org.intellij.plugins.markdown.extensions.plantuml.PlantUMLCodeFenceLanguageProvider"/>
-    <codeFencePluginGeneratingProvider implementation="org.intellij.plugins.markdown.extensions.plantuml.PlantUMLProvider"/>
+<!--    <codeFencePluginGeneratingProvider implementation="org.intellij.plugins.markdown.extensions.plantuml.PlantUMLProvider"/>-->
   </extensions>
 
   <actions>

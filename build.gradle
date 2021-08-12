@@ -1,7 +1,7 @@
 plugins {
   id 'java'
   id 'idea'
-  id 'org.jetbrains.intellij' version '0.4.21'
+  id 'org.jetbrains.intellij' version '1.1.4'
   id 'org.jetbrains.kotlin.jvm' version '1.4.21'
 }
 
@@ -14,7 +14,7 @@ repositories {
 dependencies {
   // https://mvnrepository.com/artifact/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer
   compile group: 'com.googlecode.owasp-java-html-sanitizer', name: 'owasp-java-html-sanitizer'
-  compile "org.jetbrains:markdown:${markdownParserVersion}"
+//  compile "org.jetbrains:markdown:${markdownParserVersion}"
   compile "org.jetbrains.kotlin:kotlin-reflect:1.4.21"
   compile "org.jetbrains.kotlin:kotlin-stdlib:1.4.21"
   compile "io.reactivex.rxjava2:rxjava:2.2.9"
@@ -55,10 +55,10 @@ sourceSets {
 }
 
 intellij {
-  version 'IC-2020.3.2'
-  pluginName 'zenuml'
-  downloadSources false
-  updateSinceUntilBuild false
+  version = 'IC-2021.2'
+  pluginName = 'zenuml'
+  downloadSources = false
+  updateSinceUntilBuild = false
   plugins = ['IntelliLang', 'java']
 }
 
