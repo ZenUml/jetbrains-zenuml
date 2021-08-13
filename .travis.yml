@@ -1,6 +1,7 @@
 language: java
 
 matrix:
+  include:
   - env: JDK=amazon-corretto-11
     before_install:
       - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
