@@ -4,7 +4,7 @@ plugins {
   id 'org.jetbrains.intellij' version '0.4.21'
   id 'org.jetbrains.kotlin.jvm' version '1.4.21'
 }
-
+buildSearchableOptions.enabled = false
 repositories {
   mavenCentral()
   maven { url 'https://dl.bintray.com/jetbrains/markdown' }
