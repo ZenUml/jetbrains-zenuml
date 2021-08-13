@@ -9,7 +9,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     env:
       JAVA_OPTS: "-Djava.awt.headless=true"
     steps:
