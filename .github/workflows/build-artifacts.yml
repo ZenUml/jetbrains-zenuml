@@ -10,7 +10,8 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      JAVA_OPTS: "-Djava.awt.headless=true"
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
