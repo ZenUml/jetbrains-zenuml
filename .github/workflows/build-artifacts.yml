@@ -9,7 +9,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: macos-11
 
     steps:
       - uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Build with Gradle
-        run: ./gradlew assemble
+        run: ./gradlew assemble -Djava.awt.headless=true
       - name: Upload artifacts  # Find artifacts under actions/jobs
         uses: actions/upload-artifact@v2
         with:
