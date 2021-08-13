@@ -1,5 +1,11 @@
 language: java
 
+matrix:
+  - env: JDK=amazon-corretto-11
+    before_install:
+      - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
+      - source ./install-jdk.sh --url 'https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.tar.gz'
+
 install: "./gradlew assemble"
 script: "./gradlew check"
 before_cache:
