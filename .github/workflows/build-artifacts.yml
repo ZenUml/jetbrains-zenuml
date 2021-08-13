@@ -9,7 +9,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -22,3 +22,8 @@ jobs:
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
       - name: Build with Gradle
         run: ./gradlew assemble
+      - name: Upload artifacts  # Find artifacts under actions/jobs
+        uses: actions/upload-artifact@v2
+        with:
+          name: jetbrains-zenuml
+          path: ./build/distributions/zenuml.zip
