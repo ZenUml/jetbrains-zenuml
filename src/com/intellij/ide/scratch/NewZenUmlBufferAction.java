@@ -61,7 +61,7 @@ public class NewZenUmlBufferAction extends DumbAwareAction {
         if (project == null) return;
         ScratchFileCreationHelper.Context context = createContext(e, project);
         context.text = e.getDataContext().getData("predefined.text.value").toString();
-        context.filePrefix = "buffer";
+        context.filePrefix = "zenuml";
         context.createOption = ScratchFileService.Option.create_if_missing;
         context.fileCounter = NewZenUmlBufferAction::nextBufferIndex;
         context.language = getLanguage();
