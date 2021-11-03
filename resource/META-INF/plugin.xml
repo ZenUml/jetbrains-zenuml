@@ -2,7 +2,7 @@
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
   <version>2021.11</version>
-  <idea-version since-build="202.6397.94"/>
+  <idea-version since-build="212.5457.46"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>MarkdownSplitEditor
 
   <depends>com.intellij.modules.lang</depends>
