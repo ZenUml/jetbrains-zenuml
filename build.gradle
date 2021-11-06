@@ -55,7 +55,7 @@ sourceSets {
 }
 
 intellij {
-  version = 'IC-2021.2'
+  version = 'IC-2021.2.3'
   pluginName = 'zenuml'
   downloadSources = false
   updateSinceUntilBuild = false
