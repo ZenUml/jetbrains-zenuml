@@ -7,7 +7,6 @@ plugins {
 buildSearchableOptions.enabled = false
 repositories {
   mavenCentral()
-  maven { url 'https://dl.bintray.com/jetbrains/markdown' }
   flatDir { dirs 'lib' }
 }
 
