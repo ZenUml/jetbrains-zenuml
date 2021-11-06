@@ -58,9 +58,6 @@ intellij {
   plugins = ['IntelliLang', 'java']
 }
 
-//buildSearchableOptions {
-//  jbrVersion '11_0_2b159'
-//}
 
 idea {
   project {
