@@ -7,7 +7,6 @@ plugins {
 buildSearchableOptions.enabled = false
 repositories {
   mavenCentral()
-  maven { url 'https://dl.bintray.com/jetbrains/markdown' }
   flatDir { dirs 'lib' }
 }
 
@@ -15,16 +14,13 @@ dependencies {
   // https://mvnrepository.com/artifact/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer
   compile group: 'com.googlecode.owasp-java-html-sanitizer', name: 'owasp-java-html-sanitizer'
 //  compile "org.jetbrains:markdown:${markdownParserVersion}"
-  compile "org.jetbrains.kotlin:kotlin-reflect:1.4.21"
-  compile "org.jetbrains.kotlin:kotlin-stdlib:1.4.21"
-  compile "io.reactivex.rxjava2:rxjava:2.2.9"
+  compile 'org.jetbrains.kotlin:kotlin-reflect:1.5.31'
+  compile 'org.jetbrains.kotlin:kotlin-stdlib:1.5.31'
+  compile 'io.reactivex.rxjava2:rxjava:2.2.21'
 
   testCompile group: 'junit', name: 'junit', version: '4.12'
-  testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7"
+  testImplementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31'
 }
-
-sourceCompatibility = javaVersion
-targetCompatibility = javaVersion
 
 compileKotlin {
   kotlinOptions.jvmTarget = javaVersion
@@ -55,16 +51,13 @@ sourceSets {
 }
 
 intellij {
-  version = 'IC-2021.2'
+  version = 'IC-2021.2.3'
   pluginName = 'zenuml'
   downloadSources = false
   updateSinceUntilBuild = false
   plugins = ['IntelliLang', 'java']
 }
 
-//buildSearchableOptions {
-//  jbrVersion '11_0_2b159'
-//}
 
 idea {
   project {

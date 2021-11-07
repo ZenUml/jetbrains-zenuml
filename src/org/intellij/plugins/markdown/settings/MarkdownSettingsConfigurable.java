@@ -30,7 +30,7 @@ public class MarkdownSettingsConfigurable implements SearchableConfigurable {
   @Nullable
   private MarkdownSettingsForm myForm = null;
   @NotNull
-  private final ZenUmlApplicationSettings myZenUmlApplicationSettings = new ZenUmlApplicationSettings();
+  private final ZenUmlApplicationSettings myZenUmlApplicationSettings = ZenUmlApplicationSettings.getInstance();
 
   @NotNull
   @Override
