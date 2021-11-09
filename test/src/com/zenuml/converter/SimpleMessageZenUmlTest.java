@@ -67,7 +67,7 @@ public class SimpleMessageZenUmlTest extends BaseDslConversionTest {
     }
 
     public void test_method_with_try_catch_finally() {
-        testDslConversion("method_with_try_catch_finally", "SimpleMessage.method_with_try_catch_finally() {\n\ttry {\n\t\tfoo();\n\t}\n\tcatch(Exception1) {\n\t\thandleException1();\n\t}\n\tcatch(Exception2, Exception3) {\n\t\thandleExceptions();\n\t}\n\tfinally {\n\t\tcleanup();\n\t}\n}\n");
+        testDslConversion("method_with_try_catch_finally", "SimpleMessage.method_with_try_catch_finally() {\n\ttry {\n\t\tfoo();\n\t}\n\tcatch(Exception1) {\n\t\thandleException1();\n\t}\n\tcatch(Exception2 , Exception3) {\n\t\thandleExceptions();\n\t}\n\tfinally {\n\t\tcleanup();\n\t}\n}\n");
     }
 
     public void test_method_that_throws_exceptions() {
