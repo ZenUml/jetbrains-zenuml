@@ -61,7 +61,15 @@ public class SimpleMessage {
     public void method_with_try_catch() {
         try {
             foo();
-        } catch (Exception e) {
+        } catch (Exception1024 e) {
+            bar();
+        }
+    }
+
+    public void method_with_try_catch_annotated() {
+        try {
+            foo();
+        } catch (@Deprecated Exception1024 e) {
             bar();
         }
     }

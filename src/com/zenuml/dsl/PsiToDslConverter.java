@@ -266,7 +266,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
 
     @Override
     public void visitCatchSection(PsiCatchSection section) {
-        String parameter = section.getParameter().getText();
+        String parameter = section.getParameter().getType().getPresentableText();
         zenDsl.append(String.format("catch(%s)", parameter.replace('|', ','))); //Parser doesn't support the pipe(|) character
         super.visitCatchSection(section);
     }
