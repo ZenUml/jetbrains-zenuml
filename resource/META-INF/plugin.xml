@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>2021.11</version>
+  <version>2021.11.9</version>
   <idea-version since-build="212.5457.46"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>MarkdownSplitEditor
 
@@ -23,21 +23,12 @@ Includes the following features:</p>
 
   <change-notes><![CDATA[
 <ul>
-<!--  <li>-->
-<!--    <strong>Java Converter</strong>-->
-<!--    <ul>-->
-<!--      <li>-->
-<!--      	<strong>Fix issue on creating anonymous object:</strong>-->
-<!--        <pre><em> Java: new Runnable() { ... } => DSL: new Runnable()</em></pre>-->
-<!--      </li>-->
-<!--    </ul>-->
-<!--  </li>-->
   <li>
     <strong>DSL Preview</strong>
     <ul>
       <li>
-      	<strong>New preview appearance for darcula theme</strong>
-<!--        <pre><em> Java: new Runnable() { ... } => DSL: new Runnable()</em></pre>-->
+      	<strong>New preview appearance for try-catch-finally</strong>
+        <pre> DSL: try {} catch(Exception) {} finally {}</pre>
       </li>
     </ul>
   </li>
