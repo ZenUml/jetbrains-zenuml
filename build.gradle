@@ -3,6 +3,7 @@ plugins {
   id 'idea'
   id 'org.jetbrains.intellij' version '1.1.4'
   id 'org.jetbrains.kotlin.jvm' version '1.4.21'
+  id "com.github.node-gradle.node" version "3.2.1"
 }
 buildSearchableOptions.enabled = false
 repositories {
@@ -70,3 +71,6 @@ idea {
   }
 }
 
+node {
+  nodeProjectDir = file("${project.projectDir}/jetbrains-viewer")
+}
