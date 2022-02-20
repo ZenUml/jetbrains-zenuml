@@ -41,14 +41,6 @@ public class PreviewStaticServer2 extends HttpRequestHandler {
   }
 
   @NotNull
-  public static String createCSP(@NotNull List<String> scripts, @NotNull List<String> styles) {
-    return "default-src 'none'; script-src " + StringUtil.join(scripts, " ") + "; "
-           + "style-src https: " + StringUtil.join(styles, " ") + "; "
-           + "img-src file: *; connect-src 'none'; font-src *; " +
-           "object-src 'none'; media-src 'none'; child-src 'none';";
-  }
-
-  @NotNull
   private static String getStaticUrl(@NotNull String staticPath) {
     Url url = Urls.parseEncoded("http://localhost:" + BuiltInServerManager.getInstance().getPort() + PREFIX + staticPath);
     return BuiltInServerManager.getInstance().addAuthToken(Objects.requireNonNull(url)).toExternalForm();
