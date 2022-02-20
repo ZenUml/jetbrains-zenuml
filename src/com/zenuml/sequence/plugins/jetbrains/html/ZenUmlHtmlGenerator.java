@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 public class ZenUmlHtmlGenerator {
     public String from(String dsl) {
         Class clazz = this.getClass();
-        InputStream inputStream = clazz.getResourceAsStream("/html/zenuml/preview.html");
+        InputStream inputStream = clazz.getResourceAsStream("/html/zenuml/index.html");
         try {
             String previewHtml = readFromInputStream(inputStream);
             Escaper escaper = Escapers.builder()
