@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>2021.11.9</version>
+  <version>2022.02.22</version>
   <idea-version since-build="212.5457.46"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>MarkdownSplitEditor
 
@@ -24,12 +24,9 @@ Includes the following features:</p>
   <change-notes><![CDATA[
 <ul>
   <li>
-    <strong>DSL Preview</strong>
+    <strong>Adaptive participant gaps</strong>
     <ul>
-      <li>
-      	<strong>New preview appearance for try-catch-finally</strong>
-        <pre> DSL: try {} catch(Exception) {} finally {}</pre>
-      </li>
+      <li>The gaps between participants will adjust according to the message width now.</li>
     </ul>
   </li>
 </ul>
