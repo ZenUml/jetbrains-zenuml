@@ -1,12 +1,22 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <DiagramFrame />
   </div>
 </template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+import {VueSequence} from "vue-sequence";
+const DiagramFrame = VueSequence.DiagramFrame;
+// @ts-ignore
+@Component({
+  components: {
+    DiagramFrame
+  },
+})
+export default class Home extends Vue {}
+</script>
 
 <style lang="scss">
 #app {
