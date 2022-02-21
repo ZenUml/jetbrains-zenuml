@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <DiagramFrame />
+    <DiagramFrame id="diagram" />
   </div>
 </template>
 
