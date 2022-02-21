@@ -8,7 +8,7 @@ public class AddProtocolAndHostTest {
     public void test_should_enhance_html_with_protocol_and_host_link() {
         String html = "<a href=\"/foo\">foo</a>";
         String expected = "<a href=\"http://example.com/foo\">foo</a>";
-        Assert.assertEquals(expected, AddProtocolAndHost.addProtocolAndHost(html, "http://localhost:63343/api/markdown-preview/"));
+        Assert.assertEquals(expected, AddProtocolAndHost.addProtocolAndHost(html, "http://example.com"));
     }
 
     @Test
