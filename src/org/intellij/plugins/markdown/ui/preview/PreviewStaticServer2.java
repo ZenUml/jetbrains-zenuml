@@ -41,6 +41,11 @@ public class PreviewStaticServer2 extends HttpRequestHandler {
   }
 
   @NotNull
+  public static String getBaseUrl() {
+    return "http://localhost:" + BuiltInServerManager.getInstance().getPort() + PREFIX;
+  }
+
+  @NotNull
   public static String getStaticUrl(@NotNull String staticPath) {
     Url url = Urls.parseEncoded("http://localhost:" + BuiltInServerManager.getInstance().getPort() + PREFIX + staticPath);
     return BuiltInServerManager.getInstance().addAuthToken(Objects.requireNonNull(url)).toExternalForm();

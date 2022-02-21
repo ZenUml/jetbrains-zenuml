@@ -49,7 +49,7 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
     this.myLastHtmlWithCss = html
             .replace("<head>", "<head>"
                     + MarkdownHtmlPanel.getCssLines(null, myCssUris) + "\n");
-    this.myLastHtmlWithCss = AddProtocolAndHost.addProtocolAndHost(this.myLastHtmlWithCss, "http://localhost:63343/api/markdown-preview");
+    this.myLastHtmlWithCss = AddProtocolAndHost.addProtocolAndHost(this.myLastHtmlWithCss, PreviewStaticServer2.getBaseUrl());
     return this.myLastHtmlWithCss;
   }
 
