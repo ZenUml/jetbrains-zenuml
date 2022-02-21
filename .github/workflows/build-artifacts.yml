@@ -19,7 +19,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Check with Gradle
-        run: ./gradlew check
+        run: ./gradlew yarn_build check
       - name: Build with Gradle
         run: ./gradlew buildPlugin
       - name: Upload artifacts  # Find artifacts under actions/jobs
