@@ -3,6 +3,7 @@ package org.intellij.plugins.markdown.ui.preview.javafx;
 import com.intellij.ui.jcef.JCEFHtmlPanel;
 import com.intellij.util.ArrayUtil;
 import org.apache.commons.io.FileUtils;
+import org.intellij.plugins.markdown.html.AddProtocolAndHost;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
 import org.intellij.plugins.markdown.ui.preview.PreviewStaticServer2;
 import org.jetbrains.annotations.NotNull;
@@ -48,6 +49,7 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
     this.myLastHtmlWithCss = html
             .replace("<head>", "<head>"
                     + MarkdownHtmlPanel.getCssLines(null, myCssUris) + "\n");
+    this.myLastHtmlWithCss = AddProtocolAndHost.addProtocolAndHost(this.myLastHtmlWithCss, "http://localhost:63343/api/markdown-preview");
     return this.myLastHtmlWithCss;
   }
 
