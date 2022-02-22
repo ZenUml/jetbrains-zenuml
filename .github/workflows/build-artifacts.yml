@@ -27,8 +27,10 @@ jobs:
         run: ./gradlew yarn_install yarn_build check
       - name: Build with Gradle and generate artifacts
         run: ./gradlew yarn_install yarn_build assemble
+      - name: Create an empty file so that when the artifact is unzipped, the plugin is not automatically unzipped again
+        run: touch ./build/distributions/empty.txt
       - name: Upload artifacts  # Find artifacts under actions/jobs
         uses: actions/upload-artifact@v2
         with:
           name: jetbrains-zenuml
-          path: ./build/distributions/zenuml.zip
+          path: ./build/distributions/
