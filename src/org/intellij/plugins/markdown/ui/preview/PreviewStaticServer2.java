@@ -78,11 +78,14 @@ public class PreviewStaticServer2 extends HttpRequestHandler {
 
 //    final String contentType = typeAndName.get(0);
     final String fileName = typeAndName.get(typeAndName.size() - 1);
-
-      sendResource(request,
-                   context.channel(),
-                   MarkdownJavaFxHtmlPanel.class,
-                   fileName);
+    if (INLINE_CSS_FILENAME.equals(fileName)) {
+      sendInlineStyle(request, context.channel());
+      return true;
+    }
+    sendResource(request,
+                 context.channel(),
+                 MarkdownJavaFxHtmlPanel.class,
+                 fileName);
 //    }
 //    else if ("styles".equals(contentType) && MarkdownHtmlPanel.STYLES.contains(fileName)) {
 //      if (INLINE_CSS_FILENAME.equals(fileName)) {
