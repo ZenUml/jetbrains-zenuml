@@ -7,7 +7,7 @@ matrix:
       - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
       - source ./install-jdk.sh --url 'https://corretto.aws/downloads/latest/amazon-corretto-11-x64-linux-jdk.tar.gz'
 
-install: "./gradlew assemble"
+install: "./gradlew yarn_install yarn_build assemble"
 script: "./gradlew yarn_install yarn_build check"
 before_cache:
 - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
