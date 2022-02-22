@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 import org.intellij.sequencer.util.PsiUtil;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,6 +18,7 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     private final ZenDsl zenDsl = new ZenDsl();
     private static final String TYPE_PARAMETER_PATTERN = "<[^<>]*>";
     private static final String ARRAY_PATTERN = "\\[\\d*\\]";
+
 
     @Override
     public void visitMethod(PsiMethod method) {
@@ -250,7 +252,12 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     @Override
     public void visitReturnStatement(PsiReturnStatement statement) {
         LOG.debug("Enter: visitCodeBlock: " + statement);
-        zenDsl.comment(statement.getText());
+        try {
+            String returnValue = Objects.requireNonNull(statement.getReturnValue()).getText();
+            zenDsl.ret(returnValue);
+        } catch (Exception e) {
+            zenDsl.ret("Failed to get return value");
+        }
     }
 
     @Override
