@@ -12,11 +12,12 @@ public class SimpleMessageZenUmlTest extends BaseDslConversionTest {
         testDslConversion("declareVariable", "SimpleMessage.declareVariable() {\n\t// String s;\n}\n");
     }
     public void test_convert_to_dsl_simpleMessage_return_a_constant() {
-        testDslConversion("returnConstant", "SimpleMessage.returnConstant() {\n\t// return 0;\n}\n");
+        testDslConversion("returnConstant", "SimpleMessage.returnConstant() {\n\treturn \"0\";\n}\n");
     }
 
     public void test_convert_to_dsl_simpleMessage_return_multiple_line_expression() {
-        testDslConversion("return_multiple_line_expression", "SimpleMessage.return_multiple_line_expression() {\n\t// return someInstance.getAll()\n\t//                 .first();\n}\n");
+        testDslConversion("return_multiple_line_expression",
+                "SimpleMessage.return_multiple_line_expression() {\n\treturn \"someInstance.getAll().first()\";\n}\n");
     }
 
     public void test_convert_to_dsl_nestedMessage() {

@@ -12,6 +12,11 @@ public class ZenDsl {
     private StringBuffer dsl = new StringBuffer();
     private int level = 0;
 
+    public static String escape(String input) {
+        // remove the following characters: \, ", \n, \t, \r, `
+        return input.replaceAll("[\\\\,\"\\n\\t\\r` ]", "");
+    }
+
     String getDsl() {
         return dsl.toString();
     }
@@ -69,6 +74,10 @@ public class ZenDsl {
         return this;
     }
 
+    ZenDsl ret(String text) {
+        return append("return ").append("\"").append(escape(text)).append("\"")
+                .closeExpressionAndNewLine();
+    }
     private String getIndent() {
         return IntStream.range(0, level)
                 .mapToObj(i -> "\t")
