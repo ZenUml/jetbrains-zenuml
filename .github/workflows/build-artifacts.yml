@@ -26,7 +26,7 @@ jobs:
       - name: Check with Gradle
         run: ./gradlew yarn_install yarn_build check
       - name: Build with Gradle and generate artifacts
-        run: ./gradlew assemble
+        run: ./gradlew yarn_install yarn_build assemble
       - name: Upload artifacts  # Find artifacts under actions/jobs
         uses: actions/upload-artifact@v2
         with:
