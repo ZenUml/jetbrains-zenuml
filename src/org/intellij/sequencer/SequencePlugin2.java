@@ -122,6 +122,8 @@ public class SequencePlugin2 implements ProjectComponent {
             return;
 
         String dsl = generateZenUML(enclosingPsiMethod);
+        dsl = "// Generating Sequence Diagrams from Java code is experimental.\n" +
+                "// Please report errors to https://github.com/ZenUml/jetbrains-zenuml/discussions\n" + dsl;
         createZenUMLScratch(dsl, event);
     }
 
