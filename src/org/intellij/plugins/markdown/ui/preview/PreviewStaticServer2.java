@@ -41,15 +41,12 @@ public class PreviewStaticServer2 extends HttpRequestHandler {
   }
 
   @NotNull
-  public static String createCSP(@NotNull List<String> scripts, @NotNull List<String> styles) {
-    return "default-src 'none'; script-src " + StringUtil.join(scripts, " ") + "; "
-           + "style-src https: " + StringUtil.join(styles, " ") + "; "
-           + "img-src file: *; connect-src 'none'; font-src *; " +
-           "object-src 'none'; media-src 'none'; child-src 'none';";
+  public static String getBaseUrl() {
+    return "http://localhost:" + BuiltInServerManager.getInstance().getPort() + PREFIX;
   }
 
   @NotNull
-  private static String getStaticUrl(@NotNull String staticPath) {
+  public static String getStaticUrl(@NotNull String staticPath) {
     Url url = Urls.parseEncoded("http://localhost:" + BuiltInServerManager.getInstance().getPort() + PREFIX + staticPath);
     return BuiltInServerManager.getInstance().addAuthToken(Objects.requireNonNull(url)).toExternalForm();
   }
@@ -70,48 +67,37 @@ public class PreviewStaticServer2 extends HttpRequestHandler {
   }
 
   @Override
-  public boolean isSupported(@NotNull FullHttpRequest request) {
-    return super.isSupported(request) && request.uri().startsWith(PREFIX);
-  }
-
-  @Override
   public boolean process(@NotNull QueryStringDecoder urlDecoder,
                          @NotNull FullHttpRequest request,
                          @NotNull ChannelHandlerContext context) {
     final String path = urlDecoder.path();
-    if (!path.startsWith(PREFIX)) {
-      throw new IllegalStateException("prefix should have been checked by #isSupported");
-    }
 
-    final String payLoad = path.substring(PREFIX.length());
+
+    final String payLoad = path;
     final List<String> typeAndName = StringUtil.split(payLoad, "/");
 
-    if (typeAndName.size() != 2) {
-      return false;
-    }
-    final String contentType = typeAndName.get(0);
-    final String fileName = typeAndName.get(1);
+//    final String contentType = typeAndName.get(0);
+    final String fileName = typeAndName.get(typeAndName.size() - 1);
 
-    if ("scripts".equals(contentType) && MarkdownHtmlPanel.SCRIPTS.contains(fileName)) {
       sendResource(request,
                    context.channel(),
                    MarkdownJavaFxHtmlPanel.class,
                    fileName);
-    }
-    else if ("styles".equals(contentType) && MarkdownHtmlPanel.STYLES.contains(fileName)) {
-      if (INLINE_CSS_FILENAME.equals(fileName)) {
-        sendInlineStyle(request, context.channel());
-      }
-      else {
-        sendResource(request,
-                     context.channel(),
-                     MarkdownCssSettings.class,
-                     fileName);
-      }
-    }
-    else {
-      return false;
-    }
+//    }
+//    else if ("styles".equals(contentType) && MarkdownHtmlPanel.STYLES.contains(fileName)) {
+//      if (INLINE_CSS_FILENAME.equals(fileName)) {
+//        sendInlineStyle(request, context.channel());
+//      }
+//      else {
+//        sendResource(request,
+//                     context.channel(),
+//                     MarkdownCssSettings.class,
+//                     fileName);
+//      }
+//    }
+//    else {
+//      return false;
+//    }
 
     return true;
   }
@@ -144,19 +130,36 @@ public class PreviewStaticServer2 extends HttpRequestHandler {
       return;
     }
 
-    byte[] data;
-    try (final InputStream inputStream = clazz.getResourceAsStream(resourceName)) {
-      if (inputStream == null) {
-        Responses.send(HttpResponseStatus.NOT_FOUND, channel, request);
+    byte[] data = new byte[0];
+    // if filename ends with js, load it from resources/main/html/zenuml/js folder
+    if (resourceName.endsWith(".js")) {
+      try (final InputStream inputStream = PreviewStaticServer2.class.getResourceAsStream("/html/zenuml/js/" + resourceName)) {
+        if (inputStream == null) {
+          Responses.send(HttpResponseStatus.NOT_FOUND, channel, request);
+          return;
+        }
+
+        data = FileUtilRt.loadBytes(inputStream);
+      }
+      catch (IOException e) {
+        LOG.warn(e);
+        Responses.send(HttpResponseStatus.INTERNAL_SERVER_ERROR, channel, request);
         return;
       }
+    } else if (resourceName.endsWith(".css")) {
+      try (final InputStream inputStream = PreviewStaticServer2.class.getResourceAsStream("/html/zenuml/css/" + resourceName)) {
+        if (inputStream == null) {
+          Responses.send(HttpResponseStatus.NOT_FOUND, channel, request);
+          return;
+        }
 
-      data = FileUtilRt.loadBytes(inputStream);
-    }
-    catch (IOException e) {
-      LOG.warn(e);
-      Responses.send(HttpResponseStatus.INTERNAL_SERVER_ERROR, channel, request);
-      return;
+        data = FileUtilRt.loadBytes(inputStream);
+      }
+      catch (IOException e) {
+        LOG.warn(e);
+        Responses.send(HttpResponseStatus.INTERNAL_SERVER_ERROR, channel, request);
+        return;
+      }
     }
 
     FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, Unpooled.wrappedBuffer(data));

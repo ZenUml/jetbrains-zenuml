@@ -51,7 +51,7 @@ body #diagram .sequence-diagram .lifeline .participant label {
 }
 
 body #diagram .sequence-diagram .lifeline .line {
-  border-left-color: var(--border);
+  background: var(--border);
 }
 
 /* fragment */
@@ -94,6 +94,11 @@ body #diagram .sequence-diagram .message {
 body #diagram .sequence-diagram .message .name {
   color: var(--orange);
 }
+
+body #diagram .sequence-diagram .message .name:hover {
+  color: var(--white);
+}
+
 body #diagram .sequence-diagram .message svg polyline {
   fill: var(--border);
   stroke: var(--border);
