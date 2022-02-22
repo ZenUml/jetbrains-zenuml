@@ -1,3 +1,3 @@
 module.exports = {
-    outputDir: '../resource/main/html/zenuml/'
+    outputDir: '../resource/html/zenuml/'
 }
