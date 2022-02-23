@@ -2,6 +2,7 @@ package org.intellij.plugins.markdown.ui.preview.javafx;
 
 import com.intellij.ui.jcef.JCEFHtmlPanel;
 import com.intellij.util.ArrayUtil;
+import com.zenuml.sequence.plugins.jetbrains.html.ZenUmlHtmlGenerator;
 import org.apache.commons.io.FileUtils;
 import org.intellij.plugins.markdown.html.AddProtocolAndHost;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
@@ -9,8 +10,7 @@ import org.intellij.plugins.markdown.ui.preview.PreviewStaticServer2;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHtmlPanel {
 
@@ -23,11 +23,33 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
 
   public MarkdownJavaFxHtmlPanel() {
     super(null);
+    InputStream inputStream = this.getClass().getResourceAsStream("/html/zenuml/index.html");
+    setHtml(readFromInputStream(inputStream));
   }
 
-  public File writeHtmlToTempFile() {
+  private String readFromInputStream(InputStream inputStream)
+           {
+    StringBuilder resultStringBuilder = new StringBuilder();
+    try (BufferedReader br
+                 = new BufferedReader(new InputStreamReader(inputStream))) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        resultStringBuilder.append(line).append("\n");
+      }
+    } catch (IOException e) {
+      return "";
+    }
+
+    return resultStringBuilder.toString();
+  }
+
+  public File writeHtmlToTempFile(String dsl) {
     try {
       File file = File.createTempFile("zenuml", ".html");
+      dsl = dsl.replaceAll("[`]", "");
+
+      String withDsl = new ZenUmlHtmlGenerator().from(dsl);
+      prepareHtml(withDsl);
       FileUtils.writeStringToFile(file, this.myLastHtmlWithCss, "UTF-8");
       return file;
     } catch (IOException e) {
@@ -63,8 +85,9 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
   }
 
   @Override
-  public void render() {
-
+  public void render(@NotNull String text) {
+    text = text.replaceAll("[`]", "");
+    getCefBrowser().executeJavaScript("app.__vue__.$store.commit('code', `" + text + "`)", null, 0);
   }
 
   @Override

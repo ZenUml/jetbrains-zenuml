@@ -3,7 +3,6 @@ package org.intellij.plugins.markdown.ui.preview;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.Range;
-import com.intellij.util.containers.ContainerUtil;
 import org.intellij.markdown.html.HtmlGenerator;
 import org.intellij.plugins.markdown.settings.MarkdownCssSettings;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +21,7 @@ public interface MarkdownHtmlPanel extends Disposable {
 
   void setCSS(@Nullable String inlineCss, @NotNull String... fileUris);
 
-  void render();
+  void render(@NotNull String text);
 
   void scrollToMarkdownSrcOffset(int offset);
 
