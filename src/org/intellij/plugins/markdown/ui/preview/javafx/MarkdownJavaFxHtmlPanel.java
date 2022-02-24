@@ -68,9 +68,10 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
   @Override
   protected String prepareHtml(@NotNull String html) {
     if(html.length() == 0) return html;
-    
+
+    // We have to use ">" + "<head>", because otherwise it will be replaced by this method itself.
     this.myLastHtmlWithCss = html
-            .replace("<head>", "<head>"
+            .replace(">" + "<head>", ">"+"<head>"
                     + MarkdownHtmlPanel.getCssLines(null, myCssUris) + "\n");
     this.myLastHtmlWithCss = AddProtocolAndHost.addProtocolAndHost(this.myLastHtmlWithCss, PreviewStaticServer2.getBaseUrl());
     return this.myLastHtmlWithCss;
