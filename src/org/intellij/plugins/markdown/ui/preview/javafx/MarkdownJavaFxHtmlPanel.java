@@ -2,6 +2,7 @@ package org.intellij.plugins.markdown.ui.preview.javafx;
 
 import com.intellij.ui.jcef.JCEFHtmlPanel;
 import com.intellij.util.ArrayUtil;
+import com.zenuml.dsl.DslEscaper;
 import com.zenuml.sequence.plugins.jetbrains.html.ZenUmlHtmlGenerator;
 import org.apache.commons.io.FileUtils;
 import org.intellij.plugins.markdown.html.AddProtocolAndHost;
@@ -46,7 +47,7 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
   public File writeHtmlToTempFile(String dsl) {
     try {
       File file = File.createTempFile("zenuml", ".html");
-      dsl = dsl.replaceAll("[`]", "");
+      dsl = DslEscaper.removeBacktick.apply(dsl);
 
       String withDsl = new ZenUmlHtmlGenerator().from(dsl);
       prepareHtml(withDsl);
@@ -86,7 +87,7 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
 
   @Override
   public void render(@NotNull String text) {
-    text = text.replaceAll("[`]", "");
+    text = DslEscaper.removeBacktick.apply(text);
     getCefBrowser().executeJavaScript("app.__vue__.$store.commit('code', `" + text + "`)", null, 0);
   }
 

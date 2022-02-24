@@ -19,6 +19,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.Alarm;
 import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.ui.UIUtil;
+import com.zenuml.dsl.DslEscaper;
 import com.zenuml.sequence.plugins.jetbrains.html.ZenUmlHtmlGenerator;
 import org.intellij.markdown.html.HtmlGenerator;
 import org.intellij.plugins.markdown.settings.MarkdownCssSettings;
@@ -313,7 +314,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
     if (!myFile.isValid() || myDocument == null || Disposer.isDisposed(this)) {
       return;
     }
-    String text = myDocument.getText().replaceAll("[`]", "");
+    String text = DslEscaper.removeBacktick.apply(myDocument.getText());
 
     final String html = new ZenUmlHtmlGenerator().from(text);
 
