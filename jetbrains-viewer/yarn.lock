@@ -10200,10 +10200,10 @@ vue-router@^3.2.0:
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.3.tgz#041048053e336829d05dafacf6a8fb669a2e7999"
   integrity sha512-FUlILrW3DGitS2h+Xaw8aRNvGTwtuaxrRkNSHWTizOfLUie7wuYwezeZ50iflRn8YPV5kxmU2LQuu3nM/b3Zsg==
 
-vue-sequence@^1.0.208:
-  version "1.0.208"
-  resolved "https://registry.yarnpkg.com/vue-sequence/-/vue-sequence-1.0.208.tgz#9401c9063c8efa77787d709f6d3923d366c90310"
-  integrity sha512-U0hGnEJrysdfRgWTqxmUCmlG70IIOf98EzDyVaeD4a/vnkPp5nhgh4dyNLJYRV6NZfdTeRDKlmSn95RrnDWaBA==
+vue-sequence@^1.0.209:
+  version "1.0.209"
+  resolved "https://registry.yarnpkg.com/vue-sequence/-/vue-sequence-1.0.209.tgz#3d04941be3fb369d4e544aa4304a9f9daade8461"
+  integrity sha512-oRrS5/laM7prZkqN0a2Sm5E1PMOk/L3vRnuFTNqNUlwc7bUBZcAHVyxLIwhjClttodh/JFyMuzkLSEW952NMlw==
   dependencies:
     "@tailwindcss/postcss7-compat" "^2.0.2"
     "@types/assert" "^1.5.4"

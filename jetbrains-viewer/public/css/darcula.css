@@ -42,8 +42,6 @@ body #diagram .sequence-diagram .lifeline .participant {
   border: 1px solid var(--border);
   border-radius: 2px;
   background: var(--background);
-  padding: 12px 4px;
-  font-size: 15px;
 }
 
 body #diagram .sequence-diagram .lifeline .participant label {
@@ -67,7 +65,6 @@ body #diagram .sequence-diagram .fragment .header label {
 }
 body #diagram .sequence-diagram .fragment .header .name {
   border-bottom-color: var(--border);
-  padding: 6px;
 }
 body #diagram .sequence-diagram .fragment .header .name label {
   color: var(--pink);
