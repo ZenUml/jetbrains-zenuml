@@ -89,7 +89,7 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
   @Override
   public void render(@NotNull String text) {
     text = DslEscaper.removeBacktick.apply(text);
-    getCefBrowser().executeJavaScript("app.__vue__.$store.commit('code', `" + text + "`)", null, 0);
+    getCefBrowser().executeJavaScript("app.__vue__.$store.dispatch('updateCode', {code: `" + text + "`})", null, 0);
   }
 
   @Override

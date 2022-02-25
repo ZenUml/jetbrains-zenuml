@@ -112,4 +112,8 @@ public class ZenDsl {
                 .append(params)
                 .closeParenthesis();
     }
+
+    public ZenDsl quoted(String s) {
+        return append("\"").append(escape(s)).append("\"");
+    }
 }

@@ -233,7 +233,16 @@ public class PsiToDslConverter extends JavaRecursiveElementVisitor {
     // Only simple `i = 1` does.
     @Override
     public void visitAssignmentExpression(PsiAssignmentExpression expression) {
-        zenDsl.comment(expression.getText());
+        try {
+            zenDsl.quoted(expression.getLExpression().getText());
+            if (expression.getRExpression() != null) {
+                zenDsl.append(" = ");
+                zenDsl.quoted(expression.getRExpression().getText());
+            }
+            zenDsl.closeExpressionAndNewLine();
+        } catch (Exception e) {
+            LOG.error("Error in visitAssignmentExpression", e);
+        }
     }
 
     @Override
