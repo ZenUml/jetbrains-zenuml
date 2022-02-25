@@ -19,6 +19,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.Alarm;
 import com.intellij.util.messages.MessageBusConnection;
 import com.intellij.util.ui.UIUtil;
+import com.zenuml.dsl.DslEscaper;
 import com.zenuml.sequence.plugins.jetbrains.html.ZenUmlHtmlGenerator;
 import org.intellij.markdown.html.HtmlGenerator;
 import org.intellij.plugins.markdown.settings.MarkdownCssSettings;
@@ -119,7 +120,9 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
         public void documentChanged(@NotNull final DocumentEvent e) {
           myPooledAlarm.addRequest(() -> {
             //myLastScrollOffset = e.getOffset();
-            updateHtml(true);
+            if (myPanel != null) {
+              myPanel.render(myDocument.getText());
+            }
           }, PARSING_CALL_TIMEOUT_MS);
         }
       }, this);
@@ -269,7 +272,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
 
   public File writeHtmlToTempFile() {
     if(this.myPanel == null) return null;
-    return ((MarkdownJavaFxHtmlPanel) this.myPanel).writeHtmlToTempFile();
+    return ((MarkdownJavaFxHtmlPanel) this.myPanel).writeHtmlToTempFile(myDocument.getText());
   }
 
   @NotNull
@@ -311,8 +314,9 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
     if (!myFile.isValid() || myDocument == null || Disposer.isDisposed(this)) {
       return;
     }
+    String text = DslEscaper.removeBacktick.apply(myDocument.getText());
 
-      final String html = new ZenUmlHtmlGenerator().from(myDocument.getText());
+    final String html = new ZenUmlHtmlGenerator().from(text);
 
     // EA-75860: The lines to the top may be processed slowly; Since we're in pooled thread, we can be disposed already.
     if (!myFile.isValid() || Disposer.isDisposed(this)) {
@@ -328,7 +332,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
           return;
         }
 
-          if (!html.equals(myLastRenderedHtml)) {
+        if (!html.equals(myLastRenderedHtml)) {
           myLastRenderedHtml = html;
           myPanel.setHtml(myLastRenderedHtml);
 
@@ -337,7 +341,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
           }
         }
 
-        myPanel.render();
+        myPanel.render(myDocument.getText());
         synchronized (REQUESTS_LOCK) {
           myLastHtmlOrRefreshRequest = null;
         }
@@ -369,7 +373,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
     myPooledAlarm.addRequest(() -> updateHtml(true), 0);
   }
 
-  private static void updatePanelCssSettings(@NotNull MarkdownHtmlPanel panel, @NotNull final MarkdownCssSettings cssSettings) {
+  private void updatePanelCssSettings(@NotNull MarkdownHtmlPanel panel, @NotNull final MarkdownCssSettings cssSettings) {
     ApplicationManager.getApplication().assertIsDispatchThread();
 
     final String inlineCss = cssSettings.isTextEnabled() ? cssSettings.getStylesheetText() : null;
@@ -379,7 +383,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
 
     panel.setCSS(inlineCss, customCssURI);
 
-    panel.render();
+    panel.render(myDocument.getText());
   }
 
   private static boolean isPreviewShown(@NotNull Project project, @NotNull VirtualFile file) {
