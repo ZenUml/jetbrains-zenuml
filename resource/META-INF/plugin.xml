@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>2022.02.22</version>
+  <version>2022.02.26</version>
   <idea-version since-build="212.5457.46"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>MarkdownSplitEditor
 
