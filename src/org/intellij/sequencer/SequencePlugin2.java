@@ -139,14 +139,15 @@ public class SequencePlugin2 implements ProjectComponent {
     private void createZenUMLScratch(String dsl, AnActionEvent event) {
         NewZenUmlBufferAction newBufferAction = new NewZenUmlBufferAction();
 
-        HashMap<String, Object> map = new HashMap<>();
-        map.put(CommonDataKeys.PROJECT.getName(), event.getData(CommonDataKeys.PROJECT));
-        map.put(LangDataKeys.IDE_VIEW.getName(), event.getData(LangDataKeys.IDE_VIEW));
-        map.put(PlatformDataKeys.PREDEFINED_TEXT.getName(), dsl);
+        DataContext context = SimpleDataContext.builder()
+                .add(CommonDataKeys.PROJECT, event.getData(CommonDataKeys.PROJECT))
+                .add(LangDataKeys.IDE_VIEW, event.getData(LangDataKeys.IDE_VIEW))
+                .add(PlatformDataKeys.PREDEFINED_TEXT, dsl)
+                .build();
         AnActionEvent anActionEvent = AnActionEvent.createFromAnAction(newBufferAction,
                 null,
                 event.getPlace(),
-                SimpleDataContext.getSimpleContext(map, null));
+                context);
         newBufferAction.actionPerformed(anActionEvent);
     }
 

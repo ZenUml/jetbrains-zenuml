@@ -6,6 +6,7 @@ import com.zenuml.dsl.DslEscaper;
 import com.zenuml.sequence.plugins.jetbrains.html.ZenUmlHtmlGenerator;
 import org.apache.commons.io.FileUtils;
 import org.intellij.plugins.markdown.html.AddProtocolAndHost;
+import org.intellij.plugins.markdown.settings.ZenUmlApplicationSettings;
 import org.intellij.plugins.markdown.ui.preview.MarkdownHtmlPanel;
 import org.intellij.plugins.markdown.ui.preview.PreviewStaticServer2;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +25,7 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
 
   public MarkdownJavaFxHtmlPanel() {
     super(null);
+
     String resource = "/html/zenuml/index.html";
     InputStream inputStream = this.getClass().getResourceAsStream(resource);
     if (inputStream == null) {
