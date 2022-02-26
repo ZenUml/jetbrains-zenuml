@@ -62,12 +62,15 @@ public class SequencePlugin2 implements ProjectComponent {
 
     public void projectOpened() {
         createTabPane();
-        _toolWindow = getToolWindowManager().registerToolWindow(
-              PLAGIN_NAME, false, ToolWindowAnchor.BOTTOM);
-        final Content content = ServiceManager.getService(ContentFactory.class).createContent(_jTabbedPane, "", false);
-        _toolWindow.getContentManager().addContent(content);
-        _toolWindow.setIcon(SequencePluginIcons.SEQUENCE_ICON_13);
-        _toolWindow.setAvailable(false, null);
+        getToolWindowManager().invokeLater(() -> {
+            _toolWindow = getToolWindowManager().registerToolWindow(
+                    PLAGIN_NAME, false, ToolWindowAnchor.BOTTOM);
+
+            final Content content = ServiceManager.getService(ContentFactory.class).createContent(_jTabbedPane, "", false);
+            _toolWindow.getContentManager().addContent(content);
+            _toolWindow.setIcon(SequencePluginIcons.SEQUENCE_ICON_13);
+            _toolWindow.setAvailable(false, null);
+        });
     }
 
     private ToolWindowManager getToolWindowManager() {

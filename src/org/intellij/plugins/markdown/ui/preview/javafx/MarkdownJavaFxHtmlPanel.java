@@ -24,15 +24,18 @@ public class MarkdownJavaFxHtmlPanel extends JCEFHtmlPanel implements MarkdownHt
 
   public MarkdownJavaFxHtmlPanel() {
     super(null);
-    InputStream inputStream = this.getClass().getResourceAsStream("/html/zenuml/index.html");
+    String resource = "/html/zenuml/index.html";
+    InputStream inputStream = this.getClass().getResourceAsStream(resource);
+    if (inputStream == null) {
+      throw new IllegalStateException(String.format("Resource %s not found", resource));
+    }
+
     setHtml(readFromInputStream(inputStream));
   }
 
-  private String readFromInputStream(InputStream inputStream)
-           {
+  private String readFromInputStream(InputStream inputStream) {
     StringBuilder resultStringBuilder = new StringBuilder();
-    try (BufferedReader br
-                 = new BufferedReader(new InputStreamReader(inputStream))) {
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
       String line;
       while ((line = br.readLine()) != null) {
         resultStringBuilder.append(line).append("\n");
