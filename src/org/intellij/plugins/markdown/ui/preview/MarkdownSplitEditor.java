@@ -69,7 +69,7 @@ public class MarkdownSplitEditor extends SplitFileEditor<TextEditor, MarkdownPre
   @Override
   @NotNull
   public VirtualFile getFile() {
-    return FILE_KEY.get(this);
+    return getMainEditor().getFile();
   }
 
   public boolean isAutoScrollPreview() {

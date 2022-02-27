@@ -1,6 +1,7 @@
 package org.intellij.plugins.markdown.settings;
 
-import com.intellij.ide.ui.LafManager;
+import com.intellij.ide.ui.LafManagerListener;
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.ServiceManager;
@@ -23,13 +24,15 @@ import static org.intellij.plugins.markdown.settings.MarkdownCssSettings.DEFAULT
 )
 public class ZenUmlApplicationSettings implements PersistentStateComponent<ZenUmlApplicationSettings.State>,
                                                     MarkdownCssSettings.Holder,
-                                                    MarkdownPreviewSettings.Holder {
+                                                    MarkdownPreviewSettings.Holder, Disposable {
 
   private final State myState = new State();
 
   public ZenUmlApplicationSettings() {
     final MarkdownLAFListener lafListener = new MarkdownLAFListener();
-    LafManager.getInstance().addLafManagerListener(lafListener);
+    ApplicationManager
+            .getApplication().getMessageBus().connect(this)
+            .subscribe(LafManagerListener.TOPIC, lafListener);
     // Let's init proper CSS scheme
     ApplicationManager.getApplication().invokeLater(() -> lafListener.updateCssSettingsForced(UIUtil.isUnderDarcula()));
   }
@@ -88,6 +91,10 @@ public class ZenUmlApplicationSettings implements PersistentStateComponent<ZenUm
 
   public boolean isDisableInjections() {
     return myState.myDisableInjections;
+  }
+
+  @Override
+  public void dispose() {
   }
 
 

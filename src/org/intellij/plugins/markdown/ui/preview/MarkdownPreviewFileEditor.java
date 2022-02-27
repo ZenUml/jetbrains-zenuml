@@ -45,10 +45,7 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
 
   private final static long RENDERING_DELAY_MS = 20L;
 
-  final static NotNullLazyValue<PolicyFactory> SANITIZER_VALUE = new NotNullLazyValue<PolicyFactory>() {
-    @NotNull
-    @Override
-    protected PolicyFactory compute() {
+  final static NotNullLazyValue<PolicyFactory> SANITIZER_VALUE = NotNullLazyValue.lazy(() -> {
       return Sanitizers.BLOCKS
         .and(Sanitizers.FORMATTING)
         .and(new HtmlPolicyBuilder()
@@ -74,8 +71,8 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
                .allowAttributes(HtmlGenerator.Companion.getSRC_ATTRIBUTE_NAME()).globally()
                .allowAttributes("class").onElements("code", "tr", "span")
                .toFactory());
-    }
-  };
+    });
+
   @NotNull
   private final JPanel myHtmlPanelWrapper;
   @Nullable

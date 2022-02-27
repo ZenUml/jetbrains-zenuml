@@ -1,8 +1,8 @@
 package com.intellij.ide.scratch;
 
 import com.intellij.lang.Language;
-import com.intellij.lang.StdLanguages;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.fileTypes.PlainTextLanguage;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.registry.Registry;
@@ -70,6 +70,6 @@ public class NewZenUmlBufferAction extends DumbAwareAction {
 
     private Language getLanguage() {
         Language zenUML = Language.findLanguageByID("ZenUML");
-        return zenUML != null ? zenUML : StdLanguages.TEXT;
+        return zenUML != null ? zenUML : PlainTextLanguage.INSTANCE;
     }
 }
