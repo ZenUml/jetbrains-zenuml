@@ -1,7 +1,7 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>2022.02.26</version>
+  <version>2022.02.27</version>
   <idea-version since-build="212.5457.46"/>
   <vendor url="http://www.zenuml.com">ZenUML</vendor>MarkdownSplitEditor
 
@@ -27,6 +27,7 @@ Includes the following features:</p>
     <strong>Adaptive participant gaps</strong>
     <ul>
       <li>The gaps between participants will adjust according to the message width now.</li>
+      <li>Added support for complex expression in 'condition' (for alt and loop fragments).</li>
     </ul>
   </li>
 </ul>
