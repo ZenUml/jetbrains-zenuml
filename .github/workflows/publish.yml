@@ -24,11 +24,12 @@ jobs:
         with:
           fetch-depth: 0 # Required due to the weg Git works, without it this action won't be able to find any or the correct tags
       - name: 'Get Latest Release Tag'
+        id: latesttag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
       - name: Fetch Latest Release File
         uses: dsaltares/fetch-gh-release-asset@master
         with:
-          version: "tags/${{ steps.previoustag.outputs.tag }}"
+          version: "tags/${{ steps.latesttag.outputs.tag }}"
           file: "zenuml.zip"
       - name: Publish to JetBrains Marketplace
         run: |
