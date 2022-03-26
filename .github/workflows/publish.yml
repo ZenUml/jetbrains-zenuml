@@ -33,5 +33,5 @@ jobs:
           file: "zenuml.zip"
       - name: Publish to JetBrains Marketplace
         run: |
-          curl -i --header "Authorization: Bearer ${{ secrets.JETBRAIN_TOKEN }}" -F pluginId=com.zenuml.jetbrains -F file=@zenuml.zip -F channel=alpha https://plugins.jetbrains.com/plugin/uploadPlugin
+          curl -i --header "Authorization: Bearer ${{ secrets.JETBRAIN_TOKEN }}" -F xmlId=com.zenuml.jetbrains -F file=@zenuml.zip -F channel=Stable https://plugins.jetbrains.com/plugin/uploadPlugin
 
