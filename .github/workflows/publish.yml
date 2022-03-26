@@ -1,0 +1,36 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+
+name: Publish Package to JetBrains
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Required due to the weg Git works, without it this action won't be able to find any or the correct tags
+      - name: 'Get Latest Release Tag'
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      - name: Fetch Latest Release File
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          version: ${{ steps.previoustag.outputs.tag }}
+          file: "zenuml.zip"
+      - name: Publish to JetBrains Marketplace
+        run: |
+          curl -i --header "Authorization: Bearer ${{ secrets.JETBRAIN_TOKEN }}" -F pluginId=com.zenuml.jetbrains -F file=@zenuml.zip -F channel=alpha https://plugins.jetbrains.com/plugin/uploadPlugin
+
