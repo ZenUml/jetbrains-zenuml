@@ -1,6 +1,13 @@
 # jetbrains-zenuml
 The ZenUML plugin running on the JetBrains IDEs.
 
+<!-- Plugin description -->
+This official extension integrates [ZenUML](https://ZenUML.com/) directly into all JetBrains IDEs.
+It supports ZenUML diagram files with the extensions `.z`, `.zen` and `.zenuml`.
+
+The editor uses an offline version of ZenUML renderer, therefore it works without an internet connection and content stays local in your IDE.
+<!-- Plugin description end -->
+
 # Development
 1. Java version: OpenJDK 11 or higher.
 1. `./gradlew`

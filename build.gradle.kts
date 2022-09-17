@@ -46,7 +46,7 @@ intellij {
 //  Plugin Dependencies:
 //  https://www.jetbrains.org/intellij/sdk/docs/basics/plugin_structure/plugin_dependencies.html
 //
-//  setPlugins("java")
+  plugins.set(listOf("com.intellij.java"))
 }
 
 // Configure detekt plugin.
@@ -81,6 +81,9 @@ detekt {
 //}
 
 tasks {
+  buildSearchableOptions {
+    enabled = false
+  }
   // Set the compatibility versions to 11
   withType<JavaCompile> {
     sourceCompatibility = "11"
@@ -121,6 +124,7 @@ tasks {
               changelog.getLatest().toHTML()
             }
     )
+
   }
 
   runPluginVerifier {
