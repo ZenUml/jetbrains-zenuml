@@ -19,7 +19,10 @@ plugins {
   // ktlint linter - read more: https://github.com/JLLeitschuh/ktlint-gradle
   id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
   id("groovy")
+  id("com.github.node-gradle.node") version "3.2.1"
 }
+
+apply(plugin="com.github.node-gradle.node")
 
 group = properties("pluginGroup")
 version = properties("pluginVersion")
@@ -164,6 +167,13 @@ tasks {
   changelog {
     version.set(properties("pluginVersion"))
     header.set(provider { "[${project.version}] - ${date()}" })
+  }
+  node {
+    download.set(true)
+    // Version of node to download and install (only used if download is true)
+    // It will be unpacked in the workDir
+    version.set("12.18.3")
+    nodeProjectDir.set(file("${project.projectDir}/jetbrains-viewer"))
   }
 }
 
