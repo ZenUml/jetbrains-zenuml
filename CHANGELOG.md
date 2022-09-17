@@ -2,8 +2,10 @@
 
 ## [Unreleased]
 ### Added
+- Added support for WebStorm and PhpStorm
 
 ### Changed
+- Updated application logo
 
 ### Deprecated
 
@@ -13,7 +15,4 @@
 
 ### Security
 
-## [2022.09.17.5] - 2022-09-17
-### Added
-- Added support for WebStorm and PhpStorm
 
