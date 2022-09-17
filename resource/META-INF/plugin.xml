@@ -7,10 +7,9 @@
    Displayed in the "Plugins" settings dialog and the plugin repository Web interface.  -->
   <version>(filled automatically by the build plugin)</version>
   <idea-version since-build="212.5457.46"/>
-  <vendor url="http://www.zenuml.com">ZenUML</vendor>MarkdownSplitEditor
+  <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
-  <depends>com.intellij.modules.lang</depends>
-  <depends>com.intellij.modules.java</depends>
+  <depends optional="true" config-file="zenuml-withJava.xml">com.intellij.modules.java</depends>
   <!-- Description of the plugin.
    Should be short and to the point.
    Start the description with a verb in a present simple form such as
@@ -172,12 +171,6 @@
       </action>
     </group>
 
-    <action id="SequencePlugin.ShowZenUMLScratch" class="org.intellij.sequencer.ShowZenUMLScratchAction"
-            icon="SequencePluginIcons.SEQUENCE_ICON"
-            text="Sequence Diagram (experimental)..." description="Generate sequence diagram of the current method">
-      <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-      <add-to-group group-id="ToolsMenu" anchor="last"/>
-    </action>
   </actions>
 
   <product-descriptor code="PZENUML" release-date="20190601" release-version="20191" />
