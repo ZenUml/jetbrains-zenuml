@@ -62,23 +62,23 @@ detekt {
   }
 }
 
-tasks.jar {
-  doFirst{
-    //check if needed draw.io submodule is initialized
-    if (!File(projectDir, "src/webview/drawio/src").exists()) {
-      throw GradleException("please init subprojects by execution 'git submodule update --init'")
-    }
-  }
-  from("src/webview/drawio/src/main/webapp") {
-    include("**/*")
-    exclude("index.html")
-    into("assets")
-  }
-  from("src/webview") {
-    include("index.html")
-    into("assets")
-  }
-}
+//tasks.jar {
+//  doFirst{
+//    //check if needed draw.io submodule is initialized
+//    if (!File(projectDir, "src/webview/drawio/src").exists()) {
+//      throw GradleException("please init subprojects by execution 'git submodule update --init'")
+//    }
+//  }
+//  from("src/webview/drawio/src/main/webapp") {
+//    include("**/*")
+//    exclude("index.html")
+//    into("assets")
+//  }
+//  from("src/webview") {
+//    include("index.html")
+//    into("assets")
+//  }
+//}
 
 tasks {
   // Set the compatibility versions to 11
