@@ -1,25 +1,27 @@
 <idea-plugin>
   <id>com.zenuml.jetbrains</id>
   <name>ZenUML support</name>
-  <version>2022.02.27</version>
+  <!-- Plugin version
+   Recommended format is BRANCH.BUILD.FIX (MAJOR.MINOR.FIX)
+   We use YEAR.MONTH.DAY format (see gradle.properties)
+   Displayed in the "Plugins" settings dialog and the plugin repository Web interface.  -->
+  <version>(filled automatically by the build plugin)</version>
   <idea-version since-build="212.5457.46"/>
-  <vendor url="http://www.zenuml.com">ZenUML</vendor>MarkdownSplitEditor
+  <vendor url="http://www.zenuml.com">ZenUML</vendor>
 
-  <depends>com.intellij.modules.lang</depends>
-  <depends>com.intellij.modules.java</depends>
-  <description><![CDATA[
-<p>Provides the capability to generate sequence diagram from text within the IDE and see the rendered HTML in a live preview.
-</br>
-</br>
-Includes the following features:</p>
-<ul>
-<li>Generate diagrams from Java via context menu.</li>
-<li>Instant rendering - nothing needs to be sent to the backend.</li>
-<li>Developer friendly syntax - e.g. Service.getBook(id).</li>
-<li>Syntax highlighting - coming soon.</li>
-<li>Ability to use custom stylesheets for a live preview.</li>
-</ul>
-]]></description>
+  <depends optional="true" config-file="zenuml-withJava.xml">com.intellij.modules.java</depends>
+  <!-- Description of the plugin.
+   Should be short and to the point.
+   Start the description with a verb in a present simple form such as
+   "integrates", "synchronizes", "adds support for" or "lets you view".
+   Don't use marketing adjectives like "simple", "lightweight", or "professional".
+   Don't repeat the name of the plugin.
+   For plugins that add language/platform/framework support, the description MUST specify
+   the version of the corresponding language/platform/framework.
+   Don't mention the IDE compatibility. E.g., don't say "Adds support to IntelliJ IDEA for..."
+   Displayed in the "Plugins" settings dialog and the plugin repository Web interface.
+   Simple HTML elements can be included between <![CDATA[  ]]> tags.  -->
+  <description>(filled automatically by the build plugin: patchPluginXml.pluginDescription)</description>
 
   <change-notes><![CDATA[
 <ul>
@@ -169,12 +171,6 @@ Includes the following features:</p>
       </action>
     </group>
 
-    <action id="SequencePlugin.ShowZenUMLScratch" class="org.intellij.sequencer.ShowZenUMLScratchAction"
-            icon="SequencePluginIcons.SEQUENCE_ICON"
-            text="Sequence Diagram (experimental)..." description="Generate sequence diagram of the current method">
-      <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-      <add-to-group group-id="ToolsMenu" anchor="last"/>
-    </action>
   </actions>
 
   <product-descriptor code="PZENUML" release-date="20190601" release-version="20191" />

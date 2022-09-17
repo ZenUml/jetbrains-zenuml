@@ -1,0 +1,11 @@
+<idea-plugin>
+    <actions>
+        <action id="SequencePlugin.ShowZenUMLScratch" class="org.intellij.sequencer.ShowZenUMLScratchAction"
+                icon="SequencePluginIcons.SEQUENCE_ICON"
+                text="Sequence Diagram (experimental)..." description="Generate sequence diagram of the current method">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+
+    </actions>
+</idea-plugin>
