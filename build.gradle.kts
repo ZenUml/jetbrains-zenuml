@@ -22,7 +22,7 @@ plugins {
   id("com.github.node-gradle.node") version "3.2.1"
 }
 
-apply(plugin="com.github.node-gradle.node")
+apply(plugin = "com.github.node-gradle.node")
 
 group = properties("pluginGroup")
 version = properties("pluginVersion")
@@ -30,7 +30,7 @@ version = properties("pluginVersion")
 // Configure project's dependencies
 repositories {
   mavenCentral()
-  flatDir { dirs ("lib") }
+  flatDir { dirs("lib") }
 }
 dependencies {
   // https://mvnrepository.com/artifact/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer
@@ -43,7 +43,7 @@ dependencies {
   testImplementation("junit:junit:4.12")
   testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10")
   detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
-  testImplementation ("org.spockframework:spock-core:2.2-groovy-4.0") {
+  testImplementation("org.spockframework:spock-core:2.2-groovy-4.0") {
     exclude("org.codehaus.groovy", "groovy-xml")
   }
 }
@@ -133,24 +133,24 @@ tasks {
 
     // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
     pluginDescription.set(
-            provider {
-              File(projectDir, "README.md").readText().lines().run {
-                val start = "<!-- Plugin description -->"
-                val end = "<!-- Plugin description end -->"
+      provider {
+        File(projectDir, "README.md").readText().lines().run {
+          val start = "<!-- Plugin description -->"
+          val end = "<!-- Plugin description end -->"
 
-                if (!containsAll(listOf(start, end))) {
-                  throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
-                }
-                subList(indexOf(start) + 1, indexOf(end))
-              }.joinToString("\n").run { markdownToHTML(this) }
-            }
+          if (!containsAll(listOf(start, end))) {
+            throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+          }
+          subList(indexOf(start) + 1, indexOf(end))
+        }.joinToString("\n").run { markdownToHTML(this) }
+      }
     )
 
     // Get the latest available change notes from the changelog file
     changeNotes.set(
-            provider {
-              changelog.getLatest().toHTML()
-            }
+      provider {
+        changelog.getLatest().toHTML()
+      }
     )
   }
 
