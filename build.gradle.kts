@@ -7,7 +7,7 @@ fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
   // Java support
-  //id("java")
+  id("java")
   // Kotlin support
   id("org.jetbrains.kotlin.jvm") version "1.7.10"
   // gradle-intellij-plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
@@ -27,8 +27,18 @@ version = properties("pluginVersion")
 // Configure project's dependencies
 repositories {
   mavenCentral()
+  flatDir { dirs ("lib") }
 }
 dependencies {
+  // https://mvnrepository.com/artifact/com.googlecode.owasp-java-html-sanitizer/owasp-java-html-sanitizer
+  implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer")
+//  compile "org.jetbrains:markdown:${markdownParserVersion}"
+  implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
+  implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
+  implementation("io.reactivex.rxjava2:rxjava:2.2.21")
+
+  testImplementation("junit:junit:4.12")
+  testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10")
   detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
   testImplementation ("org.spockframework:spock-core:2.2-groovy-4.0") {
     exclude("org.codehaus.groovy", "groovy-xml")
@@ -46,7 +56,7 @@ intellij {
 //  Plugin Dependencies:
 //  https://www.jetbrains.org/intellij/sdk/docs/basics/plugin_structure/plugin_dependencies.html
 //
-//  setPlugins("java")
+  plugins.set(listOf("com.intellij.java", "org.intellij.intelliLang"))
 }
 
 // Configure detekt plugin.
@@ -61,7 +71,25 @@ detekt {
     txt.enabled = false
   }
 }
-
+sourceSets {
+  main {
+    java {
+      srcDirs("src")
+      srcDirs("gen")
+    }
+    resources {
+      srcDirs("resource")
+    }
+  }
+  test {
+    java {
+      srcDirs("test")
+    }
+    resources {
+      srcDirs("test/data")
+    }
+  }
+}
 //tasks.jar {
 //  doFirst{
 //    //check if needed draw.io submodule is initialized
