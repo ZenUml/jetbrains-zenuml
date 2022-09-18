@@ -6,6 +6,10 @@ This official extension integrates [ZenUML](https://ZenUML.com/) directly into a
 It supports ZenUML diagram files with the extensions `.z`, `.zen` and `.zenuml`.
 
 The editor uses an offline version of ZenUML renderer, therefore it works without an internet connection and content stays local in your IDE.
+
+For Android Studio:
+1. Open menu item **Help > Find action...** and search for “Choose Boot Java runtime for the IDE...”
+1. Choose a runtime labeled “JetBrains Runtime with JCEF” and install it. The IDE will restart.
 <!-- Plugin description end -->
 
 # Development
