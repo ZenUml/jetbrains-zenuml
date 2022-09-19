@@ -86,7 +86,7 @@ sourceSets {
   }
   test {
     java {
-      srcDirs("test")
+      srcDirs("test/src")
     }
     resources {
       srcDirs("test/data")
