@@ -9,7 +9,11 @@ The editor uses an offline version of ZenUML renderer, therefore it works withou
 
 For Android Studio:
 1. Open menu item **Help > Find action...** and search for “Choose Boot Java runtime for the IDE...”
-1. Choose a runtime labeled “JetBrains Runtime with JCEF” and install it. The IDE will restart.
+2. Choose a runtime labeled “JetBrains Runtime with JCEF” and install it. The IDE will restart.
+
+For Hackers to Enable DevTools,
+1. Open menu item **Help > Find action...** and search for "Registry..."
+2. Enable "ide.browser.jcef.contextMenu.devTools.enabled"
 <!-- Plugin description end -->
 
 # Development
