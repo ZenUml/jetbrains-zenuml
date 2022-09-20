@@ -3,6 +3,7 @@ package org.intellij.plugins.markdown.ui.preview;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.Range;
+import com.intellij.util.containers.ContainerUtil;
 import org.intellij.markdown.html.HtmlGenerator;
 import org.intellij.plugins.markdown.settings.MarkdownCssSettings;
 import org.jetbrains.annotations.NotNull;
@@ -13,6 +14,18 @@ import javax.swing.*;
 import java.util.List;
 
 public interface MarkdownHtmlPanel extends Disposable {
+
+  List<String> SCRIPTS = ContainerUtil.immutableList(
+          "about.7b0cdab9.js",
+          "app.07962091.js",
+          "chunk-vendors.6e699145.js");
+
+  List<String> STYLES = ContainerUtil.immutableList(
+          "darcula.css",
+          "app.c412605a.css",
+          "chunk-vendors.8fad9714.css",
+          PreviewStaticServer2.INLINE_CSS_FILENAME
+  );
 
   @NotNull
   JComponent getComponent();

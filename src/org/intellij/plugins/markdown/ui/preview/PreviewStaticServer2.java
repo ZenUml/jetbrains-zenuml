@@ -11,7 +11,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
-import org.intellij.plugins.markdown.settings.MarkdownCssSettings;
 import org.intellij.plugins.markdown.ui.preview.javafx.MarkdownJavaFxHtmlPanel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -67,41 +66,46 @@ public class PreviewStaticServer2 extends HttpRequestHandler {
   }
 
   @Override
+  public boolean isSupported(@NotNull FullHttpRequest request) {
+    return super.isSupported(request) && request.uri().startsWith(PREFIX);
+  }
+
+  @Override
   public boolean process(@NotNull QueryStringDecoder urlDecoder,
                          @NotNull FullHttpRequest request,
                          @NotNull ChannelHandlerContext context) {
     final String path = urlDecoder.path();
+    if (!path.startsWith(PREFIX)) {
+      throw new IllegalStateException("prefix should have been checked by #isSupported");
+    }
 
-
-    final String payLoad = path;
+    final String payLoad = path.substring(PREFIX.length());
     final List<String> typeAndName = StringUtil.split(payLoad, "/");
 
-//    final String contentType = typeAndName.get(0);
-    final String fileName = typeAndName.get(typeAndName.size() - 1);
-    if (INLINE_CSS_FILENAME.equals(fileName)) {
-      sendInlineStyle(request, context.channel());
-      return true;
+    if (typeAndName.size() != 2) {
+      return false;
     }
-    sendResource(request,
-                 context.channel(),
-                 MarkdownJavaFxHtmlPanel.class,
-                 fileName);
-//    }
-//    else if ("styles".equals(contentType) && MarkdownHtmlPanel.STYLES.contains(fileName)) {
-//      if (INLINE_CSS_FILENAME.equals(fileName)) {
-//        sendInlineStyle(request, context.channel());
-//      }
-//      else {
-//        sendResource(request,
-//                     context.channel(),
-//                     MarkdownCssSettings.class,
-//                     fileName);
-//      }
-//    }
-//    else {
-//      return false;
-//    }
+    final String contentType = typeAndName.get(0);
+    final String fileName = typeAndName.get(1);
 
+    if ("js".equals(contentType) && MarkdownHtmlPanel.SCRIPTS.contains(fileName)) {
+      sendResource(request,
+              context.channel(),
+              MarkdownJavaFxHtmlPanel.class,
+              fileName);
+    } else if (("css".equals(contentType) || "styles".equals(contentType)) && MarkdownHtmlPanel.STYLES.contains(fileName)) {
+
+      if (INLINE_CSS_FILENAME.equals(fileName)) {
+        sendInlineStyle(request, context.channel());
+      } else {
+        sendResource(request,
+                context.channel(),
+                MarkdownJavaFxHtmlPanel.class,
+                fileName);
+      }
+    } else {
+      return false;
+    }
     return true;
   }
 
@@ -136,7 +140,7 @@ public class PreviewStaticServer2 extends HttpRequestHandler {
     byte[] data = new byte[0];
     // if filename ends with js, load it from resources/main/html/zenuml/js folder
     if (resourceName.endsWith(".js")) {
-      try (final InputStream inputStream = PreviewStaticServer2.class.getResourceAsStream("/html/zenuml/js/" + resourceName)) {
+      try (final InputStream inputStream = clazz.getResourceAsStream("/html/zenuml/js/" + resourceName)) {
         if (inputStream == null) {
           Responses.send(HttpResponseStatus.NOT_FOUND, channel, request);
           return;
