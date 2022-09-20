@@ -13,7 +13,7 @@
 
 ### Security
 
-## [2022.09.17.6] - 2022-09-17
+## [2022.09.17] - 2022-09-17
 ### Added
 - Added support for WebStorm and PhpStorm
 
