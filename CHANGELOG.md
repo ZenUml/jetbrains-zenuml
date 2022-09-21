@@ -2,21 +2,18 @@
 
 ## [Unreleased]
 ### Added
+- Added support for GoLand, PyCharm, WebStorm and PhpStorm
 
 ### Changed
+- Updated application logo
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+- Occasional crash on GoLand
 
 ### Security
 
-## [2022.09.20] - 2022-09-21
-### Added
-- Added support for WebStorm and PhpStorm
-
-### Changed
-- Updated application logo
 

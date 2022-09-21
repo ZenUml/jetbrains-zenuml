@@ -394,8 +394,12 @@ public class MarkdownPreviewFileEditor extends UserDataHolderBase implements Fil
       return true;
     }
 
-    return SplitFileEditor.SplitEditorLayout.valueOf(((SplitFileEditor.MyFileEditorState)state).getSplitLayout()) !=
-           SplitFileEditor.SplitEditorLayout.FIRST;
+    try {
+      SplitFileEditor.SplitEditorLayout splitEditorLayout = SplitFileEditor.SplitEditorLayout.valueOf(((SplitFileEditor.MyFileEditorState) state).getSplitLayout());
+      return splitEditorLayout != SplitFileEditor.SplitEditorLayout.FIRST;
+    } catch (IllegalArgumentException | NullPointerException e) {
+      return true;
+    }
   }
 
   private class MyUpdatePanelOnSettingsChangedListener implements ZenUmlApplicationSettings.SettingsChangedListener {
