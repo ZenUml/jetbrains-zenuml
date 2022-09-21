@@ -11,6 +11,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
+import org.intellij.plugins.markdown.settings.MarkdownCssSettings;
 import org.intellij.plugins.markdown.ui.preview.javafx.MarkdownJavaFxHtmlPanel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +30,7 @@ import java.util.Objects;
 public class PreviewStaticServer2 extends HttpRequestHandler {
   public static final String INLINE_CSS_FILENAME = "inline.css";
   private static final Logger LOG = Logger.getInstance(PreviewStaticServer2.class);
-  private static final String PREFIX = "/api/markdown-preview/";
+  private static final String PREFIX = "/api/zenuml-preview/";
 
   @Nullable
   private byte[] myInlineStyleBytes = null;
@@ -88,19 +89,19 @@ public class PreviewStaticServer2 extends HttpRequestHandler {
     final String contentType = typeAndName.get(0);
     final String fileName = typeAndName.get(1);
 
-    if ("js".equals(contentType) && MarkdownHtmlPanel.SCRIPTS.contains(fileName)) {
+    if ("js".equals(contentType)) {
       sendResource(request,
               context.channel(),
               MarkdownJavaFxHtmlPanel.class,
               fileName);
-    } else if (("css".equals(contentType) || "styles".equals(contentType)) && MarkdownHtmlPanel.STYLES.contains(fileName)) {
+    } else if (("css".equals(contentType) || "styles".equals(contentType))) {
 
       if (INLINE_CSS_FILENAME.equals(fileName)) {
         sendInlineStyle(request, context.channel());
       } else {
         sendResource(request,
                 context.channel(),
-                MarkdownJavaFxHtmlPanel.class,
+                MarkdownCssSettings.class,
                 fileName);
       }
     } else {
