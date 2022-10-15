@@ -13,7 +13,7 @@
 
 ### Security
 
-## [2022.09.21] - 2022-09-21
+## [2022.9.21] - 2022-09-21
 ### Added
 - Added support for GoLand, PyCharm, WebStorm and PhpStorm
 

@@ -1,6 +1,7 @@
 package com.zenuml.dsl;
 
 import com.intellij.openapi.diagnostic.Logger;
+import com.zenuml.license.CheckLicense;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.stream.IntStream;
 
 public class ZenDsl {
     private static final Logger LOG = Logger.getInstance(ZenDsl.class);
+    public static final String LICENSE_IS_NOT_VALID = "License.isNotValid";
 
     private StringBuffer dsl = new StringBuffer();
     private int level = 0;
@@ -18,6 +20,10 @@ public class ZenDsl {
     }
 
     String getDsl() {
+        final boolean isLicensed = CheckLicense.isLicensed();
+        if (!isLicensed) {
+            return LICENSE_IS_NOT_VALID;
+        }
         return dsl.toString();
     }
 
