@@ -2,7 +2,7 @@ package com.zenuml.sequence.plugins.jetbrains.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.zenuml.sequence.plugins.jetbrains.license.CheckLicense;
+import com.zenuml.license.CheckLicense;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
