@@ -9,7 +9,17 @@ import java.util.stream.IntStream;
 
 public class ZenDsl {
     private static final Logger LOG = Logger.getInstance(ZenDsl.class);
-    public static final String LICENSE_IS_NOT_VALID = "License.isNotValid";
+    public static final String LICENSE_IS_NOT_VALID = "title Your ZenUML Support is NOT licensed\n" +
+            "ZenUML DslGenerator Parser Renderer\n" +
+            "// Your ZenUML plugin is **NOT** licensed. ZenUML Plugin is a freemium\n" +
+            "// application. <br>\n" +
+            "// You can use it for free. See [here](https://github.com/ZenUml/jetbrains-zenuml/blob/master/Freemium.md) for more details. <br>\n" +
+            "// This diagram shows you how ZenUML JetBrains Plugin works.\n" +
+            "ZenUML.render() {\n" +
+            "  dsl = DslGenerator.getDsl(JavaCode)\n" +
+            "  abstractSyntaxTree = Parser.parse(dsl)\n" +
+            "  Renderer.render(abstractSyntaxTree)\n" +
+            "}\n";
 
     private StringBuffer dsl = new StringBuffer();
     private int level = 0;
