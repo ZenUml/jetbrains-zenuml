@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 
 public class ZenDsl {
     private static final Logger LOG = Logger.getInstance(ZenDsl.class);
-    public static final String LICENSE_IS_NOT_VALID = "title Your ZenUML Support is NOT licensed\n" +
+    public static final String LICENSE_IS_NOT_VALID = "title Your ZenUML Plugin is NOT licensed\n" +
             "ZenUML DslGenerator Parser Renderer\n" +
             "// Your ZenUML plugin is **NOT** licensed. ZenUML Plugin is a freemium\n" +
             "// application. <br>\n" +
