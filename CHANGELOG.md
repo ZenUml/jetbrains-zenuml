@@ -2,10 +2,10 @@
 
 ## [Unreleased]
 ### Added
-Added AppCode Support
+- Added AppCode Support
 
 ### Changed
-Subscription model changed to Freemium. More [details](https://github.com/ZenUml/jetbrains-zenuml/blob/master/Freemium.md)
+- Subscription model changed to Freemium. More [details](https://github.com/ZenUml/jetbrains-zenuml/blob/master/Freemium.md)
 
 ## [2022.9.21] - 2022-09-21
 ### Added
