@@ -2,29 +2,10 @@
 
 ## [Unreleased]
 ### Added
+Added AppCode Support
 
 ### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
-
-## [2022.10.15] - 2022-10-27
-### Added
-
-### Changed
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
+Subscription model changed to Freemium. More [details](https://github.com/ZenUml/jetbrains-zenuml/blob/master/Freemium.md)
 
 ## [2022.9.21] - 2022-09-21
 ### Added
