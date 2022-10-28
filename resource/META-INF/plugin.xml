@@ -23,18 +23,7 @@
    Simple HTML elements can be included between <![CDATA[  ]]> tags.  -->
   <description>(filled automatically by the build plugin: patchPluginXml.pluginDescription)</description>
 
-  <change-notes><![CDATA[
-<ul>
-  <li>
-    <strong>Adaptive participant gaps</strong>
-    <ul>
-      <li>The gaps between participants will adjust according to the message width now.</li>
-      <li>Added support for complex expression in 'condition' (for alt and loop fragments).</li>
-    </ul>
-  </li>
-</ul>
-    ]]>
-  </change-notes>
+  <change-notes>(filled automatically by the build plugin with data from README.md)  </change-notes>
 
   <project-components>
     <component>

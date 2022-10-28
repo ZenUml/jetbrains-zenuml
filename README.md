@@ -7,11 +7,20 @@ It supports ZenUML diagram files with the extensions `.z`, `.zen` and `.zenuml`.
 
 The editor uses an offline version of ZenUML renderer, therefore it works without an internet connection and content stays local in your IDE.
 
-For Android Studio:
-1. Open menu item **Help > Find action...** and search for “Choose Boot Java runtime for the IDE...”
-2. Choose a runtime labeled “JetBrains Runtime with JCEF” and install it. The IDE will restart.
+# Free
+* Full support of [ZenUML DSL](https://zenuml.atlassian.net/wiki/spaces/Doc/pages/518848513/Sequence+diagram+syntax)
+  * Sync and Async messages
+  * Creation, Return/Reply messages
+  * Alt, Loop, Par, try/catch/finally fragments
+* Live preview of your diagrams
+* Cloud and other common icons (EC2, Lambda, Database, Boundary, etc.)
 
-For Hackers to Enable DevTools,
+# Paid
+
+Generate ZenUML diagram from Java code only on Intellij IDEA.
+
+# Hacking / reverse engineering
+To enable DevTools,
 1. Open menu item **Help > Find action...** and search for "Registry..."
 2. Enable "ide.browser.jcef.contextMenu.devTools.enabled"
 <!-- Plugin description end -->
