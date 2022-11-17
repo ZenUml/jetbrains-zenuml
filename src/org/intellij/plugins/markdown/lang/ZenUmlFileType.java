@@ -15,21 +15,105 @@
  */
 package org.intellij.plugins.markdown.lang;
 
-import com.intellij.openapi.fileTypes.LanguageFileType;
+import com.intellij.ide.highlighter.custom.SyntaxTable;
+import com.intellij.lang.Commenter;
+import com.intellij.openapi.fileTypes.impl.AbstractFileType;
 import icons.MarkdownIcons;
+import icons.SequencePluginIcons;
 import org.intellij.plugins.markdown.MarkdownBundle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
+import java.util.Arrays;
+import java.util.Collection;
 
-public class ZenUmlFileType extends LanguageFileType {
+public class ZenUmlFileType extends AbstractFileType implements Commenter {
+  private static final Collection<String> ZENUML_LANGUAGE_KEYWORDS =
+          Arrays.asList("title",
+          "if", "else", "nil",
+          "while", "for", "foreach", "forEach", "loop", "in",
+          "return",
+          "new",
+          "par", "opt", "try", "catch", "finally",
+          "group", "as",
+          "true", "false");
+  private static final Collection<String> ZENUML_LANGUAGE_ANNOTATORS =
+          Arrays.asList("@Starter", "@starter",
+                  "@Return", "@Reply", "@reply", "@return");
+  private static final Collection<String> ZENUML_LANGUAGE_OPERATORS =
+          Arrays.asList(".", "->", ":",  // message structure
+                  ">", "<",  "==", "!=", ">=", "<=", // comparing
+                  "&&", "||", "!", // logic
+                  "<<", ">>", // stereotype
+                  "#", // hex
+                  "+", "-", "*", "/", "%", "^", // math
+                  "@", // annotation
+                  ";", "," // separators
+                  );
+
   public static final ZenUmlFileType INSTANCE = new ZenUmlFileType();
 
   private ZenUmlFileType() {
-    super(ZenUmlLanguage.INSTANCE);
+    super(createSyntaxTable());
+    setName("ZenUML");
+    setDescription("MyLanguage (syntax highlighting only)");
+    setIcon(SequencePluginIcons.SEQUENCE_ICON);
   }
 
+  @NotNull
+  private static SyntaxTable createSyntaxTable() {
+    SyntaxTable syntaxTable = new SyntaxTable();
+    syntaxTable.setIgnoreCase(false);
+    syntaxTable.setLineComment("//");
+    syntaxTable.setStartComment("/**");
+    syntaxTable.setEndComment("*/");
+    syntaxTable.setHasBraces(true);
+    syntaxTable.setHasBrackets(true);
+    syntaxTable.setHasParens(true);
+    syntaxTable.setHasStringEscapes(true);
+
+    syntaxTable.getKeywords1().addAll(ZENUML_LANGUAGE_KEYWORDS);
+    syntaxTable.getKeywords2().addAll(ZENUML_LANGUAGE_ANNOTATORS);
+    syntaxTable.getKeywords3().addAll(ZENUML_LANGUAGE_OPERATORS);
+    return syntaxTable;
+  }
+
+  @Override
+  public Commenter getCommenter() {
+    return this;
+  }
+
+  // Commenter
+  @Override
+  public @Nullable
+  String getLineCommentPrefix() {
+    return getSyntaxTable().getLineComment();
+  }
+
+  @Override
+  public @Nullable
+  String getBlockCommentPrefix() {
+    return getSyntaxTable().getStartComment();
+  }
+
+  @Override
+  public @Nullable
+  String getBlockCommentSuffix() {
+    return getSyntaxTable().getEndComment();
+  }
+
+  @Override
+  public @Nullable
+  String getCommentedBlockCommentPrefix() {
+    return null;
+  }
+
+  @Override
+  public @Nullable
+  String getCommentedBlockCommentSuffix() {
+    return null;
+  }
   @NotNull
   @Override
   public String getName() {
