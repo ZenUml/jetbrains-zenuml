@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 ### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
+## [2022.11.180] - 2022-11-18
+### Added
 - Added syntax highlighting and auto-completion
 
 ## [2022.10.281] - 2022-10-28
