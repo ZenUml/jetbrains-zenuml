@@ -46,11 +46,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # Setup Java 11 environment for the next steps
+      # Setup Java 17 environment for the next steps
       - name: Setup Java
         uses: actions/setup-java@v3.5.0
         with:
-          java-version: 11
+          java-version: 17
           distribution: 'zulu'
 
       # Check out current repository
@@ -94,11 +94,11 @@ jobs:
       artifact: ${{ steps.properties.outputs.artifact }}
     steps:
 
-      # Setup Java 11 environment for the next steps
+      # Setup Java 17 environment for the next steps
       - name: Setup Java
         uses: actions/setup-java@v3.5.0
         with:
-          java-version: 11
+          java-version: 17
           distribution: 'zulu'
 
       # Check out current repository
@@ -160,11 +160,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # Setup Java 11 environment for the next steps
+      # Setup Java 17 environment for the next steps
       - name: Setup Java
         uses: actions/setup-java@v3.5.0
         with:
-          java-version: 11
+          java-version: 17
           distribution: 'zulu'
 
       # Check out current repository
