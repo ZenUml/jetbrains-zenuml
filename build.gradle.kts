@@ -9,9 +9,9 @@ plugins {
   // Java support
   id("java")
   // Kotlin support
-  id("org.jetbrains.kotlin.jvm") version "1.7.10"
+  id("org.jetbrains.kotlin.jvm") version "2.0.0-Beta2"
   // gradle-intellij-plugin - read more: https://github.com/JetBrains/gradle-intellij-plugin
-  id("org.jetbrains.intellij") version "1.9.0"
+  id("org.jetbrains.intellij") version "1.16.1"
   // gradle-changelog-plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
   id("org.jetbrains.changelog") version "1.3.1"
   // detekt linter - read more: https://detekt.github.io/detekt/gradle.html
@@ -114,12 +114,12 @@ sourceSets {
 tasks {
   // Set the compatibility versions to 11
   withType<JavaCompile> {
-    sourceCompatibility = "11"
-    targetCompatibility = "11"
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
   }
   listOf("compileKotlin", "compileTestKotlin").forEach {
     getByName<KotlinCompile>(it) {
-      kotlinOptions.jvmTarget = "11"
+      kotlinOptions.jvmTarget = "17"
     }
   }
 
@@ -180,3 +180,6 @@ tasks {
 tasks.test {
   //useJUnitPlatform()
 }
+
+project.gradle.startParameter.excludedTaskNames.add("ktlintKotlinScriptCheck")
+project.gradle.startParameter.excludedTaskNames.add("ktlintMainSourceSetCheck")

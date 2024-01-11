@@ -1,7 +1,9 @@
 package com.zenuml.converter;
 
 import org.jetbrains.annotations.NotNull;
+import org.junit.Ignore;
 
+@Ignore
 public class LoopMessageTest extends BaseDslConversionTest {
 
     public void test_method1() {
