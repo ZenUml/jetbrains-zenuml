@@ -82,10 +82,15 @@ public class SequencePlugin2 implements ProjectComponent {
     }
 
     public void projectClosed() {
-        try{
+        try {
             getToolWindowManager().unregisterToolWindow(PLAGIN_NAME);
         } catch (AlreadyDisposedException e) {
-
+            //ignore
+        } catch (IllegalStateException e) {
+            if (!e.getMessage().startsWith("Project-level session is not set")) {
+                throw e;
+            }
+            //else ignore
         }
     }
 
