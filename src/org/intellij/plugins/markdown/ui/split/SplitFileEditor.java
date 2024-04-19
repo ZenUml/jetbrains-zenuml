@@ -21,6 +21,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -201,7 +202,7 @@ public abstract class SplitFileEditor<E1 extends FileEditor, E2 extends FileEdit
       if (compositeState.getSecondState() != null) {
         mySecondEditor.setState(compositeState.getSecondState());
       }
-      if (compositeState.getSplitLayout() != null) {
+      if (compositeState.getSplitLayout() != null && SplitEditorLayout.isValid(compositeState.getSplitLayout())) {
         mySplitEditorLayout = SplitEditorLayout.valueOf(compositeState.getSplitLayout());
         invalidateLayout(true);
       }
@@ -378,6 +379,10 @@ public abstract class SplitFileEditor<E1 extends FileEditor, E2 extends FileEdit
     public String getPresentationText() {
       //noinspection ConstantConditions
       return StringUtil.capitalize(StringUtil.substringAfter(presentationName, "Show "));
+    }
+
+    public static boolean isValid(String value) {
+      return Arrays.stream(values()).anyMatch(e -> e.name().equals(value));
     }
 
     @Override
