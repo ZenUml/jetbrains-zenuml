@@ -30,8 +30,8 @@ public class ZenDsl {
     }
 
     String getDsl() {
-        final Boolean isLicensed = CheckLicense.isLicensed();
-        if (Boolean.TRUE.equals(isLicensed)) {
+        boolean isLicensed = Boolean.TRUE.equals(CheckLicense.isLicensed());
+        if (!isLicensed) {
             return LICENSE_IS_NOT_VALID;
         }
         return dsl.toString();

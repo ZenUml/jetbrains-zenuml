@@ -41,6 +41,8 @@ dependencies {
   implementation("io.reactivex.rxjava2:rxjava:2.2.21")
 
   testImplementation("junit:junit:4.12")
+  testImplementation("org.powermock:powermock-module-junit4:2.0.2")
+  testImplementation("org.powermock:powermock-api-mockito2:2.0.2")
   testImplementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10")
   detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.21.0")
   testImplementation("org.spockframework:spock-core:2.2-groovy-4.0") {
