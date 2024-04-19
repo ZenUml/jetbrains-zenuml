@@ -1,10 +1,12 @@
 package org.intellij.sequencer;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.project.Project;
+import org.jetbrains.annotations.NotNull;
 
 public class ShowZenUMLScratchAction extends AnAction {
 
@@ -24,6 +26,11 @@ public class ShowZenUMLScratchAction extends AnAction {
         if (plugin != null) {
             plugin.showZenUMLScratch(event);
         }
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.EDT;
     }
 
     private SequencePlugin2 getPlugin(AnActionEvent event) {
