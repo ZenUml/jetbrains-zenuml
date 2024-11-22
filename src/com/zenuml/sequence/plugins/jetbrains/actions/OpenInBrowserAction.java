@@ -1,6 +1,7 @@
 package com.zenuml.sequence.plugins.jetbrains.actions;
 
 import com.intellij.ide.BrowserUtil;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.intellij.plugins.markdown.ui.actions.MarkdownActionUtil;
@@ -16,6 +17,11 @@ public class OpenInBrowserAction extends AnAction {
 
     public OpenInBrowserAction() {
         super(TITLE);
+    }
+
+    @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.EDT;
     }
 
     public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
