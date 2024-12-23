@@ -1,5 +1,6 @@
 package org.intellij.plugins.markdown.ui.actions.editorLayout;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Toggleable;
@@ -15,6 +16,12 @@ abstract class BaseChangeSplitLayoutAction extends AnAction implements DumbAware
 
   protected BaseChangeSplitLayoutAction(@Nullable SplitFileEditor.SplitEditorLayout layoutToSet) {
     myLayoutToSet = layoutToSet;
+  }
+
+  @Override
+  @NotNull
+  public ActionUpdateThread getActionUpdateThread() {
+    return ActionUpdateThread.EDT;
   }
 
   @Override

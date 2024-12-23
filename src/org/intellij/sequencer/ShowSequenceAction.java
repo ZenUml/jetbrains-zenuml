@@ -1,5 +1,6 @@
 package org.intellij.sequencer;
 
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -11,6 +12,7 @@ import org.intellij.sequencer.generator.filters.NoConstructorsFilter;
 import org.intellij.sequencer.generator.filters.NoGetterSetterFilter;
 import org.intellij.sequencer.generator.filters.NoPrivateMethodsFilter;
 import org.intellij.sequencer.generator.filters.ProjectOnlyFilter;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +24,12 @@ public class ShowSequenceAction extends AnAction {
     private boolean _noPrivateMethods;
     private boolean _noConstructors;
     private boolean _smartInterface = true;
+
+    @Override
+    @NotNull
+    public ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.EDT;
+    }
 
     public ShowSequenceAction() {
     }
