@@ -6,6 +6,10 @@ on:
   release:
     types: [prereleased, released]
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
 
   # Prepare and publish the plugin to the Marketplace repository
@@ -40,6 +44,8 @@ jobs:
     name: Update Changelog
     needs: release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
 
       # Setup Java 17 environment for the next steps
