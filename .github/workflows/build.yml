@@ -21,6 +21,12 @@ on:
     branches-ignore:
       - 'dependabot/**'
   pull_request:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
 jobs:
 
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
