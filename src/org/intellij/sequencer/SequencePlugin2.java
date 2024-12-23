@@ -10,7 +10,6 @@ import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
@@ -31,16 +30,12 @@ import org.intellij.sequencer.generator.SequenceParams;
 import org.intellij.sequencer.generator.filters.MethodFilter;
 import org.intellij.sequencer.ui.ButtonTabComponent;
 import org.intellij.sequencer.util.PsiUtil;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class SequencePlugin2 implements ProjectComponent {
@@ -366,6 +361,11 @@ public class SequencePlugin2 implements ProjectComponent {
             _isLock = isLock;
         }
 
+        @Override
+        public @NotNull ActionUpdateThread getActionUpdateThread() {
+            return ActionUpdateThread.EDT;
+        }
+
         public void actionPerformed(AnActionEvent anActionEvent) {
             _jTabbedPane.setIconAt(_index, _isLock? DISABLED_ICON: S_ICON);
         }
@@ -377,6 +377,11 @@ public class SequencePlugin2 implements ProjectComponent {
         CloseAction(int index) {
             super("Close Tab");
             _index = index;
+        }
+
+        @Override
+        public @NotNull ActionUpdateThread getActionUpdateThread() {
+            return ActionUpdateThread.EDT;
         }
 
         public void actionPerformed(AnActionEvent anActionEvent) {

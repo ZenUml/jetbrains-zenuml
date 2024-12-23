@@ -16,6 +16,7 @@ import org.intellij.sequencer.generator.filters.ImplementClassFilter;
 import org.intellij.sequencer.generator.filters.SingleClassFilter;
 import org.intellij.sequencer.generator.filters.SingleMethodFilter;
 import org.intellij.sequencer.ui.MyButtonlessScrollBarUI;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -170,6 +171,11 @@ public class SequencePanel extends JPanel {
             super("Close", "Close sequence", SequencePluginIcons.CLOSE_ICON);
         }
 
+        @Override
+        public @NotNull ActionUpdateThread getActionUpdateThread() {
+            return ActionUpdateThread.EDT;
+        }
+
         public void actionPerformed(AnActionEvent event) {
             _plugin.closeSequence(SequencePanel.this);
         }
@@ -178,6 +184,11 @@ public class SequencePanel extends JPanel {
     private class ReGenerateAction extends AnAction {
         public ReGenerateAction() {
             super("ReGenerate", "Regenerate diagram", SequencePluginIcons.REFRESH_ICON);
+        }
+
+        @Override
+        public @NotNull ActionUpdateThread getActionUpdateThread() {
+            return ActionUpdateThread.EDT;
         }
 
         public void actionPerformed(AnActionEvent anActionEvent) {
@@ -189,6 +200,11 @@ public class SequencePanel extends JPanel {
     private class ExportAction extends AnAction {
         public ExportAction() {
             super("Export", "Export image to file", SequencePluginIcons.EXPORT_ICON);
+        }
+
+        @Override
+        public @NotNull ActionUpdateThread getActionUpdateThread() {
+            return ActionUpdateThread.EDT;
         }
 
         public void actionPerformed(AnActionEvent event) {
@@ -222,6 +238,12 @@ public class SequencePanel extends JPanel {
         public ExportTextAction() {
             super("ExportTextFile", "Export call stack as text file", SequencePluginIcons.EXPORT_TEXT_ICON);
         }
+
+        @Override
+        public @NotNull ActionUpdateThread getActionUpdateThread() {
+            return ActionUpdateThread.EDT;
+        }
+
         @Override
         public void actionPerformed(AnActionEvent event) {
             JFileChooser fileChooser = new JFileChooser();
@@ -258,6 +280,11 @@ public class SequencePanel extends JPanel {
             _screenObject = screenObject;
         }
 
+        @Override
+        public @NotNull ActionUpdateThread getActionUpdateThread() {
+            return ActionUpdateThread.EDT;
+        }
+
         public void actionPerformed(AnActionEvent anActionEvent) {
             gotoSourceCode(_screenObject);
         }
@@ -269,6 +296,11 @@ public class SequencePanel extends JPanel {
         public RemoveClassAction(ObjectInfo objectInfo) {
             super("Remove Class '" + objectInfo.getName() + "'");
             _objectInfo = objectInfo;
+        }
+
+        @Override
+        public @NotNull ActionUpdateThread getActionUpdateThread() {
+            return ActionUpdateThread.EDT;
         }
 
         public void actionPerformed(AnActionEvent anActionEvent) {
@@ -285,6 +317,11 @@ public class SequencePanel extends JPanel {
             _methodInfo = methodInfo;
         }
 
+        @Override
+        public @NotNull ActionUpdateThread getActionUpdateThread() {
+            return ActionUpdateThread.EDT;
+        }
+
         public void actionPerformed(AnActionEvent anActionEvent) {
             _sequenceParams.getMethodFilter().addFilter(new SingleMethodFilter(
                     _methodInfo.getObjectInfo().getFullName(),
@@ -292,7 +329,6 @@ public class SequencePanel extends JPanel {
                     _methodInfo.getArgTypes()
             ));
             generate();
-
         }
     }
 
@@ -307,6 +343,10 @@ public class SequencePanel extends JPanel {
         }
 
         @Override
+        public @NotNull ActionUpdateThread getActionUpdateThread() {
+            return ActionUpdateThread.EDT;
+        }
+
         public void actionPerformed(AnActionEvent anActionEvent) {
             _sequenceParams.getInterfaceImplFilter().put(
                     face,
