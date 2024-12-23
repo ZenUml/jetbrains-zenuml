@@ -2,6 +2,7 @@ package com.zenuml.sequence.plugins.jetbrains.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.zenuml.license.CheckLicense;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +18,11 @@ public class DemoAction extends AnAction {
 
   public DemoAction() {
     super(TITLE);
+  }
+
+  @Override
+  public @NotNull ActionUpdateThread getActionUpdateThread() {
+    return ActionUpdateThread.EDT;
   }
 
   public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
