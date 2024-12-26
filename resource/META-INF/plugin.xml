@@ -167,5 +167,5 @@
 
   </actions>
 
-  <product-descriptor code="PZENUML" release-date="20190601" release-version="20191" optional="true" />
+  <product-descriptor code="PZENUML" release-date="20250101" release-version="20251" optional="true" />
 </idea-plugin>
