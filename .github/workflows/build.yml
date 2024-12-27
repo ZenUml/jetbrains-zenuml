@@ -165,7 +165,7 @@ jobs:
     # don't run on pull requests to avoid creating draft releases for pull requests
     # only run on the main branch, to avoid cutting releases from feature branches
     if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}
-    needs: [build, verify]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
 
