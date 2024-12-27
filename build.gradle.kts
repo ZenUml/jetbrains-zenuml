@@ -83,7 +83,9 @@ intellijPlatform {
 
   pluginVerification {
     ides {
-      ide(IntelliJPlatformType.IntellijIdeaCommunity, properties("pluginVerifierIdeVersions").split(',').map(String::trim).filter(String::isNotEmpty)[0])
+      properties("pluginVerifierIdeVersions").split(',').map(String::trim).filter(String::isNotEmpty).forEach {
+        ide(IntelliJPlatformType.IntellijIdeaCommunity, it)
+      }
     }
   }
 
