@@ -3,6 +3,7 @@
 .gradle
 
 .idea/
+.intellijPlatform
 *.iml
 
 /out
