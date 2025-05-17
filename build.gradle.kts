@@ -171,6 +171,16 @@ tasks {
     version.set("12.18.3")
     nodeProjectDir.set(file("${project.projectDir}/jetbrains-viewer"))
   }
+  
+  // Add duplicates strategy for all copy tasks
+  withType<Copy> {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+  }
+  
+  // Also add it for the jar task
+  withType<Jar> {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+  }
 }
 
 tasks.test {
